@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class Map {
+	private readonly Texture2D texture;
+	private readonly Color[] colors;
+
 	public int Size => settings.Size;
 
 	public readonly MapSettings settings;
@@ -23,6 +20,8 @@ public class Map {
 		GenerateTileMap();
 		GenerateRegions();
 		GenerateTowns();
+		texture = new Texture2D(Size, Size) {filterMode = FilterMode.Point};
+		colors = new Color[Size * Size];
 	}
 
 	public Tile GetTile(int x, int y) => IsInMap(x, y) ? tileMap[x, y] : null;
@@ -59,7 +58,7 @@ public class Map {
 				Tile tile = tileMap[x, y];
 				if (tile.region != null) continue;
 
-				List<Tile> tiles = FindConnectedTilesOfSameType(tile, 1);
+				List<Tile> tiles = FindRegion(tile, 1);
 				Region region = new Region(tile.Climate, tiles);
 				regions.Add(region);
 			}
@@ -67,12 +66,31 @@ public class Map {
 	}
 
 	private void GenerateTowns() {
+		Queue<Town> queue = new Queue<Town>();
 		foreach (Race race in GameController.Races) {
-			Town capital = new Town(RandomTile(), race, 1000, new Coord(100, 10, 100));
+			Town capital = new Town(RandomTile(), race, 10000, new Coord(100, 10, 100));
+			towns.Add(capital);
+			queue.Enqueue(capital);
+
+			while (queue.Count > 0) {
+				Town parent = queue.Dequeue();
+
+				Tile tile = null;
+				while (tile == null || tile.IsWater) {
+					int x = parent.X + Random.Range(-20, 20);
+					int y = parent.Y + Random.Range(-20, 20);
+					tile = GetTile(x, y);
+				}
+
+				int pop = (int) (parent.population * Random.Range(0.2f, 0.6f));
+				Town newTown = new Town(tile, race, pop, new Coord(100, 10, 100));
+				towns.Add(newTown);
+				if (pop > 1000) queue.Enqueue(newTown);
+			}
 		}
 	}
 
-	private List<Tile> FindConnectedTilesOfSameType(Tile firstTile, int range) {
+	private List<Tile> FindRegion(Tile firstTile, int range) {
 		List<Tile> tiles = new List<Tile>();
 		Queue<Tile> queue = new Queue<Tile>();
 		firstTile.regionPending = true;
@@ -98,8 +116,6 @@ public class Map {
 	}
 
 	public Texture2D GetTexture(MapDrawMode mapDrawMode) {
-		Texture2D texture = new Texture2D(Size, Size) {filterMode = FilterMode.Point};
-		Color[] colors = new Color[Size * Size];
 		for (int x = 0; x < Size; x++) {
 			for (int y = 0; y < Size; y++) {
 				colors[x + Size * y] = GetTile(x, y).GetColor(mapDrawMode);

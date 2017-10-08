@@ -34,7 +34,7 @@ public class WorldGenUI : MonoBehaviour {
 	public void OnMapChanged() {
 		map = GameController.Map;
 
-		string mapText = "Seed: " + map.settings.seed;
+		string mapText = $"Seed: {map.settings.seed}\nPopulation: {map.towns.Sum(t => t.population)}";
 
 		string regionsText = "\nRegions:";
 
@@ -45,7 +45,7 @@ public class WorldGenUI : MonoBehaviour {
 				int regionsCount = map.regions.Count(region => region.climate == climate);
 				int tilesCount = map.regions.Where(region => region.climate == climate).Sum(region => region.Size);
 
-				regionsText += $"\n{regionsCount} {climate.name}s {tilesCount} tiles)";
+				regionsText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
 				totalTiles += tilesCount;
 			}
 		}

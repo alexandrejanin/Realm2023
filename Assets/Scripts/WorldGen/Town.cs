@@ -8,6 +8,9 @@ public class Town : Place {
 	public readonly Coord size;
 	public Character[] characters;
 
+	public int X => tile.x;
+	public int Y => tile.y;
+
 	public readonly Tile tile;
 	public override Tile[] Tiles => new[] {tile};
 
@@ -23,5 +26,15 @@ public class Town : Place {
 		tile.places.Add(this);
 	}
 
-	public override string ToString() => Name + ", " + race.adjective + " town";
+	private string GetSize() {
+		if (population > 5000) return "city";
+
+		if (population > 1000) return "town";
+
+		if (population > 200) return "village";
+
+		return "settlement";
+	}
+
+	public override string ToString() => $"{Name}, {race.adjective} {GetSize()}";
 }

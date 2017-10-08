@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldCamera : MonoBehaviour {
 	private float maxHeight;
@@ -15,15 +16,21 @@ public class WorldCamera : MonoBehaviour {
 
 	private Vector3 targetPos;
 
+	[SerializeField] private Toggle perspectiveToggle;
+	private new Camera camera;
+
 	private void Awake() {
 		height = maxHeight = transform.position.y;
 		targetPos = transform.position;
+		camera = GetComponent<Camera>();
 	}
 
 	private void Update() {
 		float mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
 		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, minHeight, maxHeight);
+		camera.orthographic = !perspectiveToggle.isOn;
+		if (camera.orthographic) camera.orthographicSize = height;
 
 		if (Input.GetMouseButtonDown(mouseButtonPan)) {
 			initialMousePosition = Input.mousePosition;
