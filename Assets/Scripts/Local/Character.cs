@@ -4,7 +4,7 @@ using UnityEngine;
 public class Character : Interactable {
 	public readonly bool isPlayer;
 
-	public Vector3 lookDirection = Vector3.forward;
+	public Coord lookDirection = Coord.forward;
 
 	public Vector3 WorldPositionCenter => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
 	public override Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.CenterNoY);
@@ -80,6 +80,7 @@ public class Character : Interactable {
 		}
 		inventory.Update();
 		equipment.Update();
+		base.StartTurn();
 	}
 
 	public override void EndTurn() {
@@ -88,6 +89,7 @@ public class Character : Interactable {
 				RequestPathToPos(ObjectManager.playerCharacter.position);
 			}
 		}
+		base.EndTurn();
 	}
 
 	private void ProcessPath() {

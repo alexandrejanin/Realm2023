@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -59,9 +58,9 @@ public class Player : MonoBehaviour {
 					ClearInteractionMenu();
 					RaycastHit hit;
 					if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, raycastLayers)) {
-						InteractableObject interactable = hit.transform.GetComponent<InteractableObject>();
+						Interactable interactable = hit.transform.GetComponent<InteractableObject>()?.Interactable;
 						if (interactable != null) {
-							DisplayInteractable(interactable.Interactable);
+							DisplayInteractable(interactable);
 						}
 					}
 				}

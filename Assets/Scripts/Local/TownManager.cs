@@ -49,7 +49,7 @@ public class TownManager : MonoBehaviour {
 	private void CreateGround() {
 		for (int x = 0; x < worldSize.x; x++) {
 			for (int z = 0; z < worldSize.z; z++) {
-				Instantiate(grassTile, NodeGrid.GetWorldPosFromCoord(x, 0, z, NodeGrid.NodeOffsetType.CenterNoY) + grassTile.transform.position, Quaternion.identity, grassParent);
+				new Wall(new Coord(x, 0, z), Coord.down); //Instantiate(grassTile, NodeGrid.GetWorldPosFromCoord(x, 0, z, NodeGrid.NodeOffsetType.CenterNoY) + grassTile.transform.position, Quaternion.identity, grassParent);
 			}
 		}
 	}
@@ -101,13 +101,13 @@ public class TownManager : MonoBehaviour {
 		return new Road(positions.GetRange(0, maxI).ToArray(), (end - start).Normalize, width);
 	}
 
-	public static GameObject CreateTile(Transform parent,
-	                                    GameObject prefab,
-	                                    Vector3 worldPosition,
-	                                    Quaternion rootRotation,
-	                                    Vector3 positionOffset = new Vector3(),
-	                                    Vector3 eulerAngles = new Vector3(),
-	                                    Vector3 scale = new Vector3()) {
+	private static GameObject CreateTile(Transform parent,
+		GameObject prefab,
+		Vector3 worldPosition,
+		Quaternion rootRotation,
+		Vector3 positionOffset = new Vector3(),
+		Vector3 eulerAngles = new Vector3(),
+		Vector3 scale = new Vector3()) {
 		if (scale == new Vector3()) scale = new Vector3(1, 1, 1);
 
 		Quaternion rotation = Quaternion.Euler(rootRotation.eulerAngles + eulerAngles + prefab.transform.eulerAngles);

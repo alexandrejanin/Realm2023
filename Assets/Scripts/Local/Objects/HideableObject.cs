@@ -29,33 +29,37 @@ public abstract class HideableObject : MonoBehaviour {
 		ObjectManager.Hideables.Add(this);
 	}
 
+	protected void Destroy() {
+		Entity.displayed = false;
+		Destroy(gameObject);
+	}
+
 	public void UpdateDisplay() {
-		seen = manualMode ? manualSeen : Entity.seen;
+		if (Entity == null) return;
+
+		seen = manualMode ? manualSeen : Entity.seen && Entity.isInSeenRange;
 		visible = manualMode ? manualVisible : Entity.visible;
 
-		if (renderers != null)
+		if (renderers != null) {
 			foreach (Renderer renderer in renderers) {
-				renderer.enabled = seen || Entity.isInRange && shadowCastingModeInactive == ShadowCastingMode.ShadowsOnly;
+				renderer.enabled = seen || Entity.isInViewRange && shadowCastingModeInactive == ShadowCastingMode.ShadowsOnly;
 				if (renderer.enabled) {
 					renderer.shadowCastingMode = seen ? shadowCastingModeActive : shadowCastingModeInactive;
 					renderer.receiveShadows = visible;
 					renderer.material = visible ? materialActive : materialInactive;
 				}
 			}
+		}
 
 		/*if (lights != null)
 			foreach (Light light in lights) {
 				light.enabled = visible;
 			}*/
 
-		if (colliders != null)
+		if (colliders != null) {
 			foreach (Collider collider in colliders) {
 				collider.gameObject.layer = seen ? ObjectManager.VisibleTerrainLayer : ObjectManager.HiddenTerrainLayer;
 			}
-
-		if (colliders != null)
-			foreach (Collider collider in colliders) {
-				collider.gameObject.layer = seen ? ObjectManager.VisibleTerrainLayer : ObjectManager.HiddenTerrainLayer;
-			}
+		}
 	}
 }

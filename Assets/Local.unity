@@ -1348,6 +1348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb314491f4f0b2e41b80ee7d3fd68997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateMap: 0
   randomSeed: 1
   autoUpdate: 1
   mapSettings:
@@ -1387,6 +1388,10 @@ MonoBehaviour:
     type: 2}
   characterObjectPrefab: {fileID: 114972664303195142, guid: 50e32a4ccf2c03142b317b5dec69f81e,
     type: 2}
+  wallObjectPrefab: {fileID: 114067388532376056, guid: 7634966bae2208b4d886b1b381df4def,
+    type: 2}
+  doorObjectPrefab: {fileID: 1410921296481596, guid: f741b01a768e6d5479627293b9cfc968,
+    type: 2}
 --- !u!114 &1008095238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,14 +1430,6 @@ MonoBehaviour:
       x: 8
       y: 4
       z: 6
-    floorTile: {fileID: 1741298050555712, guid: 7634966bae2208b4d886b1b381df4def,
-      type: 2}
-    roofTile: {fileID: 1741298050555712, guid: b5e4d4d4e2f72dd4e9273972e91615a6, type: 2}
-    wallTile: {fileID: 1741298050555712, guid: 7634966bae2208b4d886b1b381df4def, type: 2}
-    halfWallTile: {fileID: 1741298050555712, guid: 8987ef21cfb87484da6eb3c6cb581613,
-      type: 2}
-    doorPrefab: {fileID: 1410921296481596, guid: f741b01a768e6d5479627293b9cfc968,
-      type: 2}
     lightPrefab: {fileID: 1730891601629470, guid: ea36d0346bc4c614facfe842a2b20e5a,
       type: 2}
   buildingParent: {fileID: 1285976677}
@@ -1542,7 +1539,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 1000
   field of view: 45
   orthographic: 0
   orthographic size: 20

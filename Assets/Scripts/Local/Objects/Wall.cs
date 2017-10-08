@@ -3,9 +3,15 @@
 public class Wall : Entity {
 	public override string Name => "Wall";
 
-	public override Vector3 WorldPosition { get; }
+	protected override Coord[] VisiblePositions { get; }
 
-	public Wall(Vector3 position) : base(NodeGrid.GetCoordFromWorldPos(position)) {
-		WorldPosition = position;
+	public readonly Coord direction;
+
+	public override Vector3 WorldPosition => base.WorldPosition + (Vector3) direction / 2;
+
+	public Wall(Coord position, Coord direction) : base(position) {
+		this.direction = direction;
+		VisiblePositions = new[] {position, position + direction};
+		NodeGrid.BlockPassage(position, direction);
 	}
 }

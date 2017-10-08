@@ -3,7 +3,7 @@
 public class CharacterObject : InteractableObject {
 	private Animator animator;
 
-	public Character Character { get; set; }
+	public Character Character { get; private set; }
 
 	public override Interactable Interactable => Character;
 
@@ -17,12 +17,12 @@ public class CharacterObject : InteractableObject {
 		gameObject.name = character.Name;
 	}
 
-	private void Update() {
+	protected void Update() {
 		animator.SetBool("Moving", !correctPosition || Character.Path != null);
 
-		Vector3 horizontalDirection = Character.lookDirection;
+		Coord horizontalDirection = Character.lookDirection;
 		horizontalDirection.y = 0;
 		transform.forward = horizontalDirection;
-		UpdateStatus();
+		UpdatePosition();
 	}
 }

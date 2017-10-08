@@ -2,10 +2,10 @@
 	public Item item;
 	public override Interactable Interactable => item;
 
-	private void Update() {
+	protected void Update() {
 		if (item.container != null) {
 			Destroy();
 		}
-		UpdateStatus();
+		UpdatePosition();
 	}
 }

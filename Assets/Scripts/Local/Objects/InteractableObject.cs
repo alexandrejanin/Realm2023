@@ -6,21 +6,11 @@ public abstract class InteractableObject : HideableObject {
 	protected override Entity Entity => Interactable;
 	protected bool correctPosition;
 
-	protected override void Awake() {
-		ObjectManager.InteractableObjects.Add(this);
-		base.Awake();
-	}
+	protected virtual Vector3 TargetPosition => Interactable.WorldPosition;
 
-	protected void UpdateStatus() {
+	protected virtual void UpdatePosition() {
 		if (Interactable == null) Destroy();
-
-		Vector3 targetPosition = Interactable.WorldPosition;
-		correctPosition = (transform.position - targetPosition).sqrMagnitude < 0.001f;
-		transform.position = correctPosition ? targetPosition : Vector3.Lerp(transform.position, targetPosition, 0.1f);
-	}
-
-	protected void Destroy() {
-		ObjectManager.InteractableObjects.Remove(this);
-		Destroy(gameObject);
+		correctPosition = (transform.position - TargetPosition).sqrMagnitude < 0.002f;
+		transform.position = correctPosition ? TargetPosition : Vector3.Lerp(transform.position, TargetPosition, 0.1f);
 	}
 }

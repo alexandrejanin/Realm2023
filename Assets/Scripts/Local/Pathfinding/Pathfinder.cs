@@ -51,7 +51,7 @@ public static class Pathfinder {
 			waypoints = RetracePath(startNode, goalNode);
 		}
 
-		return waypoints != null && waypoints.Length > 0 ? waypoints : null;
+		return waypoints == null || waypoints.Length == 0 ? null : waypoints;
 	}
 
 	private static Coord[] RetracePath(Node start, Node goal) {

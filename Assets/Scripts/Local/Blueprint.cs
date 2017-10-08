@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-[Serializable]
+[System.Serializable]
 public class Blueprint {
 	[SerializeField] private string name;
 
 	[SerializeField] private Coord minSize;
 	[SerializeField] private Coord maxSize;
 
-	[SerializeField] private GameObject floorTile;
-	[SerializeField] private GameObject roofTile;
-	[SerializeField] private GameObject wallTile;
-	[SerializeField] private GameObject halfWallTile;
-	[SerializeField] private GameObject doorPrefab;
 	[SerializeField] private GameObject lightPrefab;
 
 	private readonly List<Light> lights = new List<Light>();
-	private readonly List<Interactable> interactables = new List<Interactable>();
 
 	public Coord RandomSize() => new Coord(Random.Range(minSize.x, maxSize.x + 1), Random.Range(minSize.y, maxSize.y + 1), Random.Range(minSize.z, maxSize.z + 1));
 
@@ -64,6 +56,13 @@ public class Blueprint {
 
 		List<GameObject>[] blocks = new List<GameObject>[size.y + roofY]; //Walls to combine
 
+		Coord left = rotation * Coord.left;
+		Coord right = rotation * Coord.right;
+		//Coord up = rotation * Coord.up;
+		Coord down = rotation * Coord.down;
+		Coord back = rotation * Coord.back;
+		Coord forward = rotation * Coord.forward;
+
 		for (int y = 0; y < size.y + roofY; y++) {
 			Coord lightCoord = new Coord(Random.Range(0, size.x), y, Random.Range(0, size.z));
 
@@ -84,56 +83,38 @@ public class Blueprint {
 						//Floor
 						bool isStair = y > 0 && x == maxX - (maxY - y) - 1 && z == (y == size.y ? maxZ - 1 : maxZ);
 
-						GameObject floor;
 						if (isStair) {
-							floor = y == size.y
-								? TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(-0.5f, -0.5f, 0), new Vector3(0, 0, -90)) //Attic stairs
-								: TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(0.5f, -0.5f, 0), new Vector3(0, 0, 90)); //Normal stairs
-							blocks[y - 1].Add(floor);
-							NodeGrid.BlockPassage(worldCoord + new Coord(0, -1, 0), rotation * (y == size.y ? new Coord(-1, 0, 0) : new Coord(1, 0, 0)));
+							Coord stairCoord = worldCoord + new Coord(0, -1, 0);
+							if (y == size.y) {
+								new Wall(stairCoord, left);
+							} else {
+								new Wall(stairCoord, right);
+							}
 						} else {
-							floor = TownManager.CreateTile(parent, floorTile, worldPos, rotation);
-							blocks[y].Add(floor);
-							NodeGrid.BlockPassage(worldCoord, new Coord(0, -1, 0));
+							new Wall(worldCoord, down);
 						}
 					}
 
 					if (y < size.y) {
 						//Walls
 						if (localCoord == lightCoord) {
-							GameObject light = TownManager.CreateTile(parent, lightPrefab, worldPos, rotation, new Vector3(x < size.x / 2 ? 0.5f : -0.5f, 0, z < size.z / 2 ? 0.5f : -0.5f));
-							blocks[y].Add(light);
-							lights.Add(light.GetComponent<Light>());
-							light.GetComponent<Light>().enabled = false;
+							Object.Instantiate(lightPrefab, worldPos, rotation, buildingParent);
 						}
 
 						if (localCoord == doorPos) {
-							GameObject doorObject = TownManager.CreateTile(parent, doorPrefab, worldPos, rotation, new Vector3(0, 0.5f, -0.5f), new Vector3(0, 0, 0));
-							blocks[y].Add(doorObject);
-							Door door = new Door(worldCoord, rotation * new Coord(0, 0, -1));
-							interactables.Add(door);
-							doorObject.GetComponentInChildren<DoorObject>().door = door;
+							new Door(worldCoord, rotation * Coord.back);
 						} else {
-							GameObject wall;
 							if (x == 0) {
-								wall = TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(-0.5f, 0.5f, 0), new Vector3(90, 0, 90));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(-1, 0, 0));
+								new Wall(worldCoord, left);
 							}
 							if (x == maxX) {
-								wall = TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(0.5f, 0.5f, 0), new Vector3(90, 0, 90));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(1, 0, 0));
+								new Wall(worldCoord, right);
 							}
 							if (z == 0) {
-								wall = TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(0, 0.5f, -0.5f), new Vector3(-90, 0, 0));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(0, 0, -1));
+								new Wall(worldCoord, back);
 							}
 							if (z == maxZ) {
-								wall = TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(0, 0.5f, 0.5f), new Vector3(90, 0, 0));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(0, 0, 1));
+								new Wall(worldCoord, forward);
 							}
 						}
 					} else {
@@ -142,19 +123,14 @@ public class Blueprint {
 						bool isEdge = x == 0 || x == maxX;
 
 						if (isEdge) {
-							GameObject wall;
 							if (isRoof && z != middle) {
-								wall = TownManager.CreateTile(parent, halfWallTile, worldPos, rotation, new Vector3(x == 0 ? -0.5f : 0.5f, 0.5f, 0), new Vector3(-90, 0, z > middle ? -90 : 90));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(x == 0 ? -1 : 1, 0, 0));
+								new Wall(worldCoord, x == 0 ? left : right);
 							} else if (y - size.y < z && y - size.y < maxZ - z) {
-								wall = TownManager.CreateTile(parent, wallTile, worldPos, rotation, new Vector3(x == 0 ? -0.5f : 0.5f, 0.5f, 0), new Vector3(90, 0, 90));
-								blocks[y].Add(wall);
-								NodeGrid.BlockPassage(worldCoord, rotation * new Coord(x == 0 ? -1 : 1, 0, 0));
+								new Wall(worldCoord, x == 0 ? left : right);
 							}
 						}
 
-						if (isRoof) {
+						/*if (isRoof) {
 							float angle;
 							float height;
 							float scale;
@@ -177,7 +153,7 @@ public class Blueprint {
 							}
 							GameObject roof = TownManager.CreateTile(parent, roofTile, worldPos, rotation, new Vector3(0, height, 0), new Vector3(angle, 0, 0), new Vector3(1, 1, scale));
 							blocks[y].Add(roof);
-						}
+						}*/
 					}
 				}
 			}

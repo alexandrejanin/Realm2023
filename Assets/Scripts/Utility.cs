@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Random = UnityEngine.Random;
 
@@ -22,9 +23,8 @@ public static class Utility {
 		return null;
 	}
 
-	public static T RandomItem<T>(this IList<T> list, int startRank, int endRank) => list[random.Next(startRank, endRank)];
-	public static T RandomItem<T>(this IList<T> list) => list[random.Next(0, list.Count)];
-	public static T RandomValue<T>(int startRank = 0, int endRank = int.MaxValue) where T : IConvertible, IFormattable, IComparable => ((T[]) Enum.GetValues(typeof(T))).ToList().RandomItem(startRank, endRank);
+	public static T RandomItem<T>(this IList<T> list, int startRank = 0) => list[random.Next(startRank, list.Count)];
+	public static T RandomValue<T>(int startRank = 0) where T : IConvertible, IFormattable, IComparable => ((T[]) Enum.GetValues(typeof(T))).RandomItem(startRank);
 
 	public static int Sign(this int i, SignType signType = SignType.ZeroIsZero) {
 		if (i > 0) return 1;
