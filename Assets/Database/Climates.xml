@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Climates>
+    <Climate name="Sea">
+        <Name>Sea</Name>
+
+        <MinTemp>0</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0</MinHeight>
+        <MaxHeight>0.4</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>True</IsWater>
+
+        <MinSize>1000</MinSize>
+        <SubClimate>Lake</SubClimate>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#323256</Color0>
+        <Color1>#38468B</Color1>
+    </Climate>
+    <Climate name="Plain">
+        <Name>Plain</Name>
+
+        <MinTemp>0.35</MinTemp>
+        <MaxTemp>0.65</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>0.5</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#569C57</Color0>
+        <Color1>#306531</Color1>
+    </Climate>
+    <Climate name="Forest">
+        <Name>Forest</Name>
+
+        <MinTemp>0.35</MinTemp>
+        <MaxTemp>0.65</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0.5</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#5E8352</Color0>
+        <Color1>#35572d</Color1>
+    </Climate>
+    <Climate name="Desert">
+        <Name>Desert</Name>
+
+        <MinTemp>0.65</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>0.35</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#D1D291</Color0>
+        <Color1>#A39D6C</Color1>
+    </Climate>
+    <Climate name="Savanna">
+        <Name>Savanna</Name>
+
+        <MinTemp>0.65</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0.35</MinHumidity>
+        <MaxHumidity>0.65</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#BDBF61</Color0>
+        <Color1>#817A3F</Color1>
+    </Climate>
+    <Climate name="Jungle">
+        <Name>Jungle</Name>
+
+        <MinTemp>0.65</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0.65</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#466946</Color0>
+        <Color1>#2a4323</Color1>
+    </Climate>
+    <Climate name="Tundra">
+        <Name>Tundra</Name>
+
+        <MinTemp>0.15</MinTemp>
+        <MaxTemp>0.35</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#9FCEA5</Color0>
+        <Color1>#769F7C</Color1>
+    </Climate>
+    <Climate name="Ice Field">
+        <Name>Ice Field</Name>
+
+        <MinTemp>0</MinTemp>
+        <MaxTemp>0.15</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>0.65</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>300</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#DADFDF</Color0>
+        <Color1>#A2BABA</Color1>
+    </Climate>
+    <Climate name="Mountain">
+        <Name>Mountain</Name>
+
+        <MinTemp>0</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0.65</MinHeight>
+        <MaxHeight>1</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>True</IsRegion>
+        <IsLandmark>False</IsLandmark>
+        <IsWater>False</IsWater>
+
+        <MinSize>500</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#645454</Color0>
+        <Color1>#C1B1B1</Color1>
+    </Climate>
+    <Climate name="Lake">
+        <Name>Lake</Name>
+
+        <MinTemp>0</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0</MinHeight>
+        <MaxHeight>0.4</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>False</IsRegion>
+        <IsLandmark>True</IsLandmark>
+        <IsWater>True</IsWater>
+
+        <MinSize>5</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#424266</Color0>
+        <Color1>#48569B</Color1>
+    </Climate>
+    <Climate name="River">
+        <Name>River</Name>
+
+        <MinTemp>0</MinTemp>
+        <MaxTemp>1</MaxTemp>
+        <MinHeight>0.4</MinHeight>
+        <MaxHeight>1</MaxHeight>
+        <MinHumidity>0</MinHumidity>
+        <MaxHumidity>1</MaxHumidity>
+
+        <IsRegion>False</IsRegion>
+        <IsLandmark>True</IsLandmark>
+        <IsWater>True</IsWater>
+
+        <MinSize>5</MinSize>
+        <SubClimate/>
+
+        <ColorsAmount>2</ColorsAmount>
+        <Color0>#38437a</Color0>
+        <Color1>#48569B</Color1>
+    </Climate>
+
+</Climates>
