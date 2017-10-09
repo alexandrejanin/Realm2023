@@ -17,8 +17,8 @@ public abstract class HideableObject : MonoBehaviour {
 	//private Light[] lights;
 	private Collider[] colliders;
 
-	[SerializeField] private ShadowCastingMode shadowCastingModeActive = ShadowCastingMode.On;
-	[SerializeField] private ShadowCastingMode shadowCastingModeInactive = ShadowCastingMode.ShadowsOnly;
+	private const ShadowCastingMode shadowCastingModeActive = ShadowCastingMode.On;
+	private const ShadowCastingMode shadowCastingModeInactive = ShadowCastingMode.ShadowsOnly;
 	[SerializeField] private Material materialActive;
 	[SerializeField] private Material materialInactive;
 
@@ -42,7 +42,7 @@ public abstract class HideableObject : MonoBehaviour {
 
 		if (renderers != null) {
 			foreach (Renderer renderer in renderers) {
-				renderer.enabled = seen || Entity.isInViewRange && shadowCastingModeInactive == ShadowCastingMode.ShadowsOnly;
+				renderer.enabled = seen || Entity.isInViewRange;
 				if (renderer.enabled) {
 					renderer.shadowCastingMode = seen ? shadowCastingModeActive : shadowCastingModeInactive;
 					renderer.receiveShadows = visible;

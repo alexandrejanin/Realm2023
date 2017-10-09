@@ -8,7 +8,7 @@ public class Blueprint {
 	[SerializeField] private Coord minSize;
 	[SerializeField] private Coord maxSize;
 
-	[SerializeField] private GameObject lightPrefab;
+	[SerializeField] private WallType wallType;
 
 	private readonly List<Light> lights = new List<Light>();
 
@@ -84,37 +84,32 @@ public class Blueprint {
 						bool isStair = y > 0 && x == maxX - (maxY - y) - 1 && z == (y == size.y ? maxZ - 1 : maxZ);
 
 						if (isStair) {
-							Coord stairCoord = worldCoord + new Coord(0, -1, 0);
-							if (y == size.y) {
-								new Wall(stairCoord, left);
-							} else {
-								new Wall(stairCoord, right);
-							}
+							AddWall(worldCoord + new Coord(0, -1, 0), y == size.y ? left : right);
 						} else {
-							new Wall(worldCoord, down);
+							AddWall(worldCoord, down);
 						}
 					}
 
 					if (y < size.y) {
 						//Walls
 						if (localCoord == lightCoord) {
-							Object.Instantiate(lightPrefab, worldPos, rotation, buildingParent);
+							//Object.Instantiate(lightPrefab, worldPos, rotation, buildingParent);
 						}
 
 						if (localCoord == doorPos) {
-							new Door(worldCoord, rotation * Coord.back);
+							new Door(worldCoord, back);
 						} else {
 							if (x == 0) {
-								new Wall(worldCoord, left);
+								AddWall(worldCoord, left);
 							}
 							if (x == maxX) {
-								new Wall(worldCoord, right);
+								AddWall(worldCoord, right);
 							}
 							if (z == 0) {
-								new Wall(worldCoord, back);
+								AddWall(worldCoord, back);
 							}
 							if (z == maxZ) {
-								new Wall(worldCoord, forward);
+								AddWall(worldCoord, forward);
 							}
 						}
 					} else {
@@ -124,9 +119,9 @@ public class Blueprint {
 
 						if (isEdge) {
 							if (isRoof && z != middle) {
-								new Wall(worldCoord, x == 0 ? left : right);
+								AddWall(worldCoord, x == 0 ? left : right);
 							} else if (y - size.y < z && y - size.y < maxZ - z) {
-								new Wall(worldCoord, x == 0 ? left : right);
+								AddWall(worldCoord, x == 0 ? left : right);
 							}
 						}
 
@@ -181,6 +176,10 @@ public class Blueprint {
 		building.floors = floors;
 		building.lights = lights.ToArray();
 		//building.interactables = interactables.ToArray();
+	}
+
+	private void AddWall(Coord position, Coord direction) {
+		new Wall(position, direction, wallType);
 	}
 
 }

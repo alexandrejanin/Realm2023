@@ -1388,9 +1388,13 @@ MonoBehaviour:
     type: 2}
   characterObjectPrefab: {fileID: 114972664303195142, guid: 50e32a4ccf2c03142b317b5dec69f81e,
     type: 2}
-  wallObjectPrefab: {fileID: 114067388532376056, guid: 7634966bae2208b4d886b1b381df4def,
-    type: 2}
   doorObjectPrefab: {fileID: 1410921296481596, guid: f741b01a768e6d5479627293b9cfc968,
+    type: 2}
+  grassPrefab: {fileID: 114067388532376056, guid: 2a16e6e81d034ed43be2fa89c6d1c581,
+    type: 2}
+  woodPrefab: {fileID: 114067388532376056, guid: 7634966bae2208b4d886b1b381df4def,
+    type: 2}
+  stonePrefab: {fileID: 114518591355493170, guid: 2e21c5afe6b66ec4583c92a666964ff2,
     type: 2}
 --- !u!114 &1008095238
 MonoBehaviour:
@@ -1424,14 +1428,23 @@ MonoBehaviour:
   - name: House
     minSize:
       x: 4
-      y: 2
+      y: 1
       z: 3
     maxSize:
-      x: 8
-      y: 4
+      x: 6
+      y: 3
       z: 6
-    lightPrefab: {fileID: 1730891601629470, guid: ea36d0346bc4c614facfe842a2b20e5a,
-      type: 2}
+    wallType: 1
+  - name: Castle
+    minSize:
+      x: 5
+      y: 2
+      z: 5
+    maxSize:
+      x: 8
+      y: 5
+      z: 8
+    wallType: 2
   buildingParent: {fileID: 1285976677}
   grassParent: {fileID: 1214814544}
   roadParent: {fileID: 2043983741}

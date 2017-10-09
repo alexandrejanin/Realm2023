@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65666077977425114}
   - component: {fileID: 114518591355493170}
   m_Layer: 8
-  m_Name: Road
+  m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

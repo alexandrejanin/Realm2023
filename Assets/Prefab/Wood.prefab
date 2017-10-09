@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4653342645787796}
   - component: {fileID: 33119324357321372}
   - component: {fileID: 23166201055977514}
-  - component: {fileID: 64553757155904254}
-  - component: {fileID: 114957508044351002}
+  - component: {fileID: 65666077977425114}
+  - component: {fileID: 114067388532376056}
   m_Layer: 8
-  m_Name: FloorHalf
+  m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741298050555712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,9 +81,9 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741298050555712}
-  m_Mesh: {fileID: 4300000, guid: 53cc91ae3efba964299f1c4e38bebde8, type: 3}
---- !u!64 &64553757155904254
-MeshCollider:
+  m_Mesh: {fileID: 4300000, guid: 9ced7aa747bbf8d46ae6cbefa11f3af8, type: 3}
+--- !u!65 &65666077977425114
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -92,11 +92,9 @@ MeshCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: b69bde7bf8e5cb54db7fc8428cea8191, type: 3}
---- !u!114 &114957508044351002
+  m_Size: {x: 1, y: 0.05, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114067388532376056
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

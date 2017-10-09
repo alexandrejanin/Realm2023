@@ -62,7 +62,7 @@ public static class ObjectManager {
 
 			Wall wall = entity as Wall;
 			if (wall != null) {
-				WallObject wallObject = Object.Instantiate(PrefabManager.wallObjectPrefab, wall.WorldPosition, Quaternion.identity);
+				WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity);
 				wallObject.wall = wall;
 				wallObject.transform.up = wall.direction;
 			}

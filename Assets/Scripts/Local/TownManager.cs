@@ -49,7 +49,7 @@ public class TownManager : MonoBehaviour {
 	private void CreateGround() {
 		for (int x = 0; x < worldSize.x; x++) {
 			for (int z = 0; z < worldSize.z; z++) {
-				new Wall(new Coord(x, 0, z), Coord.down); //Instantiate(grassTile, NodeGrid.GetWorldPosFromCoord(x, 0, z, NodeGrid.NodeOffsetType.CenterNoY) + grassTile.transform.position, Quaternion.identity, grassParent);
+				new Wall(new Coord(x, 0, z), Coord.down, WallType.Grass);
 			}
 		}
 	}
