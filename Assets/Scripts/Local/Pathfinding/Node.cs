@@ -21,7 +21,7 @@ public class Node : IHeapItem<Node> {
 
 	public Node parent;
 
-	public bool IsWalkable => !directionOpen[Coord.down];
+	public bool IsWalkable => !directionOpen[Coord.Down];
 
 	public readonly Dictionary<Coord, bool> directionOpen;
 

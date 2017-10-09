@@ -22,8 +22,8 @@ public abstract class EntityObject : MonoBehaviour {
 	[SerializeField] private Material materialActive;
 	[SerializeField] private Material materialInactive;
 
-	[SerializeField] private int visibleLayer = 8;
-	[SerializeField] private int hiddenLayer = 9;
+	[SerializeField] private int hiddenLayer = 8;
+	[SerializeField] private int visibleLayer = 9;
 
 	protected virtual void Awake() {
 		renderers = GetComponentsInChildren<Renderer>();

@@ -110,5 +110,5 @@ MonoBehaviour:
   manualSeen: 0
   materialActive: {fileID: 2100000, guid: d73631d8545987a479e931d8292be509, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
-  visibleLayer: 12
-  hiddenLayer: 13
+  hiddenLayer: 12
+  visibleLayer: 13

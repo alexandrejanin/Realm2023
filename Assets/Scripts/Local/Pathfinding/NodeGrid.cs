@@ -18,7 +18,7 @@ public class NodeGrid : MonoBehaviour {
 
 	public static int GridCount => GridWidth * GridHeight * GridLength;
 
-	public static Coord RandomPoint => Coord.RandomRange(Coord.zero, GridSize);
+	public static Coord RandomPoint => Coord.RandomRange(Coord.Zero, GridSize);
 
 	public Node[,,] grid;
 
@@ -37,13 +37,13 @@ public class NodeGrid : MonoBehaviour {
 			for (int z = 0; z < gridLength; z++)
 				for (int x = 0; x < gridWidth; x++) {
 					Dictionary<Coord, bool> directionOpen = new Dictionary<Coord, bool> {
-						{Coord.zero, true},
-						{Coord.down, y > 0},
-						{Coord.up, y < gridHeight - 1},
-						{Coord.left, x > 0},
-						{Coord.right, x < gridWidth - 1},
-						{Coord.back, z > 0},
-						{Coord.forward, z < gridLength - 1}
+						{Coord.Zero, true},
+						{Coord.Down, y > 0},
+						{Coord.Up, y < gridHeight - 1},
+						{Coord.Left, x > 0},
+						{Coord.Right, x < gridWidth - 1},
+						{Coord.Back, z > 0},
+						{Coord.Forward, z < gridLength - 1}
 					};
 
 					grid[x, y, z] = new Node(new Coord(x, y, z), 0, directionOpen);
@@ -126,9 +126,9 @@ public class NodeGrid : MonoBehaviour {
 			worldPos.y = worldPos.y - 0.5f;
 		}
 		return new Coord(
-			Mathf.RoundToInt((worldPos.x - Coord.one.x / 2) / Coord.one.x),
-			Mathf.RoundToInt((worldPos.y - Coord.one.y / 2 + 0.01f) / Coord.one.y),
-			Mathf.RoundToInt((worldPos.z - Coord.one.z / 2) / Coord.one.z));
+			Mathf.RoundToInt((worldPos.x - Coord.One.x / 2) / Coord.One.x),
+			Mathf.RoundToInt((worldPos.y - Coord.One.y / 2 + 0.01f) / Coord.One.y),
+			Mathf.RoundToInt((worldPos.z - Coord.One.z / 2) / Coord.One.z));
 	}
 
 	public static Node GetNode(Coord coord) => IsInGrid(coord) ? instance.grid[coord.x, coord.y, coord.z] : null;
@@ -140,7 +140,7 @@ public class NodeGrid : MonoBehaviour {
 			for (int z = -1; z <= 1; z++) {
 				for (int x = -1; x <= 1; x++) {
 					Coord direction = new Coord(x, y, z);
-					if (direction != Coord.zero) {
+					if (direction != Coord.Zero) {
 						Node neighbor = GetNeighbor(node, direction);
 						if (neighbor != null) {
 							neighbors.Add(neighbor);
@@ -155,7 +155,7 @@ public class NodeGrid : MonoBehaviour {
 
 	private static Node GetNeighbor(Node startNode, Coord direction, bool aerial = false) {
 		Node neighbor = GetNode(startNode.position + direction);
-		if (neighbor == null || !aerial && !neighbor.IsWalkable || direction.MaxDimension > 1 || direction == Coord.zero) return null;
+		if (neighbor == null || !aerial && !neighbor.IsWalkable || direction.MaxDimension > 1 || direction == Coord.Zero) return null;
 
 		if (direction.y == 0) {
 			if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(-direction)) return neighbor;
@@ -163,12 +163,12 @@ public class NodeGrid : MonoBehaviour {
 
 		if (direction.y > 0) {
 			direction.y = 0;
-			if (!startNode.DirectionIsOpen(direction) && startNode.DirectionIsOpen(Coord.up) && neighbor.DirectionIsOpen(-direction)) return neighbor;
+			if (!startNode.DirectionIsOpen(direction) && startNode.DirectionIsOpen(Coord.Up) && neighbor.DirectionIsOpen(-direction)) return neighbor;
 		}
 
 		if (direction.y < 0) {
 			direction.y = 0;
-			if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(Coord.up)) return neighbor;
+			if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(Coord.Up)) return neighbor;
 		}
 		return null;
 	}

@@ -106,8 +106,8 @@ MonoBehaviour:
   manualSeen: 0
   materialActive: {fileID: 2100000, guid: 800e2ea51d0c1744aa19599b3190294d, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
-  visibleLayer: 16
-  hiddenLayer: 17
+  hiddenLayer: 16
+  visibleLayer: 17
 --- !u!136 &136067807432115832
 CapsuleCollider:
   m_ObjectHideFlags: 1

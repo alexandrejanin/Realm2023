@@ -9,8 +9,8 @@ public static class ObjectManager {
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
 
-	public static readonly int HiddenTerrainLayer = LayerMask.NameToLayer("HiddenTerrain");
-	public static readonly int VisibleTerrainLayer = LayerMask.NameToLayer("VisibleTerrain");
+	public static readonly int HiddenTerrainLayer = 8;
+	public static readonly int VisibleTerrainLayer = 9;
 	public static readonly int HiddenTerrainMask = 1 << HiddenTerrainLayer;
 	public static readonly int VisibleTerrainMask = 1 << VisibleTerrainLayer;
 	public static readonly int TerrainMask = HiddenTerrainMask | VisibleTerrainMask;

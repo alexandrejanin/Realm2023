@@ -155,9 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f80cf1b19c8d7498b4bc3ee3710822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHeight: 64
-  heightPerElement: 64
-  layoutGroup: {fileID: 114940684634207290}
+  buttonsParent: {fileID: 224086577867263660}
 --- !u!222 &222021299783076376
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -224,5 +222,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 176, y: 298}
+  m_SizeDelta: {x: 176, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}

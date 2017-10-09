@@ -108,7 +108,7 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
-  shadowCastingModeActive: 0
-  shadowCastingModeInactive: 0
   materialActive: {fileID: 2100000, guid: 6417491b87bbb7e4c81d74b828d530ae, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
+  hiddenLayer: 8
+  visibleLayer: 9

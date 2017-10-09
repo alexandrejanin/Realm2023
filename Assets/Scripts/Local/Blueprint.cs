@@ -22,7 +22,7 @@ public class Blueprint {
 			case 3:
 				return new Coord(-1, 0, 0);
 			default:
-				return Coord.zero;
+				return Coord.Zero;
 		}
 	}
 
@@ -50,16 +50,16 @@ public class Blueprint {
 		float middle = (float) maxZ / 2;
 
 		Coord doorPos = new Coord(Random.Range(1, maxX - 1), 0, 0);
-		Coord itemPos = Coord.RandomRange(Coord.zero, new Coord(maxX, maxY, maxZ));
+		Coord itemPos = Coord.RandomRange(Coord.Zero, new Coord(maxX, maxY, maxZ));
 
 		List<GameObject>[] blocks = new List<GameObject>[size.y + roofY]; //Walls to combine
 
-		Coord left = rotation * Coord.left;
-		Coord right = rotation * Coord.right;
+		Coord left = rotation * Coord.Left;
+		Coord right = rotation * Coord.Right;
 		//Coord up = rotation * Coord.up;
-		Coord down = rotation * Coord.down;
-		Coord back = rotation * Coord.back;
-		Coord forward = rotation * Coord.forward;
+		Coord down = rotation * Coord.Down;
+		Coord back = rotation * Coord.Back;
+		Coord forward = rotation * Coord.Forward;
 
 		for (int y = 0; y < size.y + roofY; y++) {
 			Coord lightCoord = new Coord(Random.Range(0, size.x), y, Random.Range(0, size.z));

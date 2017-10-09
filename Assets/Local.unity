@@ -1355,20 +1355,22 @@ MonoBehaviour:
     mapSize: 257
     lodMultiplier: 2
     seed: 80486
-    heightOctaves: 4
-    heightPersistance: 0.3
-    heightLacunarity: 4
-    heightScale: 70
+    heightSettings:
+      octaves: 0
+      persistance: 0
+      lacunarity: 0
+      scale: 0
     falloffA: 2
     falloffB: 4.5
     falloffMultiplier: 0.7
     tempA: 1
     tempB: 1
     heightTempMultiplier: 0.5
-    humidityOctaves: 4
-    humidityPersistance: 0.5
-    humidityLacunarity: 2.5
-    humidityScale: 100
+    humiditySettings:
+      octaves: 0
+      persistance: 0
+      lacunarity: 0
+      scale: 0
     riversAmount: 0
     riversMinHeight: 0
   racesDatabase: {fileID: 4900000, guid: d99206f81d9f77443856e936064a734c, type: 3}

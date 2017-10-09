@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
 			if (character.Path != null) {
 				turnTimer -= Time.deltaTime;
 				if (turnTimer <= 0 && !paused) {
-					TakeTurn();
+					ObjectManager.TakeTurn();
 					turnTimer = turnDuration;
 				}
 			} else {
@@ -67,39 +67,35 @@ public class Player : MonoBehaviour {
 
 				if (Input.GetKeyDown(KeyCode.Keypad5)) {
 					character.Path = null;
-					TakeTurn();
+					ObjectManager.TakeTurn();
 				}
 
 				if (Input.GetKeyDown(KeyCode.Keypad1)) {
-					MoveTowards(new Coord(-1, 0, -1));
+					MoveTowards(Coord.Back + Coord.Left);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.DownArrow)) {
-					MoveTowards(new Coord(0, 0, -1));
+					MoveTowards(Coord.Back);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad3)) {
-					MoveTowards(new Coord(1, 0, -1));
+					MoveTowards(Coord.Back + Coord.Right);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-					MoveTowards(new Coord(-1, 0, 0));
+					MoveTowards(Coord.Left);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.RightArrow)) {
-					MoveTowards(new Coord(1, 0, 0));
+					MoveTowards(Coord.Right);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad7)) {
-					MoveTowards(new Coord(-1, 0, 1));
+					MoveTowards(Coord.Forward + Coord.Left);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.UpArrow)) {
-					MoveTowards(new Coord(0, 0, 1));
+					MoveTowards(Coord.Forward);
 				}
 				if (Input.GetKeyDown(KeyCode.Keypad9)) {
-					MoveTowards(new Coord(1, 0, 1));
+					MoveTowards(Coord.Forward + Coord.Right);
 				}
 			}
 		}
-	}
-
-	private static void TakeTurn() {
-		ObjectManager.TakeTurn();
 	}
 
 	private static void MoveTowards(Coord direction) {
@@ -109,7 +105,7 @@ public class Player : MonoBehaviour {
 		Node validNode = GetValidNode(direction);
 		if (validNode != null) {
 			character.Path = new[] {validNode.position};
-			TakeTurn();
+			ObjectManager.TakeTurn();
 		}
 	}
 
@@ -129,21 +125,23 @@ public class Player : MonoBehaviour {
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
 		if (interactions.Count == 0) return;
 
-		Vector3 offset = Vector3.zero;
 		ButtonsFrame frame = Instantiate(instance.framePrefab, Input.mousePosition, Quaternion.identity, GameObject.Find("Canvas").transform);
 		frame.GetComponentInChildren<Text>().text = title;
+
+		float offset = 0;
 		float offsetPerButton = instance.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1;
 
+		Transform parent = frame.buttonsParent.transform;
+
 		foreach (Interaction interaction in interactions) {
-			Button button = Instantiate(instance.buttonPrefab, Input.mousePosition + offset + instance.buttonPrefab.transform.position, instance.buttonPrefab.transform.rotation,
-				frame.GetComponentInChildren<LayoutGroup>().transform);
+			Button button = Instantiate(instance.buttonPrefab, parent);
 			button.GetComponentInChildren<Text>().text = interaction.name;
 			button.onClick.AddListener(() => interaction.action.Invoke());
 			button.onClick.AddListener(() => Destroy(frame.gameObject));
-			offset += new Vector3(0, -offsetPerButton, 0);
+			offset += offsetPerButton;
 		}
 
-		frame.Size();
+		frame.SetSize(offsetPerButton);
 		interactionsMenu = frame.gameObject;
 	}
 

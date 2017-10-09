@@ -191,7 +191,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1566929525444126}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.05, z: 0.08}
@@ -203,7 +203,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1369847664012892}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.04, z: 0.92}
@@ -215,7 +215,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1566929525444126}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.05, z: 1.0000002}
@@ -227,7 +227,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1566929525444126}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.05, z: 1.0000002}
@@ -246,10 +246,10 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
-  shadowCastingModeActive: 1
-  shadowCastingModeInactive: 3
   materialActive: {fileID: 2100000, guid: cdfefc97e560839489d34345b50efb98, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
+  hiddenLayer: 8
+  visibleLayer: 9
   target: {fileID: 4311268132219830}
   closedPosition: {x: 0.3, y: -0.04, z: 0}
   closedRotation: {x: 90, y: 0, z: 0}

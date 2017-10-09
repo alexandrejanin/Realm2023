@@ -4,7 +4,7 @@ using UnityEngine;
 public class Character : Interactable {
 	public readonly bool isPlayer;
 
-	public Coord lookDirection = Coord.forward;
+	public Coord lookDirection = Coord.Forward;
 
 	public Vector3 WorldPositionCenter => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
 	public override Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.CenterNoY);

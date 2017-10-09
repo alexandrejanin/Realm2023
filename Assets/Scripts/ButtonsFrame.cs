@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class ButtonsFrame : MonoBehaviour {
-	[SerializeField] private float baseHeight;
-	[SerializeField] private float heightPerElement;
-	[SerializeField] private LayoutGroup layoutGroup;
+	public Transform buttonsParent;
 
-	public void Size() {
-		GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x, baseHeight + heightPerElement * layoutGroup.transform.childCount);
+	public void SetSize(float heightPerButton) {
+		GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x, (buttonsParent.childCount + 1) * heightPerButton);
 	}
 }

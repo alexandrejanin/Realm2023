@@ -21,14 +21,14 @@ public struct Coord : IComparable<Coord> {
 		this.z = z;
 	}
 
-	public static Coord zero = new Coord(0, 0, 0);
-	public static Coord one = new Coord(1, 1, 1);
-	public static Coord up = new Coord(0, 1, 0);
-	public static Coord down = new Coord(0, -1, 0);
-	public static Coord forward = new Coord(0, 0, 1);
-	public static Coord back = new Coord(0, 0, -1);
-	public static Coord left = new Coord(-1, 0, 0);
-	public static Coord right = new Coord(1, 0, 0);
+	public static readonly Coord Zero = new Coord(0, 0, 0);
+	public static readonly Coord One = new Coord(1, 1, 1);
+	public static readonly Coord Up = new Coord(0, 1, 0);
+	public static readonly Coord Down = new Coord(0, -1, 0);
+	public static readonly Coord Forward = new Coord(0, 0, 1);
+	public static readonly Coord Back = new Coord(0, 0, -1);
+	public static readonly Coord Left = new Coord(-1, 0, 0);
+	public static readonly Coord Right = new Coord(1, 0, 0);
 
 	public static Coord RandomRange(Coord a, Coord b) => new Coord(Random.Range(a.x, b.x), Random.Range(a.y, b.y), Random.Range(a.z, b.z));
 
