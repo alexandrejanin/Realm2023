@@ -9,10 +9,12 @@ public class Door : Interactable {
 	public override string Name => "Door";
 
 	public override UnityEngine.Vector3 WorldPosition => base.WorldPosition + (UnityEngine.Vector3) direction / 2;
+	public override Coord[] VisiblePositions { get; }
 
 	public Door(Coord position, Coord direction) : base(position) {
 		this.direction = direction;
 		NodeGrid.BlockPassage(position, direction);
+		VisiblePositions = new[] {position, position + direction};
 	}
 
 	protected override bool ValidPosition(Coord pos) => pos == position || pos == position + direction;

@@ -11,11 +11,11 @@ public static class ObjectManager {
 
 	public static readonly int HiddenTerrainLayer = LayerMask.NameToLayer("HiddenTerrain");
 	public static readonly int VisibleTerrainLayer = LayerMask.NameToLayer("VisibleTerrain");
-	public static readonly LayerMask HiddenTerrainMask = 1 << HiddenTerrainLayer;
-	public static readonly LayerMask VisibleTerrainMask = 1 << VisibleTerrainLayer;
-	public static readonly LayerMask TerrainMask = HiddenTerrainMask | VisibleTerrainMask;
+	public static readonly int HiddenTerrainMask = 1 << HiddenTerrainLayer;
+	public static readonly int VisibleTerrainMask = 1 << VisibleTerrainLayer;
+	public static readonly int TerrainMask = HiddenTerrainMask | VisibleTerrainMask;
 
-	public static readonly List<HideableObject> Hideables = new List<HideableObject>();
+	public static readonly List<EntityObject> Hideables = new List<EntityObject>();
 
 	public static void AddEntity(Entity entity) {
 		if (Entities.Contains(entity)) return;
@@ -72,7 +72,7 @@ public static class ObjectManager {
 	}
 
 	public static void UpdateVisibility() {
-		foreach (HideableObject hideableObject in Hideables) {
+		foreach (EntityObject hideableObject in Hideables) {
 			if (hideableObject != null) hideableObject.UpdateDisplay();
 		}
 	}

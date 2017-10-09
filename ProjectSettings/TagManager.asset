@@ -18,12 +18,12 @@ TagManager:
   - VisibleTerrain
   - 
   - 
-  - Objects
+  - HiddenObjects
+  - VisibleObjects
   - 
   - 
-  - 
-  - Characters
-  - 
+  - HiddenCharacters
+  - VisibleCharacters
   - 
   - 
   - 

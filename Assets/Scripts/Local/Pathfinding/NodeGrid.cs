@@ -90,7 +90,11 @@ public class NodeGrid : MonoBehaviour {
 		return positions;
 	}
 
-	public static bool IsVisible(Coord a, Coord b) => !Physics.Linecast(GetWorldPosFromCoord(a, NodeOffsetType.Center), GetWorldPosFromCoord(b, NodeOffsetType.Center), ObjectManager.TerrainMask);
+	public static bool IsVisible(Coord a, Coord b) {
+		Vector3 posA = GetWorldPosFromCoord(a, NodeOffsetType.Center);
+		Vector3 posB = GetWorldPosFromCoord(b, NodeOffsetType.Center);
+		return !Physics.Linecast(posA, posB, ObjectManager.TerrainMask);
+	}
 
 	public static bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < GridWidth && coord.y >= 0 && coord.y < GridHeight && coord.z >= 0 && coord.z < GridLength;
 

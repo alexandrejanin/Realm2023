@@ -24,7 +24,7 @@ public class Building : MonoBehaviour {
 		if (bounds.Contains(ObjectManager.playerCharacter.WorldPosition)) {
 			if (playerLeft) {
 				playerLeft = false;
-				foreach (HideableObject hideableObject in GetComponentsInChildren<HideableObject>()) {
+				foreach (EntityObject hideableObject in GetComponentsInChildren<EntityObject>()) {
 					hideableObject.manualMode = true;
 				}
 			}
@@ -57,7 +57,7 @@ public class Building : MonoBehaviour {
 				floor.SetActive(true);
 			}
 
-			foreach (HideableObject hideableObject in GetComponentsInChildren<HideableObject>()) {
+			foreach (EntityObject hideableObject in GetComponentsInChildren<EntityObject>()) {
 				hideableObject.manualMode = false;
 			}
 

@@ -10,8 +10,6 @@ public class Blueprint {
 
 	[SerializeField] private WallType wallType;
 
-	private readonly List<Light> lights = new List<Light>();
-
 	public Coord RandomSize() => new Coord(Random.Range(minSize.x, maxSize.x + 1), Random.Range(minSize.y, maxSize.y + 1), Random.Range(minSize.z, maxSize.z + 1));
 
 	public static Coord RotationOffset(int yRotation) {
@@ -73,7 +71,6 @@ public class Blueprint {
 					Coord localCoord = new Coord(x, y, z);
 
 					Coord worldCoord = bottomLeft + rotation * localCoord + rotationOffset;
-					Vector3 worldPos = NodeGrid.GetWorldPosFromCoord(worldCoord, NodeGrid.NodeOffsetType.CenterNoY);
 
 					TownManager.SetTileTaken(worldCoord, true);
 
@@ -154,7 +151,7 @@ public class Blueprint {
 			}
 		}
 
-		Floor[] floors = new Floor[blocks.Length];
+		/*Floor[] floors = new Floor[blocks.Length];
 
 		for (int i = 0; i < blocks.Length; i++) {
 			List<GameObject> gameObjects = blocks[i];
@@ -175,7 +172,7 @@ public class Blueprint {
 		building.bounds.size = rotatedSize;
 		building.floors = floors;
 		building.lights = lights.ToArray();
-		//building.interactables = interactables.ToArray();
+		//building.interactables = interactables.ToArray();*/
 	}
 
 	private void AddWall(Coord position, Coord direction) {

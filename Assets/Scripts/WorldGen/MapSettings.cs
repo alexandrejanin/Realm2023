@@ -19,10 +19,7 @@ public struct MapSettings {
 
 	[Range(0, 99999)] public int seed;
 
-	[Header("Heightmap")] [Range(0, 5)] public int heightOctaves;
-	[Range(0, 1)] public float heightPersistance;
-	[Range(0, 5)] public float heightLacunarity;
-	public float heightScale;
+	[Header("Heightmap"), SerializeField] private NoiseSettings heightSettings;
 
 	[Range(0, 10)] public float falloffA;
 	[Range(1, 10)] public float falloffB;
@@ -32,16 +29,13 @@ public struct MapSettings {
 	[Range(0.5f, 1.5f)] public float tempB;
 	[Range(0, 1)] public float heightTempMultiplier;
 
-	[Header("Humidity Map")] [Range(0, 5)] public int humidityOctaves;
-	[Range(0, 1)] public float humidityPersistance;
-	[Range(0, 5)] public float humidityLacunarity;
-	[Range(25, 150)] public float humidityScale;
+	[Header("Humidity Map"), SerializeField] private NoiseSettings humiditySettings;
 
 	[Header("Rivers")] public int riversAmount;
 	public float riversMinHeight;
 
 	public float[,] GenerateHeightMap() {
-		float[,] heightMap = GenerateNoiseMap(Size, seed, heightOctaves, heightPersistance, heightLacunarity, heightScale);
+		float[,] heightMap = GenerateNoiseMap(Size, seed, heightSettings);
 		float[,] falloffMap = GenerateFalloffMap(Size, falloffA, falloffB);
 
 		for (int y = 0; y < Size; y++) {
@@ -53,7 +47,7 @@ public struct MapSettings {
 	}
 
 	public float[,] GenerateHumidityMap() {
-		float[,] humidityMap = GenerateNoiseMap(Size, seed / 2, humidityOctaves, humidityPersistance, humidityLacunarity, humidityScale);
+		float[,] humidityMap = GenerateNoiseMap(Size, seed / 2, humiditySettings);
 		return humidityMap;
 	}
 
@@ -92,19 +86,19 @@ public struct MapSettings {
 		return tempMap;
 	}
 
-	private static float[,] GenerateNoiseMap(int size, int noiseSeed, int octaves, float persistance, float lacunarity, float scale) {
+	private static float[,] GenerateNoiseMap(int size, int seed, NoiseSettings noiseSettings) {
 		float[,] noiseMap = new float[size, size];
 
-		Random random = new Random(noiseSeed);
-		Vector2[] octaveOffsets = new Vector2[octaves];
+		Random random = new Random(seed);
+		Vector2[] octaveOffsets = new Vector2[noiseSettings.octaves];
 
 		float amplitude = 1;
 
-		for (int i = 0; i < octaves; i++) {
+		for (int i = 0; i < noiseSettings.octaves; i++) {
 			float offsetX = random.Next(-99999, 99999);
 			float offsetY = random.Next(-99999, 99999);
 			octaveOffsets[i] = new Vector2(offsetX, offsetY);
-			amplitude *= persistance;
+			amplitude *= noiseSettings.persistance;
 		}
 
 		float maxNoiseHeight = float.MinValue;
@@ -118,15 +112,15 @@ public struct MapSettings {
 				float frequency = 1;
 				float noiseHeight = 0;
 
-				for (int i = 0; i < octaves; i++) {
-					float sampleX = (x - halfSize + octaveOffsets[i].x) / scale * frequency;
-					float sampleY = (y - halfSize + octaveOffsets[i].y) / scale * frequency;
+				for (int i = 0; i < noiseSettings.octaves; i++) {
+					float sampleX = (x - halfSize + octaveOffsets[i].x) / noiseSettings.scale * frequency;
+					float sampleY = (y - halfSize + octaveOffsets[i].y) / noiseSettings.scale * frequency;
 
 					float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
 					noiseHeight += perlinValue * amplitude;
 
-					amplitude *= persistance;
-					frequency *= lacunarity;
+					amplitude *= noiseSettings.persistance;
+					frequency *= noiseSettings.lacunarity;
 				}
 
 				if (noiseHeight > maxNoiseHeight) {
@@ -166,5 +160,13 @@ public struct MapSettings {
 	}
 
 	private static float Evaluate(float value, float a, float b) => Mathf.Pow(value, a) / (Mathf.Pow(value, a) + Mathf.Pow(b - b * value, a));
+
+	[System.Serializable]
+	private struct NoiseSettings {
+		[Range(1, 4)] public int octaves;
+		[Range(0, 1)] public float persistance;
+		[Range(1, 5)] public float lacunarity;
+		[Range(10, 500)] public int scale;
+	}
 
 }

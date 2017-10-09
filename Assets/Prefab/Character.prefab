@@ -104,10 +104,10 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
-  shadowCastingModeActive: 1
-  shadowCastingModeInactive: 3
   materialActive: {fileID: 2100000, guid: 800e2ea51d0c1744aa19599b3190294d, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
+  visibleLayer: 16
+  hiddenLayer: 17
 --- !u!136 &136067807432115832
 CapsuleCollider:
   m_ObjectHideFlags: 1

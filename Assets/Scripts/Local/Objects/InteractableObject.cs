@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class InteractableObject : HideableObject {
+public abstract class InteractableObject : EntityObject {
 
 	public abstract Interactable Interactable { get; }
 	protected override Entity Entity => Interactable;

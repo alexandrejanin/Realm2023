@@ -6,10 +6,8 @@ public class Wall : Entity {
 	public readonly Coord direction;
 
 	public readonly WallType wallType;
-
-	protected override Coord[] VisiblePositions { get; }
-
 	public override Vector3 WorldPosition => base.WorldPosition + (Vector3) direction / 2;
+	public override Coord[] VisiblePositions { get; }
 
 	public Wall(Coord position, Coord direction, WallType wallType) : base(position) {
 		this.direction = direction;

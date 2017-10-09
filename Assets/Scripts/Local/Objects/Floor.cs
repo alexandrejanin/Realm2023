@@ -18,10 +18,10 @@ public class Floor : MonoBehaviour {
 		if (active == newState) return;
 
 		foreach (GameObject o in gameObjects) {
-			HideableObject hideableObject = o.GetComponent<HideableObject>();
-			hideableObject.manualSeen = newState;
-			hideableObject.manualVisible = newState;
-			hideableObject.UpdateDisplay();
+			EntityObject entityObject = o.GetComponent<EntityObject>();
+			entityObject.manualSeen = newState;
+			entityObject.manualVisible = newState;
+			entityObject.UpdateDisplay();
 		}
 
 		active = newState;

@@ -58,7 +58,7 @@ public class Map {
 				Tile tile = tileMap[x, y];
 				if (tile.region != null) continue;
 
-				List<Tile> tiles = FindRegion(tile, 1);
+				List<Tile> tiles = FindRegion(tile, 2);
 				Region region = new Region(tile.Climate, tiles);
 				regions.Add(region);
 			}
