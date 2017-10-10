@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 // ReSharper disable LocalVariableHidesMember
 
 public abstract class EntityObject : MonoBehaviour {
-	protected abstract Entity Entity { get; }
+	public abstract Entity Entity { get; }
 
 	[HideInInspector] public bool manualMode;
 	[HideInInspector] public bool manualVisible;

@@ -2,13 +2,16 @@
 using UnityEngine;
 
 public class PrefabManager : MonoBehaviour {
-	[Header("Prefabs")] public ItemObject itemObjectPrefab;
+	[Header("Objects")] public ItemObject itemObjectPrefab;
 	public CharacterObject characterObjectPrefab;
 	public GameObject doorObjectPrefab;
 
-	[SerializeField] private WallObject grassPrefab;
+	[Header("Blocks")] [SerializeField] private WallObject grassPrefab;
 	[SerializeField] private WallObject woodPrefab;
 	[SerializeField] private WallObject stonePrefab;
+
+	[Header("UI")] [SerializeField] public ButtonsFrame buttonsFramePrefab;
+	[SerializeField] public UnityEngine.UI.Button buttonPrefab;
 
 	public WallObject GetWallObject(WallType wallType) {
 		switch (wallType) {

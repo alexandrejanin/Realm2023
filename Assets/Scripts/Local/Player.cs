@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
-	private static Player instance;
-	[SerializeField] private ButtonsFrame framePrefab;
-	[SerializeField] private Button buttonPrefab;
+	private static PrefabManager prefabManager;
 	private static Character character;
 
 	private const float turnsPerSecond = 4;
@@ -19,7 +18,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private LayerMask raycastLayers;
 
 	private void Awake() {
-		instance = this;
+		prefabManager = GetComponent<PrefabManager>();
 	}
 
 	private void Update() {
@@ -38,29 +37,32 @@ public class Player : MonoBehaviour {
 				}
 			} else {
 				turnTimer = 0;
-				if (Input.GetMouseButtonDown(0)) {
+
+				bool leftClick = Input.GetMouseButtonDown(0);
+				bool rightClick = Input.GetMouseButtonDown(1);
+
+				if (leftClick || rightClick) {
 					if (interactionsMenu != null && !RectTransformUtility.RectangleContainsScreenPoint(interactionsMenu.GetComponent<RectTransform>(), Input.mousePosition)) {
 						ClearInteractionMenu();
 					} else if (!EventSystem.current.IsPointerOverGameObject()) {
-						RaycastHit hit;
-						if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, raycastLayers)) {
-							Interactable interactable = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
-							if (interactable != null) {
-								interactable.MoveTo(character);
+						RaycastHit[] hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+						if (hits != null && hits.Length > 0) {
+							RaycastHit hit = hits.FirstOrDefault(h => h.transform.GetComponent<EntityObject>().Entity.seen);
+							if (hit.transform == null) {
+								Debug.Log("null");
 							} else {
-								character.RequestPathToPos(NodeGrid.GetCoordFromWorldPos(hit.point + hit.normal * 0.2f));
+								Interactable interactable = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
+								if (interactable != null) {
+									if (rightClick) {
+										DisplayInteractable(interactable);
+									} else {
+										interactable.MoveTo(character);
+									}
+								} else {
+									Coord target = NodeGrid.GetCoordFromWorldPos(hit.point + hit.normal * 0.2f);
+									character.RequestPathToPos(target);
+								}
 							}
-						}
-					}
-				}
-
-				if (Input.GetMouseButtonDown(1)) {
-					ClearInteractionMenu();
-					RaycastHit hit;
-					if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, raycastLayers)) {
-						Interactable interactable = hit.transform.GetComponent<InteractableObject>()?.Interactable;
-						if (interactable != null) {
-							DisplayInteractable(interactable);
 						}
 					}
 				}
@@ -125,23 +127,18 @@ public class Player : MonoBehaviour {
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
 		if (interactions.Count == 0) return;
 
-		ButtonsFrame frame = Instantiate(instance.framePrefab, Input.mousePosition, Quaternion.identity, GameObject.Find("Canvas").transform);
+		ButtonsFrame frame = Instantiate(prefabManager.buttonsFramePrefab, Input.mousePosition, Quaternion.identity, GameObject.Find("Canvas").transform);
 		frame.GetComponentInChildren<Text>().text = title;
-
-		float offset = 0;
-		float offsetPerButton = instance.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1;
-
 		Transform parent = frame.buttonsParent.transform;
 
 		foreach (Interaction interaction in interactions) {
-			Button button = Instantiate(instance.buttonPrefab, parent);
+			Button button = Instantiate(prefabManager.buttonPrefab, parent);
 			button.GetComponentInChildren<Text>().text = interaction.name;
 			button.onClick.AddListener(() => interaction.action.Invoke());
 			button.onClick.AddListener(() => Destroy(frame.gameObject));
-			offset += offsetPerButton;
 		}
 
-		frame.SetSize(offsetPerButton);
+		frame.SetSize(prefabManager.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1);
 		interactionsMenu = frame.gameObject;
 	}
 

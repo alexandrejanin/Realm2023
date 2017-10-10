@@ -121,15 +121,11 @@ public class NodeGrid : MonoBehaviour {
 		}
 	}
 
-	public static Coord GetCoordFromWorldPos(Vector3 worldPos) {
-		if (worldPos.y % 1 == 0.5f) {
-			worldPos.y = worldPos.y - 0.5f;
-		}
-		return new Coord(
-			Mathf.RoundToInt((worldPos.x - Coord.One.x / 2) / Coord.One.x),
-			Mathf.RoundToInt((worldPos.y - Coord.One.y / 2 + 0.01f) / Coord.One.y),
-			Mathf.RoundToInt((worldPos.z - Coord.One.z / 2) / Coord.One.z));
-	}
+	public static Coord GetCoordFromWorldPos(Vector3 worldPos) => new Coord(
+		Mathf.FloorToInt(worldPos.x),
+		Mathf.FloorToInt(worldPos.y + 0.05f),
+		Mathf.FloorToInt(worldPos.z)
+	);
 
 	public static Node GetNode(Coord coord) => IsInGrid(coord) ? instance.grid[coord.x, coord.y, coord.z] : null;
 

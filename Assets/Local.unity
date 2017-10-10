@@ -1318,13 +1318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ba8d43bc8b9e44a46a8135b7e7433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  framePrefab: {fileID: 114943059611438928, guid: bc1686eb2d564c9488bf68acb618b3ea,
-    type: 2}
-  buttonPrefab: {fileID: 114023218608302870, guid: e9dfb82660231634898a5be92027f163,
-    type: 2}
   raycastLayers:
     serializedVersion: 2
-    m_Bits: 70144
+    m_Bits: 209664
 --- !u!114 &1008095235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,6 +1393,10 @@ MonoBehaviour:
   woodPrefab: {fileID: 114067388532376056, guid: 7634966bae2208b4d886b1b381df4def,
     type: 2}
   stonePrefab: {fileID: 114518591355493170, guid: 2e21c5afe6b66ec4583c92a666964ff2,
+    type: 2}
+  buttonsFramePrefab: {fileID: 114943059611438928, guid: bc1686eb2d564c9488bf68acb618b3ea,
+    type: 2}
+  buttonPrefab: {fileID: 114023218608302870, guid: e9dfb82660231634898a5be92027f163,
     type: 2}
 --- !u!114 &1008095238
 MonoBehaviour:

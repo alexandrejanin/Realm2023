@@ -3,7 +3,7 @@
 public abstract class InteractableObject : EntityObject {
 
 	public abstract Interactable Interactable { get; }
-	protected override Entity Entity => Interactable;
+	public override Entity Entity => Interactable;
 	protected bool correctPosition;
 
 	protected virtual Vector3 TargetPosition => Interactable.WorldPosition;
