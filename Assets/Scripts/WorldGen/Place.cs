@@ -1,5 +1,4 @@
-﻿[System.Serializable]
-public abstract class Place {
+﻿public abstract class Place {
 	public abstract string Name { get; }
 	public Climate climate;
 

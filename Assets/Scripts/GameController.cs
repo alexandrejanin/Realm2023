@@ -46,8 +46,6 @@ public class GameController : MonoBehaviour {
 		townManager = GetComponent<TownManager>();
 
 		if (generateMap) GenerateMap();
-
-		townManager?.GenerateTown();
 	}
 
 	private void Start() {

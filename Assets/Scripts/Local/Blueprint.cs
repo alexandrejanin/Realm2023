@@ -72,8 +72,6 @@ public class Blueprint {
 
 					Coord worldCoord = bottomLeft + rotation * localCoord + rotationOffset;
 
-					TownManager.SetTileTaken(worldCoord, true);
-
 					if (localCoord == itemPos) new Equipable(worldCoord);
 
 					if (y <= size.y) {
@@ -179,4 +177,5 @@ public class Blueprint {
 		new Wall(position, direction, wallType);
 	}
 
+	public override string ToString() => name;
 }

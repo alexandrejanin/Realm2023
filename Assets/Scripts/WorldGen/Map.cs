@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Map {
@@ -68,7 +69,7 @@ public class Map {
 	private void GenerateTowns() {
 		Queue<Town> queue = new Queue<Town>();
 		foreach (Race race in GameController.Races) {
-			Town capital = new Town(RandomTile(), race, 10000, new Coord(100, 10, 100));
+			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, 10000);
 			towns.Add(capital);
 			queue.Enqueue(capital);
 
@@ -76,14 +77,14 @@ public class Map {
 				Town parent = queue.Dequeue();
 
 				Tile tile = null;
-				while (tile == null || tile.IsWater) {
+				while (tile == null || tile.IsWater || tile.places.Any(p => p is Town)) {
 					int x = parent.X + Random.Range(-20, 20);
 					int y = parent.Y + Random.Range(-20, 20);
 					tile = GetTile(x, y);
 				}
 
 				int pop = (int) (parent.population * Random.Range(0.2f, 0.6f));
-				Town newTown = new Town(tile, race, pop, new Coord(100, 10, 100));
+				Town newTown = new Town(tile, new Coord(100, 10, 100), race, pop);
 				towns.Add(newTown);
 				if (pop > 1000) queue.Enqueue(newTown);
 			}
