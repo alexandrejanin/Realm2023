@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour {
 	private static GameController Instance => instance ?? (instance = FindObjectOfType<GameController>());
 	private static GameController instance;
 
-	[SerializeField] private bool generateMap;
 	[SerializeField] private bool randomSeed;
 	[SerializeField] public bool autoUpdate;
 
@@ -17,7 +16,6 @@ public class GameController : MonoBehaviour {
 	[SerializeField] private TextAsset climatesDatabase;
 
 	public static Location Location { get; private set; }
-	public static NodeGrid NodeGrid { get; private set; }
 
 	public static Race[] Races {
 		get {
@@ -41,18 +39,14 @@ public class GameController : MonoBehaviour {
 	public static Map Map { get; private set; }
 	public static EventHandler onMapChanged;
 
-	private TownManager townManager;
+	private LocationManager locationManager;
 
 	private void Awake() {
+		DontDestroyOnLoad(this);
+
 		LoadDatabase();
 
-		townManager = GetComponent<TownManager>();
-
-		if (generateMap) GenerateMap();
-	}
-
-	private void Start() {
-		ObjectManager.Start();
+		locationManager = GetComponent<LocationManager>();
 	}
 
 	public void GenerateMap() {
@@ -62,21 +56,16 @@ public class GameController : MonoBehaviour {
 		GetComponent<WorldGenUI>().OnMapChanged();
 	}
 
+	public void LoadLocation(Location location) {
+		Location = location;
+		NodeGrid.CreateGrid(location);
+		locationManager.LoadLocation(location);
+	}
+
 	public void LoadDatabase() {
 		races = DatabaseController.LoadXML<Race>(racesDatabase, "Race");
 		climates = DatabaseController.LoadXML<Climate>(climatesDatabase, "Climate");
 	}
 
-	public static Climate GetClimate(string climateName) => Climates.FirstOrDefault(climate => climate.name == climateName);
-	public static Climate GetClimate(Tile tile) => Climates.First(climate => climate.CorrectTile(tile));
-
 	public static Race RandomRace() => Races.RandomItem();
-}
-
-public class MapChangedEventArgs : EventArgs {
-	public readonly Map map;
-
-	public MapChangedEventArgs(Map map) {
-		this.map = map;
-	}
 }

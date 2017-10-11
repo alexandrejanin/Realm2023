@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class Map {
 	public readonly List<Town> towns = new List<Town>();
 
 	public Map(MapSettings settings) {
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
 		this.settings = settings;
 		GenerateTileMap();
 		GenerateRegions();
@@ -59,34 +62,9 @@ public class Map {
 				Tile tile = tileMap[x, y];
 				if (tile.region != null) continue;
 
-				List<Tile> tiles = FindRegion(tile, 2);
+				List<Tile> tiles = FindRegion(tile, 1);
 				Region region = new Region(tile.Climate, tiles);
 				regions.Add(region);
-			}
-		}
-	}
-
-	private void GenerateTowns() {
-		Queue<Town> queue = new Queue<Town>();
-		foreach (Race race in GameController.Races) {
-			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, 10000);
-			towns.Add(capital);
-			queue.Enqueue(capital);
-
-			while (queue.Count > 0) {
-				Town parent = queue.Dequeue();
-
-				Tile tile = null;
-				while (tile == null || tile.IsWater || tile.places.Any(p => p is Town)) {
-					int x = parent.X + Random.Range(-20, 20);
-					int y = parent.Y + Random.Range(-20, 20);
-					tile = GetTile(x, y);
-				}
-
-				int pop = (int) (parent.population * Random.Range(0.2f, 0.6f));
-				Town newTown = new Town(tile, new Coord(100, 10, 100), race, pop);
-				towns.Add(newTown);
-				if (pop > 1000) queue.Enqueue(newTown);
 			}
 		}
 	}
@@ -116,6 +94,31 @@ public class Map {
 		return tiles;
 	}
 
+	private void GenerateTowns() {
+		Queue<Town> queue = new Queue<Town>();
+		foreach (Race race in GameController.Races) {
+			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, 10000);
+			towns.Add(capital);
+			queue.Enqueue(capital);
+
+			while (queue.Count > 0) {
+				Town parent = queue.Dequeue();
+
+				Tile tile = null;
+				while (tile == null || tile.IsWater || tile.places.Any(p => p is Town)) {
+					int x = parent.X + Random.Range(-20, 20);
+					int y = parent.Y + Random.Range(-20, 20);
+					tile = GetTile(x, y);
+				}
+
+				int pop = (int) (parent.population * Random.Range(0.2f, 0.6f));
+				Town newTown = new Town(tile, new Coord(100, 10, 100), race, pop);
+				towns.Add(newTown);
+				if (pop > 1000) queue.Enqueue(newTown);
+			}
+		}
+	}
+
 	public Texture2D GetTexture(MapDrawMode mapDrawMode) {
 		for (int x = 0; x < Size; x++) {
 			for (int y = 0; y < Size; y++) {
@@ -126,6 +129,9 @@ public class Map {
 		texture.Apply();
 		return texture;
 	}
+
+	public static Climate GetClimate(string climateName) => GameController.Climates.FirstOrDefault(climate => climate.name == climateName);
+	public static Climate GetClimate(Tile tile) => GameController.Climates.First(climate => climate.CorrectTile(tile));
 }
 
 public enum MapDrawMode {

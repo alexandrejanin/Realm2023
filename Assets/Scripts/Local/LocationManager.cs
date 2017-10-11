@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class TownManager : MonoBehaviour {
+public class LocationManager : MonoBehaviour {
 	[SerializeField] private Blueprint[] blueprints;
-
-	[SerializeField] private Transform buildingParent;
 
 	[SerializeField] private int buildingsAmount = 50;
 
@@ -13,16 +11,16 @@ public class TownManager : MonoBehaviour {
 
 	private readonly Dictionary<Coord, bool> tiles = new Dictionary<Coord, bool>();
 
-	public void GenerateTown(Location newLocation) {
+	public void LoadLocation(Location newLocation) {
 		location = newLocation;
 		InitializeDictionary();
 		CreateGround();
 		CreateBuildings();
-		SpawnPlayer();
+		if (ObjectManager.playerCharacter == null) SpawnPlayer();
 	}
 
-	private static void SpawnPlayer() {
-		new Character(new Coord(Random.Range(5, 95), 0, Random.Range(5, 95)), true);
+	private void SpawnPlayer() {
+		location.characters.Add(new Character(new Coord(Random.Range(5, 95), 0, Random.Range(5, 95)), true));
 	}
 
 	private void InitializeDictionary() {
@@ -44,13 +42,21 @@ public class TownManager : MonoBehaviour {
 	}
 
 	private void CreateBuildings() {
+		blueprints = blueprints.OrderBy(blueprint => blueprint.weight).ToArray();
+		float totalWeight = blueprints.Sum(blueprint => blueprint.weight);
 		for (int i = 0; i < buildingsAmount; i++) {
-			AddRandomBuilding();
+			float rnd = Random.Range(0, totalWeight);
+			foreach (Blueprint blueprint in blueprints) {
+				if (rnd < blueprint.weight) {
+					BuildBlueprint(blueprint);
+					break;
+				}
+				rnd -= blueprint.weight;
+			}
 		}
 	}
 
-	private void AddRandomBuilding() {
-		Blueprint blueprint = blueprints.RandomItem();
+	private void BuildBlueprint(Blueprint blueprint) {
 		Coord rotationCoord = new Coord(0, Random.Range(0, 4), 0);
 		Quaternion rotation = Quaternion.Euler(rotationCoord * 90);
 		Coord size = blueprint.RandomSize();
@@ -82,7 +88,7 @@ public class TownManager : MonoBehaviour {
 		}
 
 		if (validPosition) {
-			blueprint.GenerateBuilding(buildingParent, center, size, rotationCoord);
+			blueprint.GenerateBuilding(location, center, size, rotation);
 		} else {
 			Debug.Log($"Could not find valid position for {blueprint}");
 		}

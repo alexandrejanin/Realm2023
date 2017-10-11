@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour {
 
 	private void Update() {
 		if (!EventSystem.current.IsPointerOverGameObject()) {
-			if (target == null) target = ObjectManager.playerCharacterObject.transform;
+			if (target == null) target = ObjectManager.playerCharacterObject?.transform;
 			zoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 			zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
 
@@ -50,6 +50,7 @@ public class PlayerCamera : MonoBehaviour {
 	}
 
 	private void LateUpdate() {
+		if (target == null) return;
 		Vector3 targetPosition = target.position + Vector3.up * heightOffset;
 		transform.position = targetPosition - positionOffset * zoom;
 		transform.LookAt(targetPosition);

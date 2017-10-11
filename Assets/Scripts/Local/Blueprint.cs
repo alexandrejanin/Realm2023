@@ -3,7 +3,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Blueprint {
-	[SerializeField] private string name;
+	public string name;
+	public float weight;
 
 	[SerializeField] private Coord minSize;
 	[SerializeField] private Coord maxSize;
@@ -26,25 +27,14 @@ public class Blueprint {
 		}
 	}
 
-	public void GenerateBuilding(Transform buildingParent, Vector3 center, Coord size, Coord rotationMultiplier, string objectName = "") {
-		if (size.x * size.y * size.z == 0) {
-			Debug.Log("Error: Blueprint Dimension = 0");
-		}
-		Quaternion rotation = Quaternion.Euler(90 * rotationMultiplier);
-		Coord rotatedSize = rotation * size;
-		Coord bottomLeft = new Coord(center - (Vector3) rotatedSize / 2);
-
-		Transform parent = new GameObject(objectName == "" ? name : objectName).transform;
-		parent.name = name;
-		parent.parent = buildingParent;
-		parent.position = center;
-		parent.rotation = rotation;
+	public void GenerateBuilding(Location location, Vector3 center, Coord size, Quaternion rotation) {
+		Coord bottomLeft = new Coord(center - (Vector3) (rotation * size) / 2);
 
 		int maxX = size.x - 1;
 		int maxY = size.y - 1;
 		int maxZ = size.z - 1;
 
-		Coord rotationOffset = RotationOffset(rotationMultiplier.y);
+		Coord rotationOffset = RotationOffset((int) rotation.eulerAngles.y / 90);
 
 		int roofY = Mathf.CeilToInt((float) size.z / 2);
 		float middle = (float) maxZ / 2;
@@ -79,9 +69,9 @@ public class Blueprint {
 						bool isStair = y > 0 && x == maxX - (maxY - y) - 1 && z == (y == size.y ? maxZ - 1 : maxZ);
 
 						if (isStair) {
-							AddWall(worldCoord + new Coord(0, -1, 0), y == size.y ? left : right);
+							AddWall(location, worldCoord + new Coord(0, -1, 0), y == size.y ? left : right);
 						} else {
-							AddWall(worldCoord, down);
+							AddWall(location, worldCoord, down);
 						}
 					}
 
@@ -92,19 +82,19 @@ public class Blueprint {
 						}
 
 						if (localCoord == doorPos) {
-							new Door(worldCoord, back);
+							location.walls.Add(new Door(worldCoord, back));
 						} else {
 							if (x == 0) {
-								AddWall(worldCoord, left);
+								AddWall(location, worldCoord, left);
 							}
 							if (x == maxX) {
-								AddWall(worldCoord, right);
+								AddWall(location, worldCoord, right);
 							}
 							if (z == 0) {
-								AddWall(worldCoord, back);
+								AddWall(location, worldCoord, back);
 							}
 							if (z == maxZ) {
-								AddWall(worldCoord, forward);
+								AddWall(location, worldCoord, forward);
 							}
 						}
 					} else {
@@ -114,9 +104,9 @@ public class Blueprint {
 
 						if (isEdge) {
 							if (isRoof && z != middle) {
-								AddWall(worldCoord, x == 0 ? left : right);
+								AddWall(location, worldCoord, x == 0 ? left : right);
 							} else if (y - size.y < z && y - size.y < maxZ - z) {
-								AddWall(worldCoord, x == 0 ? left : right);
+								AddWall(location, worldCoord, x == 0 ? left : right);
 							}
 						}
 
@@ -148,33 +138,10 @@ public class Blueprint {
 				}
 			}
 		}
-
-		/*Floor[] floors = new Floor[blocks.Length];
-
-		for (int i = 0; i < blocks.Length; i++) {
-			List<GameObject> gameObjects = blocks[i];
-
-			Transform floorParent = new GameObject("Floor " + i).transform;
-			floorParent.position = new Vector3(parent.position.x, i, parent.position.z);
-			floorParent.parent = parent;
-			floorParent.gameObject.layer = ObjectManager.HiddenTerrainLayer;
-			floors[i] = floorParent.gameObject.AddComponent<Floor>();
-
-			floors[i].SetGameObjects(gameObjects.ToArray());
-		}
-
-		//Add building component
-		Building building = parent.gameObject.AddComponent<Building>();
-
-		building.bounds.center = parent.position;
-		building.bounds.size = rotatedSize;
-		building.floors = floors;
-		building.lights = lights.ToArray();
-		//building.interactables = interactables.ToArray();*/
 	}
 
-	private void AddWall(Coord position, Coord direction) {
-		new Wall(position, direction, wallType);
+	private void AddWall(Location location, Coord position, Coord direction) {
+		location.walls.Add(new Wall(position, direction, wallType));
 	}
 
 	public override string ToString() => name;

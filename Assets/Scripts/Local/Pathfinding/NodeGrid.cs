@@ -1,26 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeGrid {
-	private static NodeGrid Current => GameController.NodeGrid;
+public static class NodeGrid {
+	public static int Width => size.x;
+	public static int Height => size.y;
+	public static int Length => size.z;
+	public static Coord size;
 
-	public int Width => size.x;
-	public int Height => size.y;
-	public int Length => size.z;
-	public readonly Coord size;
+	public static int GridCount => Width * Height * Length;
 
-	public int GridCount => Width * Height * Length;
+	public static Coord RandomPoint => Coord.RandomRange(Coord.Zero, size);
 
-	public Coord RandomPoint => Coord.RandomRange(Coord.Zero, size);
+	public static Node[,,] grid;
 
-	public Node[,,] grid;
-
-	public NodeGrid(Coord size) {
-		this.size = size;
-		CreateGrid();
-	}
-
-	private void CreateGrid() {
+	public static void CreateGrid(Location location) {
+		size = location.Size;
 		grid = new Node[Width, Height, Length];
 
 		for (int y = 0; y < Height; y++)
@@ -40,15 +34,15 @@ public class NodeGrid {
 				}
 	}
 
-	public void BlockPassage(Coord position, Coord direction) {
+	public static void BlockPassage(Coord position, Coord direction) {
 		SetPassage(position, direction, false);
 	}
 
-	public void OpenPassage(Coord position, Coord direction) {
+	public static void OpenPassage(Coord position, Coord direction) {
 		SetPassage(position, direction, true);
 	}
 
-	private void SetPassage(Coord position, Coord direction, bool open) {
+	private static void SetPassage(Coord position, Coord direction, bool open) {
 		direction = direction.Normalize;
 		Node a = GetNode(position);
 		Node b = GetNode(position + direction);
@@ -57,7 +51,7 @@ public class NodeGrid {
 		b?.SetDirection(-direction, open);
 	}
 
-	public List<Coord> GetLine(Coord start, Coord end) {
+	public static List<Coord> GetLine(Coord start, Coord end) {
 		List<Coord> positions = new List<Coord>();
 
 		Vector3 startVector3 = start;
@@ -80,13 +74,13 @@ public class NodeGrid {
 		return positions;
 	}
 
-	public bool IsVisible(Coord a, Coord b) {
+	public static bool IsVisible(Coord a, Coord b) {
 		Vector3 posA = GetWorldPosFromCoord(a, NodeOffsetType.Center);
 		Vector3 posB = GetWorldPosFromCoord(b, NodeOffsetType.Center);
 		return !Physics.Linecast(posA, posB, ObjectManager.TerrainMask);
 	}
 
-	public bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
+	public static bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
 
 	public enum NodeOffsetType {
 		None,
@@ -117,9 +111,9 @@ public class NodeGrid {
 		Mathf.FloorToInt(worldPos.z)
 	);
 
-	public Node GetNode(Coord coord) => IsInGrid(coord) ? grid[coord.x, coord.y, coord.z] : null;
+	public static Node GetNode(Coord coord) => IsInGrid(coord) ? grid[coord.x, coord.y, coord.z] : null;
 
-	public IEnumerable<Node> GetNeighbors(Node node) {
+	public static IEnumerable<Node> GetNeighbors(Node node) {
 		List<Node> neighbors = new List<Node>();
 
 		for (int y = -1; y <= 1; y++) {
@@ -139,7 +133,7 @@ public class NodeGrid {
 		return neighbors;
 	}
 
-	private Node GetNeighbor(Node startNode, Coord direction, bool aerial = false) {
+	private static Node GetNeighbor(Node startNode, Coord direction, bool aerial = false) {
 		Node neighbor = GetNode(startNode.position + direction);
 		if (neighbor == null || !aerial && !neighbor.IsWalkable || direction.MaxDimension > 1 || direction == Coord.Zero) return null;
 
@@ -159,5 +153,5 @@ public class NodeGrid {
 		return null;
 	}
 
-	public Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) => GetNeighbor(GetNode(startCoord), direction, aerial);
+	public static Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) => GetNeighbor(GetNode(startCoord), direction, aerial);
 }

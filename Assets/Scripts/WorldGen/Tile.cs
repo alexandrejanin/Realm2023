@@ -32,21 +32,17 @@ public class Tile {
 		this.height = height;
 		this.temp = temp;
 		this.humidity = humidity;
-		Climate = GameController.GetClimate(this);
+		Climate = Map.GetClimate(this);
 		color = Climate.GetColor(height);
 		heightColor = Color.Lerp(Color.black, Color.white, height);
 		tempColor = Color.Lerp(Color.cyan, Color.red, temp);
 		humidityColor = Color.Lerp(Color.yellow, Color.blue, humidity);
 	}
 
-	public void SetClimate(Climate newClimate) {
-		Climate = newClimate;
-		color = newClimate.GetColor(height);
-	}
-
 	public void SetRegion(Region newRegion) {
 		region = newRegion;
-		SetClimate(newRegion.climate);
+		Climate = region.climate;
+		color = Climate.GetColor(height);
 	}
 
 	public Color GetColor(MapDrawMode mapDrawMode) {

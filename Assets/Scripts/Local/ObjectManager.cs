@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class ObjectManager {
 	private static readonly PrefabManager PrefabManager = Object.FindObjectOfType<PrefabManager>();
-	private static readonly List<Entity> Entities = new List<Entity>();
 
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
@@ -17,57 +17,45 @@ public static class ObjectManager {
 
 	public static readonly List<EntityObject> Hideables = new List<EntityObject>();
 
-	public static void AddEntity(Entity entity) {
-		if (Entities.Contains(entity)) return;
-		Entities.Add(entity);
-	}
-
-	public static void Start() {
-		if (SceneManager.GetActiveScene().name == "Local") {
-			RefreshObjects();
-			UpdateVisibility();
-		}
-	}
-
-	public static void SetPlayer(Character player) {
-		playerCharacter = player;
-
-		if (Entities.Contains(playerCharacter) && Entities[0] != playerCharacter) Entities.Remove(playerCharacter);
-		Entities.Insert(0, playerCharacter);
-	}
+	private static Location Location => GameController.Location;
 
 	private static void RefreshObjects() {
-		foreach (Entity entity in Entities) {
+		/*foreach (Entity entity in GameController.Location.entities) {
 			if (entity.displayed) continue;
+			
+			Item item = entity as Item;
+			
 
-			Character character = entity as Character;
-			if (character != null) {
+			entity.displayed = true;
+		}*/
+		foreach (Character character in Location.characters) {
+			if (!character.displayed) {
 				CharacterObject characterObject = Object.Instantiate(PrefabManager.characterObjectPrefab, character.WorldPosition, Quaternion.identity);
 				characterObject.SetCharacter(character);
 				if (character.isPlayer) playerCharacterObject = characterObject;
 			}
+		}
 
-			Item item = entity as Item;
-			if (item != null && item.container == null) {
+		foreach (Item item in Location.items) {
+			if (!item.displayed && item.container == null) {
 				ItemObject itemObject = Object.Instantiate(PrefabManager.itemObjectPrefab, item.WorldPosition, Quaternion.identity);
 				itemObject.item = item;
 			}
+		}
 
-			Door door = entity as Door;
+		foreach (Wall wall in Location.walls) {
+			if (wall.displayed) continue;
+
+			Door door = wall as Door;
 			if (door != null) {
 				GameObject doorObject = Object.Instantiate(PrefabManager.doorObjectPrefab, door.WorldPosition, Quaternion.identity);
 				doorObject.GetComponentInChildren<DoorObject>().door = door;
 				doorObject.transform.forward = door.direction;
-			}
-
-			Wall wall = entity as Wall;
-			if (wall != null) {
+			} else {
 				WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity);
 				wallObject.wall = wall;
 				wallObject.transform.up = wall.direction;
 			}
-
-			entity.displayed = true;
 		}
 	}
 
@@ -85,13 +73,13 @@ public static class ObjectManager {
 	}
 
 	private static void StartTurn() {
-		foreach (Entity entity in Entities) {
+		foreach (Entity entity in Location.Entities) {
 			entity.StartTurn();
 		}
 	}
 
 	private static void EndTurn() {
-		foreach (Entity entity in Entities) {
+		foreach (Entity entity in Location.Entities) {
 			entity.EndTurn();
 		}
 	}

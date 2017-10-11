@@ -1,12 +1,10 @@
 ﻿public sealed class Town : Location {
 	public readonly Race race;
 	public readonly int population;
-	public readonly Character[] characters;
 
 	public Town(Tile tile, Coord size, Race race, int population) : base(race.GetPlaceName(), tile, size) {
 		this.race = race;
 		this.population = population;
-		characters = new Character[population];
 
 		tile.color = UnityEngine.Color.black;
 		tile.places.Add(this);

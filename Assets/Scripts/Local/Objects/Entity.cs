@@ -14,7 +14,6 @@ public abstract class Entity {
 
 	protected Entity(Coord position) {
 		this.position = position;
-		ObjectManager.AddEntity(this);
 	}
 
 	public virtual UnityEngine.Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
@@ -44,7 +43,7 @@ public abstract class Entity {
 		int d = dx * dx + dz * dz;
 		isInViewRange = d <= maxViewDistanceSquared && !(dx * dx == maxViewDistanceSquared || dz * dz == maxViewDistanceSquared);
 		isInSeenRange = d <= maxSeenDistanceSquared;
-		visible = isInViewRange && VisiblePositions.Any(pos => location.nodeGrid.IsVisible(playerPosition, pos));
+		visible = isInViewRange && VisiblePositions.Any(pos => NodeGrid.IsVisible(playerPosition, pos));
 		seen = seen || visible;
 	}
 

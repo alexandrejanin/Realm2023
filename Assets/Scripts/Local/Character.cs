@@ -45,7 +45,7 @@ public class Character : Interactable {
 		lastName = race.GetLastName();
 
 		this.isPlayer = isPlayer;
-		if (isPlayer) ObjectManager.SetPlayer(this);
+		if (isPlayer) ObjectManager.playerCharacter = this;
 
 		inventory = new Inventory(this);
 		equipment = new Equipment(this);
@@ -107,7 +107,7 @@ public class Character : Interactable {
 	}
 
 	public void RequestPathToPos(Coord goalCoord) {
-		Coord[] waypoints = Pathfinder.FindPath(location.nodeGrid, position, goalCoord, !isPlayer);
+		Coord[] waypoints = Pathfinder.FindPath(position, goalCoord, !isPlayer);
 		if (waypoints != null) {
 			Path = waypoints;
 		}

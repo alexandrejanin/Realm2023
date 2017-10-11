@@ -43,6 +43,7 @@ public class WorldGenUI : MonoBehaviour {
 		foreach (Climate climate in GameController.Climates) {
 			if (climate.isRegion) {
 				int regionsCount = map.regions.Count(region => region.climate == climate);
+				if (regionsCount == 0) continue;
 				int tilesCount = map.regions.Where(region => region.climate == climate).Sum(region => region.TileCount);
 
 				regionsText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
