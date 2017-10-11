@@ -16,9 +16,12 @@ public class GameController : MonoBehaviour {
 	[Header("Database")] [SerializeField] private TextAsset racesDatabase;
 	[SerializeField] private TextAsset climatesDatabase;
 
+	public static Location Location { get; private set; }
+	public static NodeGrid NodeGrid { get; private set; }
+
 	public static Race[] Races {
 		get {
-			if (races == null) Instance.LoadDatabase();
+			if (races == null || races.Length == 0) Instance.LoadDatabase();
 
 			return races;
 		}
@@ -26,7 +29,7 @@ public class GameController : MonoBehaviour {
 
 	public static Climate[] Climates {
 		get {
-			if (climates == null) Instance.LoadDatabase();
+			if (climates == null || climates.Length == 0) Instance.LoadDatabase();
 
 			return climates;
 		}

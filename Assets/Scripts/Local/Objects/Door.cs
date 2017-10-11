@@ -13,7 +13,7 @@ public class Door : Interactable {
 
 	public Door(Coord position, Coord direction) : base(position) {
 		this.direction = direction;
-		NodeGrid.BlockPassage(position, direction);
+		location.nodeGrid.BlockPassage(position, direction);
 		VisiblePositions = new[] {position, position + direction};
 	}
 
@@ -38,8 +38,8 @@ public class Door : Interactable {
 	}
 
 	public override void MoveTo(Character character) {
-		Coord[] path1 = Pathfinder.FindPath(character.position, position, false);
-		Coord[] path2 = Pathfinder.FindPath(character.position, position + direction, false);
+		Coord[] path1 = Pathfinder.FindPath(location.nodeGrid, character.position, position, false);
+		Coord[] path2 = Pathfinder.FindPath(location.nodeGrid, character.position, position + direction, false);
 		if (path1 != null && path2 != null) {
 			character.Path = path1.Length > path2.Length ? path2 : path1;
 		} else if (path1 != null) {
@@ -51,12 +51,12 @@ public class Door : Interactable {
 
 	public void Open() {
 		open = true;
-		NodeGrid.OpenPassage(position, direction);
+		location.nodeGrid.OpenPassage(position, direction);
 	}
 
 	public void Close() {
 		open = false;
-		NodeGrid.BlockPassage(position, direction);
+		location.nodeGrid.BlockPassage(position, direction);
 	}
 
 	public void Lock() {

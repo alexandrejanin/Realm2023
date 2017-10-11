@@ -12,7 +12,7 @@ public class Wall : Entity {
 	public Wall(Coord position, Coord direction, WallType wallType) : base(position) {
 		this.direction = direction;
 		VisiblePositions = new[] {position, position + direction};
-		NodeGrid.BlockPassage(position, direction);
+		location.nodeGrid.BlockPassage(position, direction);
 		this.wallType = wallType;
 	}
 }

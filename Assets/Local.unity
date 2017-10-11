@@ -1269,8 +1269,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1008095232}
-  - component: {fileID: 1008095238}
-  - component: {fileID: 1008095236}
   - component: {fileID: 1008095239}
   - component: {fileID: 1008095234}
   - component: {fileID: 1008095233}
@@ -1333,44 +1331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainPanel: {fileID: 2107718265}
---- !u!114 &1008095236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1008095231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb314491f4f0b2e41b80ee7d3fd68997, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generateMap: 0
-  randomSeed: 1
-  autoUpdate: 1
-  mapSettings:
-    mapSize: 257
-    lodMultiplier: 2
-    seed: 80486
-    heightSettings:
-      octaves: 0
-      persistance: 0
-      lacunarity: 0
-      scale: 0
-    falloffA: 2
-    falloffB: 4.5
-    falloffMultiplier: 0.7
-    tempA: 1
-    tempB: 1
-    heightTempMultiplier: 0.5
-    humiditySettings:
-      octaves: 0
-      persistance: 0
-      lacunarity: 0
-      scale: 0
-    riversAmount: 0
-    riversMinHeight: 0
-  racesDatabase: {fileID: 4900000, guid: d99206f81d9f77443856e936064a734c, type: 3}
-  climatesDatabase: {fileID: 4900000, guid: adc541df32031c64a891636c8d071d50, type: 3}
 --- !u!114 &1008095237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,21 +1358,6 @@ MonoBehaviour:
     type: 2}
   buttonPrefab: {fileID: 114023218608302870, guid: e9dfb82660231634898a5be92027f163,
     type: 2}
---- !u!114 &1008095238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1008095231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4449b23e20138ad48a389a54cf214140, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawGizmos: 0
-  gridWidth: 100
-  gridHeight: 5
-  gridLength: 100
 --- !u!114 &1008095239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1424,8 +1369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22be3e4c977ca37468b0140d9b967ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadTile: {fileID: 1741298050555712, guid: 2e21c5afe6b66ec4583c92a666964ff2, type: 2}
-  grassTile: {fileID: 1741298050555712, guid: 2a16e6e81d034ed43be2fa89c6d1c581, type: 2}
   blueprints:
   - name: House
     minSize:
@@ -1448,8 +1391,6 @@ MonoBehaviour:
       z: 8
     wallType: 2
   buildingParent: {fileID: 1285976677}
-  grassParent: {fileID: 1214814544}
-  roadParent: {fileID: 2043983741}
   buildingsAmount: 50
 --- !u!1 &1028745441
 GameObject:

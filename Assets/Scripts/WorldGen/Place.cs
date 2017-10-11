@@ -7,7 +7,7 @@
 	public abstract Tile[] Tiles { get; }
 	public Tile RandomTile() => Tiles.RandomItem();
 
-	public int Size => Tiles.Length;
+	public int TileCount => Tiles.Length;
 
 	protected Place(Climate climate) {
 		this.climate = climate;

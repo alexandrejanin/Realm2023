@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 public abstract class Entity {
+	public Location location;
 	public Coord position;
 	public abstract string Name { get; }
 
@@ -43,7 +44,7 @@ public abstract class Entity {
 		int d = dx * dx + dz * dz;
 		isInViewRange = d <= maxViewDistanceSquared && !(dx * dx == maxViewDistanceSquared || dz * dz == maxViewDistanceSquared);
 		isInSeenRange = d <= maxSeenDistanceSquared;
-		visible = isInViewRange && VisiblePositions.Any(pos => NodeGrid.IsVisible(playerPosition, pos));
+		visible = isInViewRange && VisiblePositions.Any(pos => location.nodeGrid.IsVisible(playerPosition, pos));
 		seen = seen || visible;
 	}
 

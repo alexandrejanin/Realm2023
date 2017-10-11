@@ -107,7 +107,7 @@ public class Character : Interactable {
 	}
 
 	public void RequestPathToPos(Coord goalCoord) {
-		Coord[] waypoints = Pathfinder.FindPath(position, goalCoord, !isPlayer);
+		Coord[] waypoints = Pathfinder.FindPath(location.nodeGrid, position, goalCoord, !isPlayer);
 		if (waypoints != null) {
 			Path = waypoints;
 		}

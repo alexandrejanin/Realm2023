@@ -3,13 +3,13 @@ using System.Linq;
 using UnityEngine;
 
 public static class Pathfinder {
-	public static Coord[] FindPath(Coord startPos, Coord goalPos, bool useWeights) {
+	public static Coord[] FindPath(NodeGrid nodeGrid, Coord startPos, Coord goalPos, bool useWeights) {
 		bool success = false;
 
-		Node startNode = NodeGrid.GetNode(startPos);
-		Node goalNode = NodeGrid.GetNode(goalPos);
+		Node startNode = nodeGrid.GetNode(startPos);
+		Node goalNode = nodeGrid.GetNode(goalPos);
 		if (startNode != null && goalNode != null && goalNode.IsWalkable && goalNode != startNode) {
-			Heap<Node> open = new Heap<Node>(NodeGrid.GridCount);
+			Heap<Node> open = new Heap<Node>(nodeGrid.GridCount);
 			HashSet<Node> closed = new HashSet<Node>();
 
 			open.Add(startNode);
@@ -24,7 +24,7 @@ public static class Pathfinder {
 					break;
 				}
 
-				foreach (Node neighbor in NodeGrid.GetNeighbors(current)) {
+				foreach (Node neighbor in nodeGrid.GetNeighbors(current)) {
 					if (!neighbor.IsWalkable || closed.Contains(neighbor)) {
 						continue;
 					}

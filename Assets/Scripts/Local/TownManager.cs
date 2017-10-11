@@ -3,8 +3,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class TownManager : MonoBehaviour {
-	private static TownManager instance;
-
 	[SerializeField] private Blueprint[] blueprints;
 
 	[SerializeField] private Transform buildingParent;
@@ -17,9 +15,7 @@ public class TownManager : MonoBehaviour {
 
 	public void GenerateTown(Location newLocation) {
 		location = newLocation;
-		instance = this;
 		InitializeDictionary();
-		NodeGrid.CreateGrid();
 		CreateGround();
 		CreateBuildings();
 		SpawnPlayer();
@@ -30,9 +26,9 @@ public class TownManager : MonoBehaviour {
 	}
 
 	private void InitializeDictionary() {
-		for (int x = 0; x < location.size.x; x++) {
-			for (int y = 0; y < location.size.y; y++) {
-				for (int z = 0; z < location.size.z; z++) {
+		for (int x = 0; x < location.Size.x; x++) {
+			for (int y = 0; y < location.Size.y; y++) {
+				for (int z = 0; z < location.Size.z; z++) {
 					tiles.Add(new Coord(x, y, z), false);
 				}
 			}
@@ -40,8 +36,8 @@ public class TownManager : MonoBehaviour {
 	}
 
 	private void CreateGround() {
-		for (int x = 0; x < location.size.x; x++) {
-			for (int z = 0; z < location.size.z; z++) {
+		for (int x = 0; x < location.Size.x; x++) {
+			for (int z = 0; z < location.Size.z; z++) {
 				new Wall(new Coord(x, 0, z), Coord.Down, WallType.Grass);
 			}
 		}
@@ -66,7 +62,7 @@ public class TownManager : MonoBehaviour {
 		int tries = 0;
 
 		while (!validPosition && tries < 100) {
-			Coord bottomLeft = new Coord(Random.Range(0, location.size.x - (rotation * size).x), 0, Random.Range(0, location.size.z - (rotation * size).z));
+			Coord bottomLeft = new Coord(Random.Range(0, location.Size.x - (rotation * size).x), 0, Random.Range(0, location.Size.z - (rotation * size).z));
 			center = bottomLeft + rotation * (Vector3) size / 2;
 			validPosition = true;
 

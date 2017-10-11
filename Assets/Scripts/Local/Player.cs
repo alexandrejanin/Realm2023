@@ -114,7 +114,7 @@ public class Player : MonoBehaviour {
 	private static Node GetValidNode(Coord direction) {
 		for (int i = 0; i < 3; i++) {
 			direction.y = i == 0 ? 0 : (i == 1 ? 1 : -1);
-			Node targetNode = NodeGrid.GetNeighbor(character.position, direction);
+			Node targetNode = GameController.NodeGrid.GetNeighbor(character.position, direction);
 			if (targetNode != null) return targetNode;
 		}
 		return null;
