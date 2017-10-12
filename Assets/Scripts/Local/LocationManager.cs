@@ -9,34 +9,22 @@ public class LocationManager : MonoBehaviour {
 
 	private Location location;
 
-	private readonly Dictionary<Coord, bool> tiles = new Dictionary<Coord, bool>();
-
 	public void LoadLocation(Location newLocation) {
 		location = newLocation;
-		InitializeDictionary();
 		CreateGround();
 		CreateBuildings();
 		if (ObjectManager.playerCharacter == null) SpawnPlayer();
+		ObjectManager.RefreshObjects();
 	}
 
 	private void SpawnPlayer() {
 		location.characters.Add(new Character(new Coord(Random.Range(5, 95), 0, Random.Range(5, 95)), true));
 	}
 
-	private void InitializeDictionary() {
-		for (int x = 0; x < location.Size.x; x++) {
-			for (int y = 0; y < location.Size.y; y++) {
-				for (int z = 0; z < location.Size.z; z++) {
-					tiles.Add(new Coord(x, y, z), false);
-				}
-			}
-		}
-	}
-
 	private void CreateGround() {
 		for (int x = 0; x < location.Size.x; x++) {
 			for (int z = 0; z < location.Size.z; z++) {
-				new Wall(new Coord(x, 0, z), Coord.Down, WallType.Grass);
+				location.walls.Add(new Wall(new Coord(x, 0, z), Coord.Down, WallType.Grass));
 			}
 		}
 	}
@@ -68,7 +56,7 @@ public class LocationManager : MonoBehaviour {
 		int tries = 0;
 
 		while (!validPosition && tries < 100) {
-			Coord bottomLeft = new Coord(Random.Range(0, location.Size.x - (rotation * size).x), 0, Random.Range(0, location.Size.z - (rotation * size).z));
+			Coord bottomLeft = new Coord(Random.Range(0, location.Width - (rotation * size).x), 0, Random.Range(0, location.Length - (rotation * size).z));
 			center = bottomLeft + rotation * (Vector3) size / 2;
 			validPosition = true;
 
@@ -78,10 +66,12 @@ public class LocationManager : MonoBehaviour {
 						Coord tileCoord = new Coord(x, y, z);
 						Coord tilePos = bottomLeft + rotation * tileCoord + offset;
 
-						bool tileTaken;
-						if (!tiles.TryGetValue(tilePos, out tileTaken) || tileTaken) validPosition = false;
+						if (!location.GetTileFree(tilePos)) validPosition = false;
+						if (!validPosition) break;
 					}
+					if (!validPosition) break;
 				}
+				if (!validPosition) break;
 			}
 
 			tries++;

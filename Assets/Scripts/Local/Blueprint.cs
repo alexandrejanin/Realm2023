@@ -53,16 +53,15 @@ public class Blueprint {
 
 		for (int y = 0; y < size.y + roofY; y++) {
 			Coord lightCoord = new Coord(Random.Range(0, size.x), y, Random.Range(0, size.z));
-
-			blocks[y] = new List<GameObject>();
-
 			for (int x = 0; x < size.x; x++) {
 				for (int z = 0; z < size.z; z++) {
 					Coord localCoord = new Coord(x, y, z);
 
 					Coord worldCoord = bottomLeft + rotation * localCoord + rotationOffset;
 
-					if (localCoord == itemPos) new Equipable(worldCoord);
+					location.SetTileFree(worldCoord, false);
+
+					if (localCoord == itemPos) location.items.Add(new Equipable(worldCoord));
 
 					if (y <= size.y) {
 						//Floor

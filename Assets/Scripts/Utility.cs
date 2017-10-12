@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using Random = UnityEngine.Random;
 
 public static class Utility {
 
-	private static readonly System.Random random = new System.Random();
+	private static readonly Random DefaultRandom = new Random();
 
 	public static string Capitalize(this string s) => s.First().ToString().ToUpper() + s.Substring(1);
 
@@ -23,7 +21,8 @@ public static class Utility {
 		return null;
 	}
 
-	public static T RandomItem<T>(this IList<T> list, int startRank = 0) => list[random.Next(startRank, list.Count)];
+	public static T RandomItem<T>(this IList<T> list, int startRank = 0) => RandomItem(list, DefaultRandom, startRank);
+	public static T RandomItem<T>(this IList<T> list, Random random, int startRank = 0) => list[random.Next(startRank, list.Count)];
 	public static T RandomValue<T>(int startRank = 0) where T : IConvertible, IFormattable, IComparable => ((T[]) Enum.GetValues(typeof(T))).RandomItem(startRank);
 
 	public static int Sign(this int i, SignType signType = SignType.ZeroIsZero) {
@@ -38,5 +37,5 @@ public static class Utility {
 		ZeroIsZero
 	}
 
-	public static bool RandomBool => Random.value > 0.5f;
+	public static bool RandomBool => UnityEngine.Random.value > 0.5f;
 }

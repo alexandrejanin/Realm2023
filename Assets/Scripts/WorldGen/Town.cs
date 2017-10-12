@@ -7,7 +7,6 @@
 		this.population = population;
 
 		tile.color = UnityEngine.Color.black;
-		tile.places.Add(this);
 	}
 
 	private string GetSize() {

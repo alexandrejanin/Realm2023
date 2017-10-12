@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 public class Map {
 	private readonly Texture2D texture;
@@ -17,13 +17,16 @@ public class Map {
 	public readonly List<Region> regions = new List<Region>();
 	public readonly List<Town> towns = new List<Town>();
 
+	private readonly Random random;
+
 	public Map(MapSettings settings) {
-		Stopwatch sw = new Stopwatch();
-		sw.Start();
 		this.settings = settings;
+		random = new Random(settings.seed);
+
 		GenerateTileMap();
 		GenerateRegions();
 		GenerateTowns();
+
 		texture = new Texture2D(Size, Size) {filterMode = FilterMode.Point};
 		colors = new Color[Size * Size];
 	}
@@ -35,12 +38,12 @@ public class Map {
 	public Region RandomRegion() {
 		Region region = null;
 		while (region == null || region.IsWater) {
-			region = regions.RandomItem();
+			region = regions.RandomItem(random);
 		}
 		return region;
 	}
 
-	public Tile RandomTile() => RandomRegion().RandomTile();
+	public Tile RandomTile() => RandomRegion().RandomTile(random);
 
 	private void GenerateTileMap() {
 		tileMap = new Tile[Size, Size];
@@ -105,13 +108,13 @@ public class Map {
 				Town parent = queue.Dequeue();
 
 				Tile tile = null;
-				while (tile == null || tile.IsWater || tile.places.Any(p => p is Town)) {
-					int x = parent.X + Random.Range(-20, 20);
-					int y = parent.Y + Random.Range(-20, 20);
+				while (tile == null || tile.IsWater || tile.location != null) {
+					int x = parent.X + random.Next(-20, 20);
+					int y = parent.Y + random.Next(-20, 20);
 					tile = GetTile(x, y);
 				}
 
-				int pop = (int) (parent.population * Random.Range(0.2f, 0.6f));
+				int pop = random.Next((int) (parent.population * 0.2f), (int) (parent.population * 0.6f));
 				Town newTown = new Town(tile, new Coord(100, 10, 100), race, pop);
 				towns.Add(newTown);
 				if (pop > 1000) queue.Enqueue(newTown);

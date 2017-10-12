@@ -6,8 +6,7 @@ public class Tile {
 	public readonly float height, temp, humidity;
 
 	public Region region;
-
-	public readonly List<Place> places = new List<Place>();
+	public Location location;
 
 	public Climate Climate { get; private set; }
 

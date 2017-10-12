@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
-	private static PrefabManager prefabManager;
 	private static Character character;
 
 	private const float turnsPerSecond = 4;
@@ -15,10 +14,11 @@ public class Player : MonoBehaviour {
 
 	private static GameObject interactionsMenu;
 
-	[SerializeField] private LayerMask raycastLayers;
+	[SerializeField] private Canvas canvas;
+	[SerializeField] private static Transform canvasTransform;
 
 	private void Awake() {
-		prefabManager = GetComponent<PrefabManager>();
+		canvasTransform = canvas.transform;
 	}
 
 	private void Update() {
@@ -48,9 +48,7 @@ public class Player : MonoBehaviour {
 						RaycastHit[] hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
 						if (hits != null && hits.Length > 0) {
 							RaycastHit hit = hits.FirstOrDefault(h => h.transform.GetComponent<EntityObject>().Entity.seen);
-							if (hit.transform == null) {
-								Debug.Log("null");
-							} else {
+							if (hit.transform != null) {
 								Interactable interactable = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
 								if (interactable != null) {
 									if (rightClick) {
@@ -127,7 +125,9 @@ public class Player : MonoBehaviour {
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
 		if (interactions.Count == 0) return;
 
-		ButtonsFrame frame = Instantiate(prefabManager.buttonsFramePrefab, Input.mousePosition, Quaternion.identity, GameObject.Find("Canvas").transform);
+		PrefabManager prefabManager = GameController.prefabManager;
+
+		ButtonsFrame frame = Instantiate(prefabManager.buttonsFramePrefab, Input.mousePosition, Quaternion.identity, canvasTransform);
 		frame.GetComponentInChildren<Text>().text = title;
 		Transform parent = frame.buttonsParent.transform;
 

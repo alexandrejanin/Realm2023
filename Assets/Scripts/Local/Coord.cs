@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
-
-// ReSharper disable NonReadonlyMemberInGetHashCode
+using Random = System.Random;
 
 [Serializable]
 public struct Coord : IComparable<Coord> {
@@ -21,16 +19,36 @@ public struct Coord : IComparable<Coord> {
 		this.z = z;
 	}
 
+	public int ToDirectionIndex {
+		get {
+			if (this == Up) return 0;
+			if (this == Down) return 1;
+			if (this == Left) return 2;
+			if (this == Right) return 3;
+			if (this == Forward) return 4;
+			if (this == Back) return 5;
+
+			return -1;
+		}
+	}
+
+	public bool IsDirection => ToDirectionIndex != -1;
+
 	public static readonly Coord Zero = new Coord(0, 0, 0);
 	public static readonly Coord One = new Coord(1, 1, 1);
 	public static readonly Coord Up = new Coord(0, 1, 0);
 	public static readonly Coord Down = new Coord(0, -1, 0);
-	public static readonly Coord Forward = new Coord(0, 0, 1);
-	public static readonly Coord Back = new Coord(0, 0, -1);
 	public static readonly Coord Left = new Coord(-1, 0, 0);
 	public static readonly Coord Right = new Coord(1, 0, 0);
+	public static readonly Coord Forward = new Coord(0, 0, 1);
+	public static readonly Coord Back = new Coord(0, 0, -1);
 
-	public static Coord RandomRange(Coord a, Coord b) => new Coord(Random.Range(a.x, b.x), Random.Range(a.y, b.y), Random.Range(a.z, b.z));
+	private static readonly Random DefaultRandom = new Random();
+
+	public static Coord RandomRange(Coord a, Coord b, Random random = null) {
+		if (random == null) random = DefaultRandom;
+		return new Coord(random.Next(a.x, b.x), random.Next(a.y, b.y), random.Next(a.z, b.z));
+	}
 
 	private Coord(float x, float y, float z) : this(Mathf.RoundToInt(x), Mathf.RoundToInt(y), Mathf.RoundToInt(z)) { }
 
@@ -57,7 +75,7 @@ public struct Coord : IComparable<Coord> {
 
 	public static Vector3 operator /(Coord c, float f) => new Vector3(c.x / f, c.y / f, c.z / f);
 
-	public static Coord operator *(Quaternion q, Coord c) => new Coord(q * (Vector3) c);
+	public static Coord operator *(Quaternion q, Coord c) => new Coord(q * (Vector3) c);//TODO: better rotation (int 45deg increments)
 
 	public static Coord operator -(Coord c) => new Coord(-c.x, -c.y, -c.z);
 

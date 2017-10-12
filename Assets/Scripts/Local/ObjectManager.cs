@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class ObjectManager {
-	private static readonly PrefabManager PrefabManager = Object.FindObjectOfType<PrefabManager>();
+	private static PrefabManager PrefabManager => GameController.prefabManager;
 
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
@@ -19,20 +19,13 @@ public static class ObjectManager {
 
 	private static Location Location => GameController.Location;
 
-	private static void RefreshObjects() {
-		/*foreach (Entity entity in GameController.Location.entities) {
-			if (entity.displayed) continue;
-			
-			Item item = entity as Item;
-			
-
-			entity.displayed = true;
-		}*/
+	public static void RefreshObjects() {
 		foreach (Character character in Location.characters) {
 			if (!character.displayed) {
 				CharacterObject characterObject = Object.Instantiate(PrefabManager.characterObjectPrefab, character.WorldPosition, Quaternion.identity);
 				characterObject.SetCharacter(character);
 				if (character.isPlayer) playerCharacterObject = characterObject;
+				character.displayed = true;
 			}
 		}
 
@@ -40,6 +33,7 @@ public static class ObjectManager {
 			if (!item.displayed && item.container == null) {
 				ItemObject itemObject = Object.Instantiate(PrefabManager.itemObjectPrefab, item.WorldPosition, Quaternion.identity);
 				itemObject.item = item;
+				item.displayed = true;
 			}
 		}
 
@@ -56,6 +50,8 @@ public static class ObjectManager {
 				wallObject.wall = wall;
 				wallObject.transform.up = wall.direction;
 			}
+
+			wall.displayed = true;
 		}
 	}
 

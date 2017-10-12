@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour {
@@ -37,9 +38,11 @@ public class GameController : MonoBehaviour {
 	private static Climate[] climates;
 
 	public static Map Map { get; private set; }
-	public static EventHandler onMapChanged;
 
-	private LocationManager locationManager;
+	private static LocationManager locationManager;
+	public static PrefabManager prefabManager;
+
+	private static AsyncOperation loadingLevel;
 
 	private void Awake() {
 		DontDestroyOnLoad(this);
@@ -47,6 +50,9 @@ public class GameController : MonoBehaviour {
 		LoadDatabase();
 
 		locationManager = GetComponent<LocationManager>();
+		prefabManager = GetComponent<PrefabManager>();
+
+		GenerateMap();
 	}
 
 	public void GenerateMap() {
@@ -56,10 +62,19 @@ public class GameController : MonoBehaviour {
 		GetComponent<WorldGenUI>().OnMapChanged();
 	}
 
-	public void LoadLocation(Location location) {
+	public static IEnumerator LoadLocation(Location location) {
+		if (loadingLevel != null && !loadingLevel.isDone) yield break;
 		Location = location;
-		NodeGrid.CreateGrid(location);
-		locationManager.LoadLocation(location);
+		loadingLevel = SceneManager.LoadSceneAsync("Local", LoadSceneMode.Single);
+		while (!loadingLevel.isDone) {
+			yield return null;
+		}
+		OnSceneLoaded();
+	}
+
+	private static void OnSceneLoaded() {
+		NodeGrid.CreateGrid(Location);
+		locationManager.LoadLocation(Location);
 	}
 
 	public void LoadDatabase() {

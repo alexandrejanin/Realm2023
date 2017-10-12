@@ -10,6 +10,7 @@ public class WorldGenUI : MonoBehaviour {
 
 	private Map map;
 	private MapDisplay mapDisplay;
+	private WorldGenUtility worldGenUtility;
 
 	private Tile tile;
 
@@ -23,6 +24,7 @@ public class WorldGenUI : MonoBehaviour {
 	private void Awake() {
 		drawModeDropdown.onValueChanged.AddListener(OnDrawModeChanged);
 		mapDisplay = GetComponent<MapDisplay>();
+		worldGenUtility = GetComponent<WorldGenUtility>();
 		mapDrawModes = Enum.GetValues(typeof(MapDrawMode)).Length;
 	}
 
@@ -58,7 +60,7 @@ public class WorldGenUI : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (map == null) return;
+		if (GameController.Location != null || map == null) return;
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		float dist;
@@ -70,19 +72,20 @@ public class WorldGenUI : MonoBehaviour {
 		y = -Mathf.CeilToInt(pos.z / 256 * map.Size);
 
 		Tile newTile = map.GetTile(x, y);
-		if (newTile == null || newTile == tile) return;
 
-		tile = newTile;
+		if (newTile == null) return;
 
-		string places = tile.places.Aggregate("\n", (current, place) => current + place + "\n");
+		if (newTile != tile) {
+			tile = newTile;
+			tileInfo.text = $"x: {x} y: {y}" +
+			                $"\nHeight: {worldGenUtility.WorldHeightToMeters(tile.height)}m ({tile.height:F2})" +
+			                $"\nTemp: {worldGenUtility.TemperatureToCelsius(tile.temp)}°C ({tile.temp:F2})" +
+			                $"\nRegion: {tile.region}" +
+			                $"\n{tile.location}";
+		}
 
-		string tileText = $"x: {x}\n" +
-		                  $"y: {y}" +
-		                  $"\nHeight: {GetComponent<WorldGenUtility>().WorldHeightToMeters(tile.height)}m ({tile.height:F2})" +
-		                  $"\nTemp: {GetComponent<WorldGenUtility>().TemperatureToCelsius(tile.temp)}° ({tile.temp:F2})" +
-		                  $"\nRegion: {tile.region}" +
-		                  places;
-
-		tileInfo.text = tileText;
+		if (tile.location != null && Input.GetMouseButtonDown(0)) {
+			StartCoroutine(GameController.LoadLocation(tile.location));
+		}
 	}
 }

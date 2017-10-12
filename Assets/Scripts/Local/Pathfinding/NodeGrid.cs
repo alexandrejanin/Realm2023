@@ -20,14 +20,13 @@ public static class NodeGrid {
 		for (int y = 0; y < Height; y++)
 			for (int z = 0; z < Length; z++)
 				for (int x = 0; x < Width; x++) {
-					Dictionary<Coord, bool> directionOpen = new Dictionary<Coord, bool> {
-						{Coord.Zero, true},
-						{Coord.Down, y > 0},
-						{Coord.Up, y < Height - 1},
-						{Coord.Left, x > 0},
-						{Coord.Right, x < Width - 1},
-						{Coord.Back, z > 0},
-						{Coord.Forward, z < Length - 1}
+					bool[] directionOpen = {
+						y < Height - 1,
+						y > 0,
+						x > 0,
+						x < Width - 1,
+						z > 0,
+						z < Length - 1
 					};
 
 					grid[x, y, z] = new Node(new Coord(x, y, z), 0, directionOpen);
@@ -80,8 +79,6 @@ public static class NodeGrid {
 		return !Physics.Linecast(posA, posB, ObjectManager.TerrainMask);
 	}
 
-	public static bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
-
 	public enum NodeOffsetType {
 		None,
 		Center,
@@ -111,6 +108,8 @@ public static class NodeGrid {
 		Mathf.FloorToInt(worldPos.z)
 	);
 
+
+	public static bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
 	public static Node GetNode(Coord coord) => IsInGrid(coord) ? grid[coord.x, coord.y, coord.z] : null;
 
 	public static IEnumerable<Node> GetNeighbors(Node node) {
