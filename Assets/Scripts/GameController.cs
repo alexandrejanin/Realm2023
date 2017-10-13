@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour {
 	private static void OnSceneLoaded() {
 		NodeGrid.CreateGrid(Location);
 		locationManager.LoadLocation(Location);
+		ObjectManager.TakeTurn();
 	}
 
 	public void LoadDatabase() {

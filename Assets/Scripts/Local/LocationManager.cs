@@ -14,7 +14,6 @@ public class LocationManager : MonoBehaviour {
 		CreateGround();
 		CreateBuildings();
 		if (ObjectManager.playerCharacter == null) SpawnPlayer();
-		ObjectManager.RefreshObjects();
 	}
 
 	private void SpawnPlayer() {

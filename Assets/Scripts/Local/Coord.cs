@@ -9,7 +9,7 @@ public struct Coord : IComparable<Coord> {
 	public int SquaredMagnitude => x * x + y * y + z * z;
 
 	public float Magnitude => Mathf.Sqrt(SquaredMagnitude);
-	public int MaxDimension => Mathf.Max(Mathf.Abs(x), Mathf.Abs(y), Mathf.Abs(z));
+	public int MaxDimension => Mathf.Max(x.Abs(), y.Abs(), z.Abs());
 
 	public Coord Normalize => new Coord(x.Sign(), y.Sign(), z.Sign());
 

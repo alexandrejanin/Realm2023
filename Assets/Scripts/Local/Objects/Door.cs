@@ -6,7 +6,6 @@ public class Door : Wall {
 
 	public override string Name => "Door";
 
-	public override UnityEngine.Vector3 WorldPosition => base.WorldPosition + (UnityEngine.Vector3) direction / 2;
 	public override Coord[] VisiblePositions { get; }
 
 	public Door(Coord position, Coord direction) : base(position, direction, WallType.Wood) {

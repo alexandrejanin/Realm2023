@@ -66,8 +66,6 @@ public static class RiverPathfinding {
 
 		Tile currentTile = firstTile;
 		bool endLoop = false;
-		const float roundFactor = 1000;
-
 
 		while (!endLoop) {
 			tiles.Add(currentTile);

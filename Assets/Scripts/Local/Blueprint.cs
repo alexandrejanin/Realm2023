@@ -42,8 +42,6 @@ public class Blueprint {
 		Coord doorPos = new Coord(Random.Range(1, maxX - 1), 0, 0);
 		Coord itemPos = Coord.RandomRange(Coord.Zero, new Coord(maxX, maxY, maxZ));
 
-		List<GameObject>[] blocks = new List<GameObject>[size.y + roofY]; //Walls to combine
-
 		Coord left = rotation * Coord.Left;
 		Coord right = rotation * Coord.Right;
 		//Coord up = rotation * Coord.up;

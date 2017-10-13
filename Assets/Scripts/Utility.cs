@@ -25,16 +25,12 @@ public static class Utility {
 	public static T RandomItem<T>(this IList<T> list, Random random, int startRank = 0) => list[random.Next(startRank, list.Count)];
 	public static T RandomValue<T>(int startRank = 0) where T : IConvertible, IFormattable, IComparable => ((T[]) Enum.GetValues(typeof(T))).RandomItem(startRank);
 
-	public static int Sign(this int i, SignType signType = SignType.ZeroIsZero) {
+	public static int Abs(this int i) => i < 0 ? -i : i;
+
+	public static int Sign(this int i) {
 		if (i > 0) return 1;
 		if (i < 0) return -1;
-		return signType == SignType.ZeroIsPositive ? 1 : signType == SignType.ZeroIsNegative ? -1 : 0;
-	}
-
-	public enum SignType {
-		ZeroIsNegative,
-		ZeroIsPositive,
-		ZeroIsZero
+		return 0;
 	}
 
 	public static bool RandomBool => UnityEngine.Random.value > 0.5f;
