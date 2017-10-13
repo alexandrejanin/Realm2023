@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 // ReSharper disable LocalVariableHidesMember
@@ -30,6 +31,15 @@ public abstract class EntityObject : MonoBehaviour {
 		//lights = GetComponentsInChildren<Light>();
 		colliders = GetComponentsInChildren<Collider>();
 		ObjectManager.Hideables.Add(this);
+	}
+
+	private void OnDrawGizmosSelected() {
+		foreach (Coord coord in Entity.VisiblePositions) {
+			List<Coord> line = NodeGrid.GetLine(ObjectManager.playerCharacter.position, coord);
+			foreach (Coord point in line) {
+				Gizmos.DrawWireCube(NodeGrid.GetWorldPosFromCoord(point, NodeGrid.NodeOffsetType.Center), Vector3.one);
+			}
+		}
 	}
 
 	protected void Destroy() {

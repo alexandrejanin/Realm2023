@@ -21,12 +21,12 @@ public struct Coord : IComparable<Coord> {
 
 	public int ToDirectionIndex {
 		get {
-			if (this == Up) return 0;
-			if (this == Down) return 1;
-			if (this == Left) return 2;
-			if (this == Right) return 3;
-			if (this == Forward) return 4;
-			if (this == Back) return 5;
+			if (x == 0 && y == 1 && z == 0) return 0; //Up
+			if (x == 0 && y == -1 && z == 0) return 1; //Down
+			if (x == 1 && y == 0 && z == 0) return 2; //Right
+			if (x == -1 && y == 0 && z == 0) return 3; //Left
+			if (x == 0 && y == 0 && z == 1) return 4; //Forward
+			if (x == 0 && y == 0 && z == -1) return 5; //Back
 
 			return -1;
 		}
@@ -75,7 +75,7 @@ public struct Coord : IComparable<Coord> {
 
 	public static Vector3 operator /(Coord c, float f) => new Vector3(c.x / f, c.y / f, c.z / f);
 
-	public static Coord operator *(Quaternion q, Coord c) => new Coord(q * (Vector3) c);//TODO: better rotation (int 45deg increments)
+	public static Coord operator *(Quaternion q, Coord c) => new Coord(q * (Vector3) c); //TODO: better rotation (int 45deg increments)
 
 	public static Coord operator -(Coord c) => new Coord(-c.x, -c.y, -c.z);
 

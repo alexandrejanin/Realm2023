@@ -52,8 +52,8 @@ public static class NodeGrid {
 		b?.SetDirection(-direction, open);
 	}
 
-	public static Coord[] GetLine(Coord start, Coord end) {
-		List<Coord> positions = new List<Coord>();
+	public static List<Coord> GetLine(Coord start, Coord end) {
+		List<Coord> line = new List<Coord>();
 
 		Coord dist = new Coord(end.x - start.x, end.y - start.y, end.z - start.z);
 		Coord abs = new Coord(dist.x.Abs() << 1, dist.y.Abs() << 1, dist.z.Abs() << 1);
@@ -63,31 +63,32 @@ public static class NodeGrid {
 
 		int max = abs.MaxDimension;
 		bool maxX = max == abs.x;
-		bool maxY = max == abs.y;
-		bool maxZ = max == abs.z;
+		bool maxY = !maxX && max == abs.y;
+		bool maxZ = !maxX && !maxY && max == abs.z;
 
 		int xd = abs.x - (max >> 1);
 		int yd = abs.y - (max >> 1);
 		int zd = abs.z - (max >> 1);
 
 		for (;;) {
-			positions.Add(current);
-			bool correct = maxX && current.x == end.x ||
-			               maxY && current.y == end.y ||
-			               maxZ && current.z == end.z;
-			if (correct) break;
+			line.Add(current);
+			if (maxX && current.x == end.x ||
+			    maxY && current.y == end.y ||
+			    maxZ && current.z == end.z) break;
 
 			if (!maxX && xd >= 0) {
 				current.x += sign.x;
-				xd -= abs.x;
+				xd -= max;
 			}
+
 			if (!maxY && yd >= 0) {
 				current.y += sign.y;
-				yd -= abs.y;
+				yd -= max;
 			}
+
 			if (!maxZ && zd >= 0) {
 				current.z += sign.z;
-				zd -= abs.z;
+				zd -= max;
 			}
 
 			if (maxX) {
@@ -98,90 +99,27 @@ public static class NodeGrid {
 				current.y += sign.y;
 				xd += abs.x;
 				zd += abs.z;
-			} else {
+			} else if (maxZ) {
 				current.z += sign.z;
 				xd += abs.x;
 				yd += abs.y;
 			}
 		}
 
-		/*if (abs.MaxDimension == abs.x) {
-			int yd = abs.y - (abs.x >> 1);
-			int zd = abs.z - (abs.x >> 1);
-			for (;;) {
-				positions.Add(current);
-				if (current.x == end.x) break;
-
-				if (yd >= 0) {
-					current.y += sign.y;
-					yd -= abs.y;
-				}
-				if (zd >= 0) {
-					current.z += sign.z;
-					zd -= abs.z;
-				}
-
-				current.x += sign.x;
-				yd += abs.y;
-				zd += abs.z;
-			}
-		} else if (abs.MaxDimension == abs.y) {
-			int xd = abs.x - (abs.y >> 1);
-			int zd = abs.z - (abs.y >> 1);
-			for (;;) {
-				positions.Add(current);
-				if (current.y == end.y) break;
-
-				if (xd >= 0) {
-					current.x += sign.x;
-					xd -= abs.x;
-				}
-				if (zd >= 0) {
-					current.z += sign.z;
-					zd -= abs.z;
-				}
-
-				current.y += sign.y;
-				xd += abs.x;
-				zd += abs.z;
-			}
-		} else if (abs.MaxDimension == abs.z) {
-			int xd = abs.x - (abs.z >> 1);
-			int yd = abs.y - (abs.z >> 1);
-			for (;;) {
-				positions.Add(current);
-				if (current.z == end.z) break;
-
-				if (xd >= 0) {
-					current.x += sign.x;
-					xd -= abs.x;
-				}
-				if (yd >= 0) {
-					current.y += sign.y;
-					yd -= abs.y;
-				}
-
-				current.z += sign.z;
-				xd += abs.x;
-				yd += abs.y;
-			}
-		}*/
-		return positions.ToArray();
+		return line;
 	}
 
-	public static bool IsVisible(Coord from, Coord to) {
-		Coord[] line = GetLine(from, to);
-		for (int i = 0; i < line.Length - 1; i++) {
-			Coord current = line[i];
-			Coord next = line[i + 1];
-			Coord dir = next - current;
-			bool ok = GetNode(current).DirectionIsOpen(dir) && GetNode(next).DirectionIsOpen(-dir);
-			if (!ok) return false;
+	public static bool IsVisible(Coord start, Coord end) {
+		List<Coord> line = GetLine(start, end);
+		for (int i = 0; i < line.Count - 1; i++) {
+			Node current = GetNode(line[i]);
+			Node next = GetNode(line[i + 1]);
+			if (current == null || next == null || !CanWalkBetweenNodes(current, next)) return false;
 		}
 		return true;
 	}
 
-	public static bool IsVisible(Vector3 from, Vector3 to) => !Physics.Linecast(from, to, ObjectManager.TerrainMask);
+	private static bool CanWalkBetweenNodes(Node a, Node b) => a.DirectionIsOpen(b.position - a.position) && b.DirectionIsOpen(a.position - b.position);
 
 	public enum NodeOffsetType {
 		Center,
@@ -198,8 +136,6 @@ public static class NodeGrid {
 				return Vector3.zero;
 		}
 	}
-
-	public static Vector3 GetWorldPosFromCoord(int x, int y, int z, NodeOffsetType nodeOffsetType) => new Vector3(x, y, z) + NodeOffset(nodeOffsetType);
 
 	public static Vector3 GetWorldPosFromCoord(Coord coord, NodeOffsetType nodeOffsetType) => coord + NodeOffset(nodeOffsetType);
 
@@ -255,3 +191,68 @@ public static class NodeGrid {
 
 	public static Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) => GetNeighbor(GetNode(startCoord), direction, aerial);
 }
+
+/*if (maxX) {
+	yd = abs.y - (abs.x >> 1);
+	zd = abs.z - (abs.x >> 1);
+	for (;;) {
+		line.Add(current);
+		if (current.x == end.x) break;
+
+		if (yd >= 0) {
+			current.y += sign.y;
+			yd -= abs.x;
+		}
+
+		if (zd >= 0) {
+			current.z += sign.z;
+			zd -= abs.x;
+		}
+
+		current.x += sign.x;
+		yd += abs.y;
+		zd += abs.z;
+	}
+} else if (maxY) {
+	xd = abs.x - (abs.y >> 1);
+	zd = abs.y - (abs.y >> 1);
+	for (;;) {
+		line.Add(current);
+		if (current.y == end.y) break;
+
+		if (xd >= 0) {
+			current.x += sign.x;
+			xd -= abs.y;
+		}
+
+		if (zd >= 0) {
+			current.z += sign.z;
+			zd -= abs.y;
+		}
+
+		current.y += sign.y;
+		xd += abs.x;
+		zd += abs.z;
+	}
+} else if (maxZ) {
+	xd = abs.x - (abs.z >> 1);
+	yd = abs.y - (abs.z >> 1);
+	for (;;) {
+		line.Add(current);
+		if (current.z == end.z) break;
+
+		if (xd >= 0) {
+			current.x += sign.x;
+			xd -= abs.z;
+		}
+
+		if (yd >= 0) {
+			current.y += sign.y;
+			yd -= abs.z;
+		}
+
+		current.z += sign.z;
+		xd += abs.x;
+		yd += abs.y;
+	}
+}*/

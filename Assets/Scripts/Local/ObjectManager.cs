@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public static class ObjectManager {
 	private static PrefabManager PrefabManager => GameController.prefabManager;
@@ -56,8 +54,8 @@ public static class ObjectManager {
 	}
 
 	public static void UpdateVisibility() {
-		foreach (EntityObject hideableObject in Hideables) {
-			if (hideableObject != null) hideableObject.UpdateDisplay();
+		foreach (EntityObject entityObject in Hideables) {
+			if (entityObject != null) entityObject.UpdateDisplay();
 		}
 	}
 
