@@ -31,8 +31,7 @@ public struct MapSettings {
 
 	[Header("Humidity Map"), SerializeField] private NoiseSettings humiditySettings;
 
-	[Header("Rivers")] public int riversAmount;
-	public float riversMinHeight;
+	[Header("Civilizations"), Range(1, 1000)] public int years;
 
 	public float[,] GenerateHeightMap() {
 		float[,] heightMap = GenerateNoiseMap(Size, seed, heightSettings);
@@ -46,10 +45,7 @@ public struct MapSettings {
 		return heightMap;
 	}
 
-	public float[,] GenerateHumidityMap() {
-		float[,] humidityMap = GenerateNoiseMap(Size, seed / 2, humiditySettings);
-		return humidityMap;
-	}
+	public float[,] GenerateHumidityMap() => GenerateNoiseMap(Size, seed / 2, humiditySettings);
 
 	public float[,] GenerateTempMap(float[,] heightMap) {
 		float minTemp = float.MaxValue;

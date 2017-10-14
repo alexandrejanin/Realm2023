@@ -77,14 +77,18 @@ public class WorldGenUI : MonoBehaviour {
 
 		if (newTile != tile) {
 			tile = newTile;
-			tileInfo.text = $"x: {x} y: {y}" +
-			                $"\nHeight: {worldGenUtility.WorldHeightToMeters(tile.height)}m ({tile.height:F2})" +
-			                $"\nTemp: {worldGenUtility.TemperatureToCelsius(tile.temp)}°C ({tile.temp:F2})" +
-			                $"\nRegion: {tile.region}" +
-			                $"\n{tile.location}";
+			string text = $"x: {x} y: {y}" +
+			              $"\nHeight: {worldGenUtility.WorldHeightToMeters(tile.height)}m ({tile.height:F2})" +
+			              $"\nTemp: {worldGenUtility.TemperatureToCelsius(tile.temp)}°C ({tile.temp:F2})" +
+			              $"\nRegion: {tile.region}";
+			if (tile.location != null) text += $"\n{tile.location}";
+			Town town = tile.location as Town;
+			if (town != null) text += $"\nPopulation: {town.population}";
+
+			tileInfo.text = text;
 		}
 
-		if (tile.location != null && Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButtonDown(0) && tile.location != null) {
 			StartCoroutine(GameController.LoadLocation(tile.location));
 		}
 	}

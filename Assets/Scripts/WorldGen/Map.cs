@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
@@ -25,6 +24,7 @@ public class Map {
 
 		GenerateTileMap();
 		GenerateRegions();
+
 		GenerateTowns();
 
 		texture = new Texture2D(Size, Size) {filterMode = FilterMode.Point};
@@ -100,7 +100,7 @@ public class Map {
 	private void GenerateTowns() {
 		Queue<Town> queue = new Queue<Town>();
 		foreach (Race race in GameController.Races) {
-			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, 10000);
+			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, random.Next(5000, 10000));
 			towns.Add(capital);
 			queue.Enqueue(capital);
 
@@ -120,6 +120,12 @@ public class Map {
 				if (pop > 1000) queue.Enqueue(newTown);
 			}
 		}
+
+		for (int i = 0; i < settings.years; i++) {
+			foreach (Town town in towns) {
+				town.Tick();
+			}
+		}
 	}
 
 	public Texture2D GetTexture(MapDrawMode mapDrawMode) {
@@ -132,9 +138,6 @@ public class Map {
 		texture.Apply();
 		return texture;
 	}
-
-	public static Climate GetClimate(string climateName) => GameController.Climates.FirstOrDefault(climate => climate.name == climateName);
-	public static Climate GetClimate(Tile tile) => GameController.Climates.First(climate => climate.CorrectTile(tile));
 }
 
 public enum MapDrawMode {

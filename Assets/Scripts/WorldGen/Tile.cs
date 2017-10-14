@@ -2,7 +2,8 @@
 
 public class Tile {
 	public readonly int x, y;
-	public readonly float height, temp, humidity;
+	public float height;
+	public readonly float temp, humidity;
 
 	public Region region;
 	public Location location;
@@ -16,13 +17,7 @@ public class Tile {
 
 	public bool IsWater => Climate.isWater;
 
-	#region Pathfinding
-
-	public float f, g;
 	public bool regionPending;
-	public Tile parent;
-
-	#endregion
 
 	public Tile(int x, int y, float height, float temp, float humidity) {
 		this.x = x;
@@ -30,7 +25,7 @@ public class Tile {
 		this.height = height;
 		this.temp = temp;
 		this.humidity = humidity;
-		Climate = Map.GetClimate(this);
+		Climate = Climate.GetClimate(this);
 		color = Climate.GetColor(height);
 		heightColor = Color.Lerp(Color.black, Color.white, height);
 		tempColor = Color.Lerp(Color.cyan, Color.red, temp);
@@ -58,4 +53,6 @@ public class Tile {
 	}
 
 	public override string ToString() => Climate + " tile (" + x + ", " + y + ")";
+
+	public int DistanceTo(Tile other) => (x - other.x) * (x - other.x) + (y - other.y * (y - other.y));
 }

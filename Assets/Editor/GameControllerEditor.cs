@@ -13,6 +13,9 @@ public class GameControllerEditor : Editor {
 		if (GUILayout.Button("Refresh Database")) {
 			gameController.LoadDatabase();
 		}
+		if (GUILayout.Button("Save Database")) {
+			gameController.SaveDatabase();
+		}
 
 		if (refreshed && gameController.autoUpdate || GUILayout.Button("Generate World")) {
 			gameController.GenerateMap();

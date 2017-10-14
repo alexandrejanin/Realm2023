@@ -1,42 +1,43 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+using Random = System.Random;
 
 public class GameController : MonoBehaviour {
 	private static GameController Instance => instance ?? (instance = FindObjectOfType<GameController>());
 	private static GameController instance;
 
-	[SerializeField] private bool randomSeed;
+	[Header("Map Settings"), SerializeField] private bool randomSeed;
 	[SerializeField] public bool autoUpdate;
 
 	[SerializeField] private MapSettings mapSettings;
-
-	[Header("Database")] [SerializeField] private TextAsset racesDatabase;
-	[SerializeField] private TextAsset climatesDatabase;
 
 	public static Location Location { get; private set; }
 
 	public static Race[] Races {
 		get {
-			if (races == null || races.Length == 0) Instance.LoadDatabase();
+			if (Instance.races == null || Instance.races.Length == 0) Instance.LoadDatabase();
 
-			return races;
+			return Instance.races;
 		}
 	}
 
 	public static Climate[] Climates {
 		get {
-			if (climates == null || climates.Length == 0) Instance.LoadDatabase();
+			if (Instance.climates == null || Instance.climates.Length == 0) Instance.LoadDatabase();
 
-			return climates;
+			return Instance.climates;
 		}
 	}
 
-	private static Race[] races;
-	private static Climate[] climates;
+	[Header("Database"), SerializeField] private Race[] races;
+	[SerializeField] private Climate[] climates;
+
+	private static string RacesPath => Application.persistentDataPath + "/Races/";
+	private static string ClimatesPath => Application.persistentDataPath + "/Climates/";
 
 	public static Map Map { get; private set; }
 
@@ -44,6 +45,9 @@ public class GameController : MonoBehaviour {
 	public static PrefabManager prefabManager;
 
 	private static AsyncOperation loadingLevel;
+
+	public static Random Random => random ?? (random = new Random());
+	private static Random random;
 
 	private void Awake() {
 		DontDestroyOnLoad(this);
@@ -57,7 +61,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void GenerateMap() {
-		if (randomSeed) mapSettings.seed = Random.Range(0, 99999);
+		if (randomSeed) mapSettings.seed = Random.Next(0, 99999);
 		Map = new Map(mapSettings);
 		GetComponent<MapDisplay>().DrawMap();
 		GetComponent<WorldGenUI>().OnMapChanged();
@@ -80,8 +84,17 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void LoadDatabase() {
-		races = DatabaseController.LoadXML<Race>(racesDatabase, "Race");
-		climates = DatabaseController.LoadXML<Climate>(climatesDatabase, "Climate");
+		races = Directory.GetFiles(RacesPath).Select(file => JsonUtility.FromJson<Race>(File.ReadAllText(file))).ToArray();
+		climates = Directory.GetFiles(ClimatesPath).Select(file => JsonUtility.FromJson<Climate>(File.ReadAllText(file))).ToArray();
+	}
+
+	public void SaveDatabase() {
+		foreach (Race race in races) {
+			File.WriteAllText(RacesPath + race + ".json", JsonUtility.ToJson(race, true));
+		}
+		foreach (Climate climate in climates) {
+			File.WriteAllText(ClimatesPath + climate + ".json", JsonUtility.ToJson(climate, true));
+		}
 	}
 
 	public static Race RandomRace() => Races.RandomItem();
