@@ -12,7 +12,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GameController.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameController.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="495">
@@ -33,6 +33,56 @@
                 <marker date="1508003037540" expanded="true" signature="2687:2947" ph="{...}" />
                 <marker date="1508003037540" expanded="true" signature="2720:2807" ph="{...}" />
                 <marker date="1508003037540" expanded="true" signature="2848:2944" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldCamera.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/WorldCamera.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <marker date="1508004329781" expanded="false" signature="6:40" ph="..." />
+                <marker date="1508004329781" expanded="true" signature="83:1462" ph="{...}" />
+                <marker date="1508004329781" expanded="true" signature="539:657" ph="{...}" />
+                <marker date="1508004329781" expanded="true" signature="682:1459" ph="{...}" />
+                <marker date="1508004329781" expanded="true" signature="987:1080" ph="{...}" />
+                <marker date="1508004329781" expanded="true" signature="1126:1356" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Race.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Race.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+              <folding>
+                <marker date="1508004394557" expanded="true" signature="135:1460" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="459:728" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="608:691" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="773:1097" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="987:1060" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="1128:1390" ph="{...}" />
+                <marker date="1508004394557" expanded="true" signature="1274:1354" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Climate.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/Climate.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+              <folding>
+                <marker date="1508004385510" expanded="true" signature="6:37" ph="..." />
+                <marker date="1508004385510" expanded="true" signature="157:1074" ph="{...}" />
+                <marker date="1508004385510" expanded="true" signature="383:492" ph="{...}" />
+                <marker date="1508004385510" expanded="true" signature="530:781" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -100,8 +150,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/Coord.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/Log.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/CharacterObject.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Climates/Plain.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races/Dwarves.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ButtonsFrame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Sun.cs" root0="FORCE_HIGHLIGHTING" />
@@ -142,15 +190,14 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/Character.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PostProcessing/Runtime/Components/ColorGradingComponent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/PlayerCamera.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/PostProcessing/Runtime/PostProcessingBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Local/Inventory.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/WorldGen/MapDisplay.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/WorldGen/Region.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/WorldGen/WorldCamera.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Local/Objects/WallObject.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Local/Objects/Building.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Local/Objects/InteractableChild.cs" />
@@ -196,9 +243,11 @@
         <option value="$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Climates.json" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Database.cs" />
         <option value="$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races.json" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+        <option value="$PROJECT_DIR$/Assets/smcs.rsp" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/WorldGen/WorldCamera.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/WorldGen/Climate.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Race.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
       </list>
     </option>
   </component>
@@ -223,7 +272,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="SolutionExplorer">
         <subPane>
           <PATH>
@@ -240,6 +288,7 @@
         <option name="show-file-system" value="false" />
         <option name="show-all-items" value="false" />
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -433,12 +482,14 @@
       <workItem from="1507985959213" duration="8527000" />
       <workItem from="1507997215390" duration="836000" />
       <workItem from="1507998407326" duration="3904000" />
-      <workItem from="1508002329653" duration="710000" />
+      <workItem from="1508002329653" duration="891000" />
+      <workItem from="1508003509743" duration="523000" />
+      <workItem from="1508004182326" duration="351000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1012373000" />
+    <option name="totallyTimeSpent" value="1013428000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -485,34 +536,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Local/Objects/EntityObject.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Local/Inventory.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/ButtonsFrame.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Local/PrefabManager.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="3" column="44" lean-forward="false" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Local/PlayerCamera.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -690,13 +713,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Database/Races.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="44" lean-forward="false" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Database/Races.xml" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Utility.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -733,23 +750,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Database/Importable.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="1" lean-forward="false" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Database/Importable.cs" />
     <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Climates.json" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Database.cs" />
     <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races.json" />
-    <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races/Dwarves.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="14" lean-forward="true" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races/Dwarves.json" />
     <entry file="file://$PROJECT_DIR$/Assets/Editor/GameControllerEditor.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -757,13 +762,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Database/DatabaseController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Database/DatabaseController.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/WorldGenUI.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="705">
@@ -771,40 +770,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Climates/Plain.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Climates/Plain.json" />
     <entry file="file://$USER_HOME$/AppData/LocalLow/AlexandreJanin/Realm/Races/Goblins.json" />
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Race.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/PostProcessing/Runtime/PostProcessingBehaviour.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="21" lean-forward="false" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
-          <folding>
-            <marker date="1508001997912" expanded="true" signature="104:1429" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="428:697" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="577:660" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="742:1066" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="956:1029" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="1097:1359" ph="{...}" />
-            <marker date="1508001997912" expanded="true" signature="1243:1323" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/Climate.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-          <folding>
-            <marker date="1508001992360" expanded="false" signature="6:37" ph="..." />
-            <marker date="1508001992360" expanded="true" signature="126:1043" ph="{...}" />
-            <marker date="1508001992360" expanded="true" signature="352:461" ph="{...}" />
-            <marker date="1508001992360" expanded="true" signature="499:750" ph="{...}" />
-          </folding>
+        <state relative-caret-position="270">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -828,6 +799,66 @@
             <marker date="1508003037540" expanded="true" signature="2687:2947" ph="{...}" />
             <marker date="1508003037540" expanded="true" signature="2720:2807" ph="{...}" />
             <marker date="1508003037540" expanded="true" signature="2848:2944" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/smcs.rsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/gmcs.rsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/Climate.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <folding>
+            <marker date="1508004385510" expanded="true" signature="6:37" ph="..." />
+            <marker date="1508004385510" expanded="true" signature="157:1074" ph="{...}" />
+            <marker date="1508004385510" expanded="true" signature="383:492" ph="{...}" />
+            <marker date="1508004385510" expanded="true" signature="530:781" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Race.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+          <folding>
+            <marker date="1508004394557" expanded="true" signature="135:1460" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="459:728" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="608:691" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="773:1097" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="987:1060" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="1128:1390" ph="{...}" />
+            <marker date="1508004394557" expanded="true" signature="1274:1354" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/WorldGen/WorldCamera.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <marker date="1508004329781" expanded="false" signature="6:40" ph="..." />
+            <marker date="1508004329781" expanded="true" signature="83:1462" ph="{...}" />
+            <marker date="1508004329781" expanded="true" signature="539:657" ph="{...}" />
+            <marker date="1508004329781" expanded="true" signature="682:1459" ph="{...}" />
+            <marker date="1508004329781" expanded="true" signature="987:1080" ph="{...}" />
+            <marker date="1508004329781" expanded="true" signature="1126:1356" ph="{...}" />
           </folding>
         </state>
       </provider>
