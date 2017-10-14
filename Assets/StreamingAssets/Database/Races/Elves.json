@@ -1,0 +1,66 @@
+{
+    "collectiveName": "elves",
+    "individualName": "elf",
+    "adjective": "elven",
+    "placeNames": [
+        "a",
+        "an",
+        "dan",
+        "doko",
+        "ga",
+        "ji",
+        "jo",
+        "ka",
+        "kasa",
+        "kashi",
+        "kata",
+        "ko",
+        "ma",
+        "mon",
+        "na",
+        "ni",
+        "o",
+        "ri",
+        "shi",
+        "shin",
+        "tagi",
+        "tai",
+        "to"
+    ],
+    "maleFirstNames": [
+        "dan",
+        "hide",
+        "himi",
+        "ka",
+        "kata",
+        "naka",
+        "ta"
+    ],
+    "femaleFirstNames": [
+        "ai",
+        "ko",
+        "na",
+        "ri"
+    ],
+    "lastNames": [
+        "ma",
+        "naka",
+        "shin",
+        "ta",
+        "to"
+    ],
+    "placeNameLength": [
+        2,
+        4
+    ],
+    "firstNameLength": [
+        2,
+        3
+    ],
+    "lastNameLength": [
+        2,
+        3
+    ],
+    "expansionism": 0.0,
+    "hostility": 0.0
+}

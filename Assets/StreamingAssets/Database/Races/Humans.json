@@ -1,0 +1,59 @@
+{
+    "collectiveName": "humans",
+    "individualName": "human",
+    "adjective": "human",
+    "placeNames": [
+        "black",
+        "copper",
+        "dark",
+        "dawn",
+        "dusk",
+        "earth",
+        "field",
+        "fire",
+        "gulch",
+        "hills",
+        "hollow",
+        "land",
+        "long",
+        "shire",
+        "spoon",
+        "sun",
+        "valley",
+        "water",
+        "white",
+        "wind"
+    ],
+    "maleFirstNames": [
+        "arthur",
+        "bill",
+        "jack",
+        "john",
+        "george"
+    ],
+    "femaleFirstNames": [
+        "anne",
+        "jane",
+        "zoe"
+    ],
+    "lastNames": [
+        "black",
+        "copper",
+        "fair",
+        "son"
+    ],
+    "placeNameLength": [
+        1,
+        3
+    ],
+    "firstNameLength": [
+        1,
+        1
+    ],
+    "lastNameLength": [
+        1,
+        3
+    ],
+    "expansionism": 0.0,
+    "hostility": 0.0
+}

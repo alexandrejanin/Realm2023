@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour {
 	[Header("Database"), SerializeField] private Race[] races;
 	[SerializeField] private Climate[] climates;
 
-	private static string RacesPath => Application.persistentDataPath + "/Races/";
-	private static string ClimatesPath => Application.persistentDataPath + "/Climates/";
+	private static string RacesPath => Application.streamingAssetsPath + "/Database/Races/";
+	private static string ClimatesPath => Application.streamingAssetsPath + "/Database/Climates/";
 
 	public static Map Map { get; private set; }
 
@@ -84,8 +84,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void LoadDatabase() {
-		races = Directory.GetFiles(RacesPath).Select(file => JsonUtility.FromJson<Race>(File.ReadAllText(file))).ToArray();
-		climates = Directory.GetFiles(ClimatesPath).Select(file => JsonUtility.FromJson<Climate>(File.ReadAllText(file))).ToArray();
+		races = Directory.GetFiles(RacesPath, "*.json").Select(file => JsonUtility.FromJson<Race>(File.ReadAllText(file))).ToArray();
+		climates = Directory.GetFiles(ClimatesPath, "*.json").Select(file => JsonUtility.FromJson<Climate>(File.ReadAllText(file))).ToArray();
 	}
 
 	public void SaveDatabase() {

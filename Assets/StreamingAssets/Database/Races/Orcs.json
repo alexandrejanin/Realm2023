@@ -1,0 +1,78 @@
+{
+    "collectiveName": "orcs",
+    "individualName": "orc",
+    "adjective": "orcish",
+    "placeNames": [
+        "ar",
+        "für",
+        "got",
+        "hal",
+        "hel",
+        "khol",
+        "khöl",
+        "kron",
+        "krön",
+        "kuch",
+        "kur",
+        "kurch",
+        "nag",
+        "nahk",
+        "nuk",
+        "nungst",
+        "tar",
+        "tun",
+        "von",
+        "vun",
+        "wal"
+    ],
+    "maleFirstNames": [
+        "gunth",
+        "kog",
+        "kohn",
+        "kron",
+        "nuk"
+    ],
+    "femaleFirstNames": [
+        "hal",
+        "na",
+        "ryn",
+        "wal"
+    ],
+    "lastNames": [
+        "ar",
+        "für",
+        "got",
+        "hal",
+        "hel",
+        "khol",
+        "khöl",
+        "kron",
+        "krön",
+        "kuch",
+        "kur",
+        "kurch",
+        "nag",
+        "nahk",
+        "nuk",
+        "nungst",
+        "tar",
+        "tun",
+        "von",
+        "vun",
+        "wal"
+    ],
+    "placeNameLength": [
+        2,
+        4
+    ],
+    "firstNameLength": [
+        1,
+        2
+    ],
+    "lastNameLength": [
+        2,
+        3
+    ],
+    "expansionism": 0.0,
+    "hostility": 0.0
+}
