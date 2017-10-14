@@ -34,11 +34,15 @@ public abstract class EntityObject : MonoBehaviour {
 	}
 
 	private void OnDrawGizmosSelected() {
-		foreach (Coord coord in Entity.VisiblePositions) {
-			List<Coord> line = NodeGrid.GetLine(ObjectManager.playerCharacter.position, coord);
+		for (int i = 0; i < Entity.VisiblePositions.Length; i++) {
+			Coord pos = Entity.VisiblePositions[i];
+			Gizmos.color = new Color((float) i / (Entity.VisiblePositions.Length - 1), (float) i / (Entity.VisiblePositions.Length - 1), (float) i / (Entity.VisiblePositions.Length - 1));
+			List<Coord> line = NodeGrid.GetLine(ObjectManager.playerCharacter.position, pos);
 			foreach (Coord point in line) {
 				Gizmos.DrawWireCube(NodeGrid.GetWorldPosFromCoord(point, NodeGrid.NodeOffsetType.Center), Vector3.one);
 			}
+			Gizmos.DrawLine(Entity.WorldPosition, NodeGrid.GetWorldPosFromCoord(pos, NodeGrid.NodeOffsetType.Center));
+			Gizmos.DrawRay(NodeGrid.GetWorldPosFromCoord(ObjectManager.playerCharacter.position, NodeGrid.NodeOffsetType.Center), ((Vector3) (pos - ObjectManager.playerCharacter.position)).normalized);
 		}
 	}
 

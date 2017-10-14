@@ -114,6 +114,7 @@ public class Character : Interactable {
 	}
 
 	public override List<Interaction> GetInteractions(Character character) => GetBasicInteractions(character);
+	protected override bool HasLineOfSight(Coord from) => NodeGrid.IsVisible(from, position);
 
 	protected override string InspectText() => Name;
 }

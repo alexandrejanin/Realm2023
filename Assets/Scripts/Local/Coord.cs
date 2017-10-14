@@ -81,7 +81,6 @@ public struct Coord : IComparable<Coord> {
 
 	public override bool Equals(object o) {
 		if (o == null) return false;
-
 		Coord other = (Coord) o;
 		return x == other.x && y == other.y && z == other.z;
 	}

@@ -37,13 +37,15 @@ public abstract class Entity {
 		UpdateVisibility(ObjectManager.playerCharacter.position);
 	}
 
+	protected virtual bool HasLineOfSight(Coord from) => VisiblePositions.Any(pos => NodeGrid.IsVisible(from, pos, NodeGrid.GetWorldPosFromCoord(pos, NodeGrid.NodeOffsetType.Center) - WorldPosition));
+
 	public void UpdateVisibility(Coord playerPosition) {
 		int dx = position.x - playerPosition.x;
 		int dz = position.z - playerPosition.z;
 		int d = dx * dx + dz * dz;
 		isInViewRange = d <= maxViewDistanceSquared && !(dx * dx == maxViewDistanceSquared || dz * dz == maxViewDistanceSquared);
 		isInSeenRange = d <= maxSeenDistanceSquared;
-		visible = isInViewRange && VisiblePositions.Any(pos => NodeGrid.IsVisible(playerPosition, pos));
+		visible = isInViewRange && HasLineOfSight(playerPosition);
 		seen = seen || visible;
 	}
 

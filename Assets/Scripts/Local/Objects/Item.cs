@@ -9,6 +9,8 @@ public abstract class Item : Interactable {
 		this.container = container;
 	}
 
+	protected override bool HasLineOfSight(Coord from) => NodeGrid.IsVisible(from, position);
+
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);
 

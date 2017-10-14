@@ -109,17 +109,20 @@ public static class NodeGrid {
 		return line;
 	}
 
-	public static bool IsVisible(Coord start, Coord end) {
+	public static bool IsVisible(Coord start, Coord end, Vector3 normal = new Vector3()) {
 		List<Coord> line = GetLine(start, end);
+
+		if (Vector3.Angle((end - start).Normalize, normal) < 90f) return false;
+
 		for (int i = 0; i < line.Count - 1; i++) {
 			Node current = GetNode(line[i]);
 			Node next = GetNode(line[i + 1]);
-			if (current == null || next == null || !CanWalkBetweenNodes(current, next)) return false;
+			if (current == null || next == null || !CanWalkBetweenNodes(current, next, true)) return false;
 		}
 		return true;
 	}
 
-	private static bool CanWalkBetweenNodes(Node a, Node b) => a.DirectionIsOpen(b.position - a.position) && b.DirectionIsOpen(a.position - b.position);
+	private static bool CanWalkBetweenNodes(Node a, Node b, bool permissive) => a.DirectionIsOpen(b.position - a.position, permissive) && b.DirectionIsOpen(a.position - b.position, permissive);
 
 	public enum NodeOffsetType {
 		Center,
@@ -191,68 +194,3 @@ public static class NodeGrid {
 
 	public static Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) => GetNeighbor(GetNode(startCoord), direction, aerial);
 }
-
-/*if (maxX) {
-	yd = abs.y - (abs.x >> 1);
-	zd = abs.z - (abs.x >> 1);
-	for (;;) {
-		line.Add(current);
-		if (current.x == end.x) break;
-
-		if (yd >= 0) {
-			current.y += sign.y;
-			yd -= abs.x;
-		}
-
-		if (zd >= 0) {
-			current.z += sign.z;
-			zd -= abs.x;
-		}
-
-		current.x += sign.x;
-		yd += abs.y;
-		zd += abs.z;
-	}
-} else if (maxY) {
-	xd = abs.x - (abs.y >> 1);
-	zd = abs.y - (abs.y >> 1);
-	for (;;) {
-		line.Add(current);
-		if (current.y == end.y) break;
-
-		if (xd >= 0) {
-			current.x += sign.x;
-			xd -= abs.y;
-		}
-
-		if (zd >= 0) {
-			current.z += sign.z;
-			zd -= abs.y;
-		}
-
-		current.y += sign.y;
-		xd += abs.x;
-		zd += abs.z;
-	}
-} else if (maxZ) {
-	xd = abs.x - (abs.z >> 1);
-	yd = abs.y - (abs.z >> 1);
-	for (;;) {
-		line.Add(current);
-		if (current.z == end.z) break;
-
-		if (xd >= 0) {
-			current.x += sign.x;
-			xd -= abs.z;
-		}
-
-		if (yd >= 0) {
-			current.y += sign.y;
-			yd -= abs.z;
-		}
-
-		current.z += sign.z;
-		xd += abs.x;
-		yd += abs.y;
-	}
-}*/
