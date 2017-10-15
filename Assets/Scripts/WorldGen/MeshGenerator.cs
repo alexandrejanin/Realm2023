@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public static class MeshGenerator {
-	public static MeshData GenerateTerrainMesh(float[,] heightMap, int lod, int meshWorldSize, float heightMultiplier, AnimationCurve curve) {
+	public static Mesh GenerateTerrainMesh(float[,] heightMap, int lod, int meshWorldSize, float heightMultiplier, AnimationCurve curve) {
 		int size = heightMap.GetLength(0);
 
 		int meshStepSize = lod == 0 ? 1 : lod * 2;
@@ -30,10 +30,10 @@ public static class MeshGenerator {
 			}
 		}
 
-		return meshData;
+		return meshData.CreateMesh();
 	}
 
-	public class MeshData {
+	private struct MeshData {
 		public readonly Vector3[] vertices;
 		private readonly int[] triangles;
 		public readonly Vector2[] uvs;
@@ -44,6 +44,7 @@ public static class MeshGenerator {
 			vertices = new Vector3[size * size];
 			uvs = new Vector2[size * size];
 			triangles = new int[(size - 1) * (size - 1) * 6];
+			triangleIndex = 0;
 		}
 
 		public void AddTriangle(int a, int b, int c) {
@@ -63,4 +64,5 @@ public static class MeshGenerator {
 			return mesh;
 		}
 	}
+
 }

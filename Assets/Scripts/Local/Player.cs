@@ -53,7 +53,7 @@ public class Player : MonoBehaviour {
 								if (interactable != null) {
 									if (rightClick) {
 										DisplayInteractable(interactable);
-									} else {
+									} else if (!interactable.ValidPosition(character.position)) {
 										interactable.MoveTo(character);
 									}
 								} else {
@@ -125,7 +125,7 @@ public class Player : MonoBehaviour {
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
 		if (interactions.Count == 0) return;
 
-		PrefabManager prefabManager = GameController.prefabManager;
+		PrefabManager prefabManager = GameController.PrefabManager;
 
 		ButtonsFrame frame = Instantiate(prefabManager.buttonsFramePrefab, Input.mousePosition, Quaternion.identity, canvasTransform);
 		frame.GetComponentInChildren<Text>().text = title;

@@ -6,14 +6,11 @@ public class Door : Wall {
 
 	public override string Name => "Door";
 
-	public override Coord[] VisiblePositions { get; }
-
 	public Door(Coord position, Coord direction) : base(position, direction, WallType.Wood) {
 		NodeGrid.BlockPassage(position, direction);
-		VisiblePositions = new[] {position, position + direction};
 	}
 
-	protected override bool ValidPosition(Coord pos) => pos == position || pos == position + direction;
+	public override bool ValidPosition(Coord pos) => pos == position || pos == position + direction;
 
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);

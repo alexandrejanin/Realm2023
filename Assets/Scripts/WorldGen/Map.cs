@@ -14,7 +14,8 @@ public class Map {
 	private Tile[,] tileMap;
 
 	public readonly List<Region> regions = new List<Region>();
-	public readonly List<Town> towns = new List<Town>();
+	public List<Civilization> civilizations = new List<Civilization>();
+	public List<Town> towns = new List<Town>();
 
 	private readonly Random random;
 
@@ -22,13 +23,12 @@ public class Map {
 		this.settings = settings;
 		random = new Random(settings.seed);
 
-		GenerateTileMap();
-		GenerateRegions();
-
-		GenerateTowns();
-
 		texture = new Texture2D(Size, Size) {filterMode = FilterMode.Point};
 		colors = new Color[Size * Size];
+
+		GenerateTileMap();
+		GenerateRegions();
+		GenerateCivs();
 	}
 
 	public Tile GetTile(int x, int y) => IsInMap(x, y) ? tileMap[x, y] : null;
@@ -66,7 +66,7 @@ public class Map {
 				if (tile.region != null) continue;
 
 				List<Tile> tiles = FindRegion(tile, 1);
-				Region region = new Region(tile.Climate, tiles);
+				Region region = new Region(this, tile.Climate, tiles);
 				regions.Add(region);
 			}
 		}
@@ -97,28 +97,10 @@ public class Map {
 		return tiles;
 	}
 
-	private void GenerateTowns() {
-		Queue<Town> queue = new Queue<Town>();
+	private void GenerateCivs() {
 		foreach (Race race in GameController.Races) {
-			Town capital = new Town(RandomTile(), new Coord(100, 10, 100), race, random.Next(5000, 10000));
-			towns.Add(capital);
-			queue.Enqueue(capital);
-
-			while (queue.Count > 0) {
-				Town parent = queue.Dequeue();
-
-				Tile tile = null;
-				while (tile == null || tile.IsWater || tile.location != null) {
-					int x = parent.X + random.Next(-20, 20);
-					int y = parent.Y + random.Next(-20, 20);
-					tile = GetTile(x, y);
-				}
-
-				int pop = random.Next((int) (parent.population * 0.2f), (int) (parent.population * 0.6f));
-				Town newTown = new Town(tile, new Coord(100, 10, 100), race, pop);
-				towns.Add(newTown);
-				if (pop > 1000) queue.Enqueue(newTown);
-			}
+			Civilization civilization = new Civilization(race);
+			civilization.capital = new Town(this, RandomTile(), civilization, 100, random.Next(5000, 10000));
 		}
 
 		for (int i = 0; i < settings.years; i++) {

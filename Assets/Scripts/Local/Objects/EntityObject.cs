@@ -33,19 +33,6 @@ public abstract class EntityObject : MonoBehaviour {
 		ObjectManager.Hideables.Add(this);
 	}
 
-	private void OnDrawGizmosSelected() {
-		for (int i = 0; i < Entity.VisiblePositions.Length; i++) {
-			Coord pos = Entity.VisiblePositions[i];
-			Gizmos.color = new Color((float) i / (Entity.VisiblePositions.Length - 1), (float) i / (Entity.VisiblePositions.Length - 1), (float) i / (Entity.VisiblePositions.Length - 1));
-			List<Coord> line = NodeGrid.GetLine(ObjectManager.playerCharacter.position, pos);
-			foreach (Coord point in line) {
-				Gizmos.DrawWireCube(NodeGrid.GetWorldPosFromCoord(point, NodeGrid.NodeOffsetType.Center), Vector3.one);
-			}
-			Gizmos.DrawLine(Entity.WorldPosition, NodeGrid.GetWorldPosFromCoord(pos, NodeGrid.NodeOffsetType.Center));
-			Gizmos.DrawRay(NodeGrid.GetWorldPosFromCoord(ObjectManager.playerCharacter.position, NodeGrid.NodeOffsetType.Center), ((Vector3) (pos - ObjectManager.playerCharacter.position)).normalized);
-		}
-	}
-
 	protected void Destroy() {
 		Entity.displayed = false;
 		Destroy(gameObject);
@@ -54,12 +41,12 @@ public abstract class EntityObject : MonoBehaviour {
 	public void UpdateDisplay() {
 		if (Entity == null) return;
 
-		seen = manualMode ? manualSeen : Entity.seen && Entity.isInSeenRange;
+		seen = manualMode ? manualSeen : Entity.seen;
 		visible = manualMode ? manualVisible : Entity.visible;
 
 		if (renderers != null) {
 			foreach (Renderer renderer in renderers) {
-				renderer.enabled = seen || Entity.isInViewRange;
+				renderer.enabled = seen || Entity.inRenderRange;
 				if (renderer.enabled) {
 					renderer.shadowCastingMode = seen ? shadowCastingModeActive : shadowCastingModeInactive;
 					renderer.receiveShadows = visible;

@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Blueprint {
 	public string name;
-	public float weight;
+	public int weight;
 
 	[SerializeField] private Coord minSize;
 	[SerializeField] private Coord maxSize;
@@ -41,6 +41,7 @@ public class Blueprint {
 
 		Coord doorPos = new Coord(Random.Range(1, maxX - 1), 0, 0);
 		Coord itemPos = Coord.RandomRange(Coord.Zero, new Coord(maxX, maxY, maxZ));
+		Coord charPos = Coord.RandomRange(Coord.Zero, new Coord(maxX, maxY, maxZ));
 
 		Coord left = rotation * Coord.Left;
 		Coord right = rotation * Coord.Right;
@@ -60,6 +61,7 @@ public class Blueprint {
 					location.SetTileFree(worldCoord, false);
 
 					if (localCoord == itemPos) location.items.Add(new Equipable(worldCoord));
+					if (localCoord == charPos) location.characters.Add(new Character(worldCoord, GameController.RandomRace(), Utility.RandomBool));
 
 					if (y <= size.y) {
 						//Floor

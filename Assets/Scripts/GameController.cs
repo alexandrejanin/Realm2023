@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
@@ -36,13 +37,23 @@ public class GameController : MonoBehaviour {
 	[Header("Database"), SerializeField] private Race[] races;
 	[SerializeField] private Climate[] climates;
 
+	public static Blueprint[] Blueprints => Instance.blueprints;
+	[SerializeField] private Blueprint[] blueprints;
+
 	private static string RacesPath => Application.streamingAssetsPath + "/Database/Races/";
 	private static string ClimatesPath => Application.streamingAssetsPath + "/Database/Climates/";
 
 	public static Map Map { get; private set; }
 
+	public static LocationManager LocationManager => locationManager ?? (locationManager = Instance.GetComponent<LocationManager>());
+	public static MapDisplay MapDisplay => mapDisplay ?? (mapDisplay = Instance.GetComponent<MapDisplay>());
+	public static WorldGenUI WorldGenUI => worldGenUI ?? (worldGenUI = Instance.GetComponent<WorldGenUI>());
+	public static PrefabManager PrefabManager => prefabManager ?? (prefabManager = Instance.GetComponent<PrefabManager>());
+
 	private static LocationManager locationManager;
-	public static PrefabManager prefabManager;
+	private static MapDisplay mapDisplay;
+	private static WorldGenUI worldGenUI;
+	private static PrefabManager prefabManager;
 
 	private static AsyncOperation loadingLevel;
 
@@ -54,17 +65,18 @@ public class GameController : MonoBehaviour {
 
 		LoadDatabase();
 
-		locationManager = GetComponent<LocationManager>();
-		prefabManager = GetComponent<PrefabManager>();
-
 		GenerateMap();
 	}
 
 	public void GenerateMap() {
 		if (randomSeed) mapSettings.seed = Random.Next(0, 99999);
 		Map = new Map(mapSettings);
-		GetComponent<MapDisplay>().DrawMap();
-		GetComponent<WorldGenUI>().OnMapChanged();
+		OnMapUpdated();
+	}
+
+	public static void OnMapUpdated() {
+		MapDisplay.DrawMap();
+		WorldGenUI.OnMapChanged();
 	}
 
 	public static IEnumerator LoadLocation(Location location) {
@@ -79,7 +91,7 @@ public class GameController : MonoBehaviour {
 
 	private static void OnSceneLoaded() {
 		NodeGrid.CreateGrid(Location);
-		locationManager.LoadLocation(Location);
+		LocationManager.LoadLocation(Location);
 		ObjectManager.TakeTurn();
 	}
 

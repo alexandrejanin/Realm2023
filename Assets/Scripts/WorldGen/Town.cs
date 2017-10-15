@@ -1,12 +1,16 @@
-﻿public sealed class Town : Location {
-	public readonly Race race;
+﻿public class Town : Location {
+	public string Name { get; }
+	public Civilization civ;
+	public Race Race => civ.race;
 	public int population;
 
-	public Town(Tile tile, Coord size, Race race, int population) : base(race.GetPlaceName(), tile, size) {
-		this.race = race;
+	public Town(Map map, Tile tile, Civilization civ, int size, int population) : base(map, tile, size, 20) {
+		this.civ = civ;
 		this.population = population;
 
-		tile.color = UnityEngine.Color.black;
+		Name = Race.GetPlaceName();
+
+		tile.customColor = UnityEngine.Color.black;
 	}
 
 	private string GetSize() {
@@ -20,8 +24,8 @@
 	}
 
 	public void Tick() {
-		population = GameController.Random.Next((int) (population * 0.95), (int) (population * 1.05));
+		population = GameController.Random.Next((int) (population * 0.98f), (int) (population * 1.02f));
 	}
 
-	public override string ToString() => $"{Name}, {race.adjective} {GetSize()}";
+	public override string ToString() => $"{Name}, {Race.adjective} {GetSize()}";
 }

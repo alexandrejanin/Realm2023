@@ -2,8 +2,7 @@
 using UnityEngine;
 
 public static class ObjectManager {
-	private static PrefabManager PrefabManager => GameController.prefabManager;
-
+	private static PrefabManager PrefabManager => GameController.PrefabManager;
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
 

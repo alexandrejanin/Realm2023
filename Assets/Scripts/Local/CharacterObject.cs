@@ -22,7 +22,7 @@ public class CharacterObject : InteractableObject {
 
 		Coord horizontalDirection = Character.lookDirection;
 		horizontalDirection.y = 0;
-		transform.forward = horizontalDirection;
+		if (horizontalDirection != Vector3.zero) transform.forward = horizontalDirection;
 		UpdatePosition();
 	}
 }

@@ -61,18 +61,12 @@
         "vun",
         "wal"
     ],
-    "placeNameLength": [
-        2,
-        4
-    ],
-    "firstNameLength": [
-        1,
-        2
-    ],
-    "lastNameLength": [
-        2,
-        3
-    ],
+    "minPlaceNameLength": 1,
+    "maxPlaceNameLength": 3,
+    "minFirstNameLength": 2,
+    "maxFirstNameLength": 3,
+    "minLastNameLength": 2,
+    "maxLastNameLength": 3,
     "expansionism": 0.0,
     "hostility": 0.0
 }

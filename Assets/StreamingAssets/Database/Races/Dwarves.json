@@ -39,18 +39,12 @@
         "nin",
         "tyr"
     ],
-    "placeNameLength": [
-        2,
-        3
-    ],
-    "firstNameLength": [
-        1,
-        2
-    ],
-    "lastNameLength": [
-        2,
-        3
-    ],
+    "minPlaceNameLength": 2,
+    "maxPlaceNameLength": 4,
+    "minFirstNameLength": 1,
+    "maxFirstNameLength": 2,
+    "minLastNameLength": 2,
+    "maxLastNameLength": 3,
     "expansionism": 0.0,
     "hostility": 0.0
 }

@@ -53,6 +53,8 @@ public class Character : Interactable {
 		body = new Body(BodyType.Humanoid);
 	}
 
+	public override bool ValidPosition(Coord pos) => (pos - position).MaxDimension <= 1;
+
 	public int GetStat(Stat stat) {
 		int statBase = 0;
 		foreach (StatModifier statModifier in modifiers) {
@@ -85,8 +87,8 @@ public class Character : Interactable {
 
 	public override void EndTurn() {
 		if (!isPlayer) {
-			if (Path == null) {
-				RequestPathToPos(ObjectManager.playerCharacter.position);
+			if (CanSeeTo(ObjectManager.playerCharacter.position)) {
+				lookDirection = ObjectManager.playerCharacter.position - position;
 			}
 		}
 		base.EndTurn();
@@ -114,7 +116,6 @@ public class Character : Interactable {
 	}
 
 	public override List<Interaction> GetInteractions(Character character) => GetBasicInteractions(character);
-	protected override bool HasLineOfSight(Coord from) => NodeGrid.IsVisible(from, position);
 
 	protected override string InspectText() => Name;
 }

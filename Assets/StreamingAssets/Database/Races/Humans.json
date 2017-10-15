@@ -42,18 +42,12 @@
         "fair",
         "son"
     ],
-    "placeNameLength": [
-        1,
-        3
-    ],
-    "firstNameLength": [
-        1,
-        1
-    ],
-    "lastNameLength": [
-        1,
-        3
-    ],
+    "minPlaceNameLength": 2,
+    "maxPlaceNameLength": 3,
+    "minFirstNameLength": 1,
+    "maxFirstNameLength": 1,
+    "minLastNameLength": 1,
+    "maxLastNameLength": 2,
     "expansionism": 0.0,
     "hostility": 0.0
 }

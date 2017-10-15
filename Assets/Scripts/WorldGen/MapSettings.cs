@@ -33,6 +33,17 @@ public struct MapSettings {
 
 	[Header("Civilizations"), Range(1, 1000)] public int years;
 
+	public int[,] GenerateLocationHeightMap(Location location, NoiseSettings settings) {
+		float[,] floatMap = GenerateNoiseMap(location.size, seed * 3, settings);
+		int[,] heightMap = new int[location.size, location.size];
+		for (int x = 0; x < location.size; x++) {
+			for (int z = 0; z < location.size; z++) {
+				heightMap[x, z] = (int) (floatMap[x, z] * location.steepness);
+			}
+		}
+		return heightMap;
+	}
+
 	public float[,] GenerateHeightMap() {
 		float[,] heightMap = GenerateNoiseMap(Size, seed, heightSettings);
 		float[,] falloffMap = GenerateFalloffMap(Size, falloffA, falloffB);
@@ -156,13 +167,12 @@ public struct MapSettings {
 	}
 
 	private static float Evaluate(float value, float a, float b) => Mathf.Pow(value, a) / (Mathf.Pow(value, a) + Mathf.Pow(b - b * value, a));
+}
 
-	[System.Serializable]
-	private struct NoiseSettings {
-		[Range(1, 4)] public int octaves;
-		[Range(0, 1)] public float persistance;
-		[Range(1, 5)] public float lacunarity;
-		[Range(10, 500)] public int scale;
-	}
-
+[System.Serializable]
+public struct NoiseSettings {
+	[Range(1, 4)] public int octaves;
+	[Range(0, 1)] public float persistance;
+	[Range(1, 5)] public float lacunarity;
+	[Range(10, 500)] public int scale;
 }

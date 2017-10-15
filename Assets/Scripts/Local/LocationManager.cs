@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LocationManager : MonoBehaviour {
-	[SerializeField] private Blueprint[] blueprints;
-
-	[SerializeField] private int buildingsAmount = 50;
-
 	private Location location;
+
+	[SerializeField] private NoiseSettings locationNoiseSettings;
 
 	public void LoadLocation(Location newLocation) {
 		location = newLocation;
@@ -17,29 +15,32 @@ public class LocationManager : MonoBehaviour {
 	}
 
 	private void SpawnPlayer() {
-		location.characters.Add(new Character(new Coord(Random.Range(5, 95), 0, Random.Range(5, 95)), true));
+		int x = Random.Range(5, 95);
+		int z = Random.Range(5, 95);
+		location.characters.Add(new Character(new Coord(x, location.heightMap[x, z], z), true));
 	}
 
 	private void CreateGround() {
-		for (int x = 0; x < location.Size.x; x++) {
-			for (int z = 0; z < location.Size.z; z++) {
-				location.walls.Add(new Wall(new Coord(x, 0, z), Coord.Down, WallType.Grass));
+		location.heightMap = location.map.settings.GenerateLocationHeightMap(location, locationNoiseSettings);
+		for (int x = 0; x < location.size; x++) {
+			for (int z = 0; z < location.size; z++) {
+				int height = location.heightMap[x, z];
+				location.walls.Add(new Wall(new Coord(x, height, z), Coord.Down, WallType.Grass));
+				if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.walls.Add(new Wall(new Coord(x, height - 1, z), Coord.Left, WallType.Grass));
+				if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.walls.Add(new Wall(new Coord(x, height - 1, z), Coord.Right, WallType.Grass));
+				if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.walls.Add(new Wall(new Coord(x, height - 1, z), Coord.Back, WallType.Grass));
+				if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.walls.Add(new Wall(new Coord(x, height - 1, z), Coord.Forward, WallType.Grass));
+
+				for (int i = 1; i < height; i++) {
+					location.SetTileFree(x, i - 1, z, false);
+				}
 			}
 		}
 	}
 
 	private void CreateBuildings() {
-		blueprints = blueprints.OrderBy(blueprint => blueprint.weight).ToArray();
-		float totalWeight = blueprints.Sum(blueprint => blueprint.weight);
-		for (int i = 0; i < buildingsAmount; i++) {
-			float rnd = Random.Range(0, totalWeight);
-			foreach (Blueprint blueprint in blueprints) {
-				if (rnd < blueprint.weight) {
-					BuildBlueprint(blueprint);
-					break;
-				}
-				rnd -= blueprint.weight;
-			}
+		for (int i = 0; i < location.buildingsAmount; i++) {
+			BuildBlueprint(GameController.Blueprints.RandomItem());
 		}
 	}
 
@@ -55,7 +56,10 @@ public class LocationManager : MonoBehaviour {
 		int tries = 0;
 
 		while (!validPosition && tries < 100) {
-			Coord bottomLeft = new Coord(Random.Range(0, location.Width - (rotation * size).x), 0, Random.Range(0, location.Length - (rotation * size).z));
+			int bottomLeftX = Random.Range(0, location.size - (rotation * size).x.Abs());
+			int bottomLeftZ = Random.Range(0, location.size - (rotation * size).z.Abs());
+			Coord bottomLeft = new Coord(bottomLeftX, location.heightMap[bottomLeftX, bottomLeftZ], bottomLeftZ);
+
 			center = bottomLeft + rotation * (Vector3) size / 2;
 			validPosition = true;
 

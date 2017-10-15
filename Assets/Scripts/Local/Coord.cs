@@ -12,6 +12,7 @@ public struct Coord : IComparable<Coord> {
 	public int MaxDimension => Mathf.Max(x.Abs(), y.Abs(), z.Abs());
 
 	public Coord Normalize => new Coord(x.Sign(), y.Sign(), z.Sign());
+	public Coord Abs => new Coord(x.Abs(), y.Abs(), z.Abs());
 
 	public Coord(int x, int y, int z) {
 		this.x = x;

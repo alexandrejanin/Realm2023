@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public abstract class Location : Place {
-	public override string Name { get; }
+public abstract class Location {
+	public int buildingsAmount = 50;
 
-	public int X => tile.x;
-	public int Y => tile.y;
-	public int Width => Size.x;
-	public int Height => Size.y;
-	public int Length => Size.z;
-
+	public readonly Map map;
+	public readonly Region region;
 	protected readonly Tile tile;
-	public override Tile[] Tiles => new[] {tile};
 
-	public Coord Size { get; }
+	public readonly int size;
+	public readonly int height;
 
-	protected float[,] heightMap;
+	public int[,] heightMap;
+	public int steepness = 5;
 
 	public readonly List<Character> characters = new List<Character>();
 	public readonly List<Item> items = new List<Item>();
@@ -25,20 +22,23 @@ public abstract class Location : Place {
 
 	private readonly bool[,,] freeTiles;
 
-	public void SetTileFree(Coord coord, bool free) => freeTiles[coord.x, coord.y, coord.z] = free;
+	public void SetTileFree(Coord coord, bool free) => SetTileFree(coord.x, coord.y, coord.z, free);
+	public void SetTileFree(int x, int y, int z, bool free) => freeTiles[x, y, z] = free;
 	public bool GetTileFree(Coord coord) => IsInMap(coord) && freeTiles[coord.x, coord.y, coord.z];
 
-	public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
+	public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < size && coord.y >= 0 && coord.y < height && coord.z >= 0 && coord.z < size;
 
-	protected Location(string name, Tile tile, Coord size) : base(tile.Climate) {
-		Name = name;
-		Size = size;
+	protected Location(Map map, Tile tile, int size, int height) {
+		this.map = map;
+		this.size = size;
+		this.height = height;
 		this.tile = tile;
+		region = tile.region;
 		tile.location = this;
-		freeTiles = new bool[Width, Height, Length];
-		for (int x = 0; x < Width; x++) {
-			for (int y = 0; y < Height; y++) {
-				for (int z = 0; z < Length; z++) {
+		freeTiles = new bool[size, height, size];
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < height; y++) {
+				for (int z = 0; z < size; z++) {
 					freeTiles[x, y, z] = true;
 				}
 			}

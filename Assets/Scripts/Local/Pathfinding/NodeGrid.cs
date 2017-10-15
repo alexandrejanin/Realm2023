@@ -13,8 +13,11 @@ public static class NodeGrid {
 
 	public static Node[,,] grid;
 
+	public const int maxViewDistanceSquared = 225;
+
+
 	public static void CreateGrid(Location location) {
-		size = location.Size;
+		size = new Coord(location.size, location.height, location.size);
 		grid = new Node[Width, Height, Length];
 
 		for (int y = 0; y < Height; y++) {
@@ -45,11 +48,9 @@ public static class NodeGrid {
 
 	private static void SetPassage(Coord position, Coord direction, bool open) {
 		direction = direction.Normalize;
-		Node a = GetNode(position);
-		Node b = GetNode(position + direction);
 
-		a?.SetDirection(direction, open);
-		b?.SetDirection(-direction, open);
+		GetNode(position)?.SetDirection(direction, open);
+		GetNode(position + direction)?.SetDirection(-direction, open);
 	}
 
 	public static List<Coord> GetLine(Coord start, Coord end) {
@@ -109,8 +110,9 @@ public static class NodeGrid {
 		return line;
 	}
 
-	public static bool IsVisible(Coord start, Coord end, Vector3 normal = new Vector3()) {
-		List<Coord> line = GetLine(start, end);
+	public static bool IsVisible(Coord start, Coord end, Vector3 normal = new Vector3(), int viewDist = maxViewDistanceSquared) {
+		if ((start.x - end.x) * (start.x - end.x) + (start.z - end.z) * (start.z - end.z) > viewDist) return false;
+		List<Coord> line = GetLine(end, start);
 
 		if (Vector3.Angle((end - start).Normalize, normal) < 90f) return false;
 

@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
 
-public sealed class Region : Place {
-	public override string Name => name + " " + climate;
+public sealed class Region {
+	public string Name => name + " " + climate;
 	private readonly string name;
 
-	private readonly List<Tile> tiles;
-	public override Tile[] Tiles => tiles.ToArray();
+	public readonly Map map;
+	public readonly Climate climate;
+	public bool IsWater => climate.isWater;
 
-	public Region(Climate climate, List<Tile> tiles) : base(climate) {
+	private readonly List<Tile> tiles;
+	public int Size => tiles.Count;
+	public Tile RandomTile(Random random) => tiles.RandomItem(random);
+
+	public Region(Map map, Climate climate, List<Tile> tiles) {
+		this.map = map;
+		this.climate = climate;
 		name = GameController.RandomRace().GetPlaceName();
 		foreach (Tile tile in tiles) {
 			Add(tile);

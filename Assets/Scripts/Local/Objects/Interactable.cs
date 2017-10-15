@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Interactable : Entity {
 	protected Interactable(Coord position) : base(position) { }
 
-	protected virtual bool ValidPosition(Coord pos) => pos == position;
+	public virtual bool ValidPosition(Coord pos) => pos == position;
 
 	public abstract List<Interaction> GetInteractions(Character character);
 

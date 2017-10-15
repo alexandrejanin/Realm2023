@@ -2,18 +2,15 @@
 
 public class Tile {
 	public readonly int x, y;
-	public float height;
-	public readonly float temp, humidity;
+	public float height, temp, humidity;
 
 	public Region region;
 	public Location location;
 
 	public Climate Climate { get; private set; }
 
-	public Color color;
-	private readonly Color heightColor;
-	private readonly Color tempColor;
-	private readonly Color humidityColor;
+	public Color customColor = Color.clear;
+	private Color color, heightColor, tempColor, humidityColor;
 
 	public bool IsWater => Climate.isWater;
 
@@ -41,7 +38,7 @@ public class Tile {
 	public Color GetColor(MapDrawMode mapDrawMode) {
 		switch (mapDrawMode) {
 			case MapDrawMode.Normal:
-				return color;
+				return customColor != Color.clear ? customColor : color;
 			case MapDrawMode.Height:
 				return heightColor;
 			case MapDrawMode.Temperature:

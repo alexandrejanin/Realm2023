@@ -1,32 +1,19 @@
-﻿using System.Linq;
-
-public abstract class Entity {
+﻿public abstract class Entity {
 	public Location location;
 	public Coord position;
 	public abstract string Name { get; }
 
-	public bool visible, seen, isInViewRange, isInSeenRange;
+	public bool visible, seen, inRenderRange;
+
+	private const int renderRange = 400;
 
 	public bool displayed;
-
-	private const int maxViewDistanceSquared = 225;
-	private const int maxSeenDistanceSquared = 1600;
 
 	protected Entity(Coord position) {
 		this.position = position;
 	}
 
 	public virtual UnityEngine.Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
-
-	public virtual Coord[] VisiblePositions {
-		get {
-			if (position != lastPos) {
-				positions = new[] {position};
-				lastPos = position;
-			}
-			return positions;
-		}
-	}
 
 	private Coord lastPos;
 	private Coord[] positions;
@@ -37,15 +24,12 @@ public abstract class Entity {
 		UpdateVisibility(ObjectManager.playerCharacter.position);
 	}
 
-	protected virtual bool HasLineOfSight(Coord from) => VisiblePositions.Any(pos => NodeGrid.IsVisible(from, pos, NodeGrid.GetWorldPosFromCoord(pos, NodeGrid.NodeOffsetType.Center) - WorldPosition));
+	protected virtual bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position);
+	protected virtual bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to);
 
 	public void UpdateVisibility(Coord playerPosition) {
-		int dx = position.x - playerPosition.x;
-		int dz = position.z - playerPosition.z;
-		int d = dx * dx + dz * dz;
-		isInViewRange = d <= maxViewDistanceSquared && !(dx * dx == maxViewDistanceSquared || dz * dz == maxViewDistanceSquared);
-		isInSeenRange = d <= maxSeenDistanceSquared;
-		visible = isInViewRange && HasLineOfSight(playerPosition);
+		inRenderRange = (playerPosition - position).SquaredMagnitude < renderRange;
+		visible = CanBeSeenFrom(playerPosition);
 		seen = seen || visible;
 	}
 
