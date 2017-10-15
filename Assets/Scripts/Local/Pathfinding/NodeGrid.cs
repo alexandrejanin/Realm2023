@@ -24,12 +24,12 @@ public static class NodeGrid {
 			for (int z = 0; z < Length; z++) {
 				for (int x = 0; x < Width; x++) {
 					bool[] directionOpen = {
+						x < Width - 1,
+						x > 0,
 						y < Height - 1,
 						y > 0,
-						x > 0,
-						x < Width - 1,
-						z > 0,
-						z < Length - 1
+						z < Length - 1,
+						z > 0
 					};
 
 					grid[x, y, z] = new Node(new Coord(x, y, z), 0, directionOpen);

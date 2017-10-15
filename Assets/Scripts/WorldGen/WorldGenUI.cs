@@ -19,8 +19,11 @@ public class WorldGenUI : MonoBehaviour {
 	public static MapDrawMode DrawMode { get; private set; }
 	private int mapDrawModes;
 
+	private new Camera camera;
+
 	private void Awake() {
 		drawModeDropdown.onValueChanged.AddListener(OnDrawModeChanged);
+		camera = Camera.main;
 		mapDisplay = GetComponent<MapDisplay>();
 		worldGenUtility = GetComponent<WorldGenUtility>();
 		mapDrawModes = Enum.GetValues(typeof(MapDrawMode)).Length;
@@ -61,7 +64,7 @@ public class WorldGenUI : MonoBehaviour {
 		if (GameController.Location != null || map == null) return;
 
 		RaycastHit hit;
-		if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)) {
+		if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
 			int tilesPerLine = (map.Size - 1) / (map.settings.Lod + 1);
 			int tileHit = hit.triangleIndex / 2;
 			x = tileHit % tilesPerLine;

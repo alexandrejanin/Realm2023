@@ -17,6 +17,9 @@ public class Player : MonoBehaviour {
 	[SerializeField] private Canvas canvas;
 	[SerializeField] private static Transform canvasTransform;
 
+	private static Camera Camera => camera ?? (camera = Camera.main);
+	private new static Camera camera;
+
 	private void Awake() {
 		canvasTransform = canvas.transform;
 	}
@@ -45,7 +48,7 @@ public class Player : MonoBehaviour {
 					if (interactionsMenu != null && !RectTransformUtility.RectangleContainsScreenPoint(interactionsMenu.GetComponent<RectTransform>(), Input.mousePosition)) {
 						ClearInteractionMenu();
 					} else if (!EventSystem.current.IsPointerOverGameObject()) {
-						RaycastHit[] hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+						RaycastHit[] hits = Physics.RaycastAll(Camera.ScreenPointToRay(Input.mousePosition));
 						if (hits != null && hits.Length > 0) {
 							RaycastHit hit = hits.FirstOrDefault(h => h.transform.GetComponent<EntityObject>().Entity.seen);
 							if (hit.transform != null) {
@@ -99,7 +102,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private static void MoveTowards(Coord direction) {
-		Quaternion rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
+		Quaternion rotation = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
 		direction = rotation * direction;
 
 		Node validNode = GetValidNode(direction);

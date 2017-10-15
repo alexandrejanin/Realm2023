@@ -22,10 +22,10 @@ public struct Coord : IComparable<Coord> {
 
 	public int ToDirectionIndex {
 		get {
-			if (x == 0 && y == 1 && z == 0) return 0; //Up
-			if (x == 0 && y == -1 && z == 0) return 1; //Down
-			if (x == 1 && y == 0 && z == 0) return 2; //Right
-			if (x == -1 && y == 0 && z == 0) return 3; //Left
+			if (x == 1 && y == 0 && z == 0) return 0; //Right
+			if (x == -1 && y == 0 && z == 0) return 1; //Left
+			if (x == 0 && y == 1 && z == 0) return 2; //Up
+			if (x == 0 && y == -1 && z == 0) return 3; //Down
 			if (x == 0 && y == 0 && z == 1) return 4; //Forward
 			if (x == 0 && y == 0 && z == -1) return 5; //Back
 
