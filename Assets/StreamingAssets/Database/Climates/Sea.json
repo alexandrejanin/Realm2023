@@ -1,12 +1,17 @@
 {
     "name": "Sea",
-    "minTemp": 0.0,
-    "maxTemp": 1.0,
-    "minHeight": 0.0,
-    "maxHeight": 0.4000000059604645,
-    "minHumidity": 0.0,
-    "maxHumidity": 1.0,
-    "isRegion": true,
+    "height": {
+        "min": 0.0,
+        "max": 0.33000001311302187
+    },
+    "temp": {
+        "min": 0.0,
+        "max": 1.0
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 1.0
+    },
     "isWater": true,
     "colorGradient": {
         "serializedVersion": "2",

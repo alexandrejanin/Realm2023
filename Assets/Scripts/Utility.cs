@@ -13,12 +13,11 @@ public static class Utility {
 	public static T RandomValue<T>(int startRank = 0) where T : IConvertible, IFormattable, IComparable => ((T[]) Enum.GetValues(typeof(T))).RandomItem(startRank);
 
 	public static int Abs(this int i) => i < 0 ? -i : i;
+	public static float Abs(this float i) => i < 0 ? -i : i;
 
-	public static int Sign(this int i) {
-		if (i > 0) return 1;
-		if (i < 0) return -1;
-		return 0;
-	}
+	public static int Sign(this int i) => i > 0 ? 1 : i < 0 ? -1 : 0;
+
+	public static float Sign(this float i) => i > 0 ? 1 : i < 0 ? -1 : 0;
 
 	public static bool RandomBool => UnityEngine.Random.value > 0.5f;
 }

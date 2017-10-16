@@ -31,15 +31,16 @@ public class Door : Wall {
 	}
 
 	public override void MoveTo(Character character) {
-		Coord[] path1 = Pathfinder.FindPath(character.position, position, false);
-		Coord[] path2 = Pathfinder.FindPath(character.position, position + direction, false);
+		character.RequestPathToPositions(new[] {position, position + direction});
+		/*Coord[] path1 = Pathfinder.FindPath(character.position, position);
+		Coord[] path2 = Pathfinder.FindPath(character.position, position + direction);
 		if (path1 != null && path2 != null) {
 			character.Path = path1.Length > path2.Length ? path2 : path1;
 		} else if (path1 != null) {
 			character.Path = path1;
 		} else if (path2 != null) {
 			character.Path = path2;
-		}
+		}*/
 	}
 
 	public void Open() {

@@ -21,7 +21,7 @@ public class LocationManager : MonoBehaviour {
 	}
 
 	private void CreateGround() {
-		location.heightMap = location.map.settings.GenerateLocationHeightMap(location, locationNoiseSettings);
+		location.heightMap = GameController.Map.settings.GenerateLocationHeightMap(location, locationNoiseSettings);
 		for (int x = 0; x < location.size; x++) {
 			for (int z = 0; z < location.size; z++) {
 				int height = location.heightMap[x, z];

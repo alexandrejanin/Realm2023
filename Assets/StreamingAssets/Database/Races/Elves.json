@@ -2,6 +2,20 @@
     "collectiveName": "elves",
     "individualName": "elf",
     "adjective": "elven",
+    "expansionism": 0.20000000298023225,
+    "hostility": 0.20000000298023225,
+    "height": {
+        "min": 0.3499999940395355,
+        "max": 0.699999988079071
+    },
+    "temp": {
+        "min": 0.0,
+        "max": 0.4000000059604645
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 1.0
+    },
     "placeNames": [
         "a",
         "an",
@@ -49,12 +63,16 @@
         "ta",
         "to"
     ],
-    "minPlaceNameLength": 2,
-    "maxPlaceNameLength": 4,
-    "minFirstNameLength": 2,
-    "maxFirstNameLength": 3,
-    "minLastNameLength": 2,
-    "maxLastNameLength": 3,
-    "expansionism": 0.0,
-    "hostility": 0.0
+    "placeNameLength": {
+        "min": 2,
+        "max": 4
+    },
+    "firstNameLength": {
+        "min": 1,
+        "max": 4
+    },
+    "lastNameLength": {
+        "min": 1,
+        "max": 4
+    }
 }

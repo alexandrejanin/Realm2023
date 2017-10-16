@@ -14,9 +14,9 @@ public class BodyPart {
 	public BodyPartY y;
 	public BodyPartZ z;
 
-	public Attribute[] attributes;
+	public BodyPartAttribute[] bodyPartAttributes;
 
-	public BodyPart(string name, BodyPart parent, Slot slot, BodyPartX x, BodyPartY y, BodyPartZ z, Attribute[] attributes) {
+	public BodyPart(string name, BodyPart parent, Slot slot, BodyPartX x, BodyPartY y, BodyPartZ z, BodyPartAttribute[] bodyPartAttributes) {
 		this.name = name;
 		this.slot = slot;
 		this.parent = parent;
@@ -24,7 +24,7 @@ public class BodyPart {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.attributes = attributes;
+		this.bodyPartAttributes = bodyPartAttributes;
 	}
 
 	public void AddChild(BodyPart bodyPart) {
@@ -55,7 +55,7 @@ public enum BodyPartZ {
 	Back
 }
 
-public enum Attribute {
+public enum BodyPartAttribute {
 	Breathing,
 	Flying,
 	Grasping,

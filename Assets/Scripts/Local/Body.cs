@@ -30,18 +30,18 @@ public class Body : IEnumerable<BodyPart> {
 
 		switch (bodyType) {
 			case BodyType.Humanoid:
-				BodyPart torso = new BodyPart("Torso", null, Slot.Torso, BodyPartX.Middle, BodyPartY.Middle, BodyPartZ.Center, new[] {Attribute.Breathing, Attribute.InternalOrgans, Attribute.Vital});
-				BodyPart abdomen = new BodyPart("Abdomen", torso, Slot.None, BodyPartX.Middle, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.InternalOrgans, Attribute.Vital});
-				BodyPart neck = new BodyPart("Neck", torso, Slot.Neck, BodyPartX.Middle, BodyPartY.Top, BodyPartZ.Center, new[] {Attribute.Breathing, Attribute.InternalOrgans, Attribute.Vital});
-				BodyPart head = new BodyPart("Head", neck, Slot.Head, BodyPartX.Middle, BodyPartY.Top, BodyPartZ.Center, new[] {Attribute.Breathing, Attribute.InternalOrgans, Attribute.Seeing, Attribute.Thinking, Attribute.Vital});
-				BodyPart leftArm = new BodyPart("Left Arm", torso, Slot.None, BodyPartX.Left, BodyPartY.Middle, BodyPartZ.Center, new[] {Attribute.Limb});
-				BodyPart rightArm = new BodyPart("Left Arm", torso, Slot.None, BodyPartX.Right, BodyPartY.Middle, BodyPartZ.Center, new[] {Attribute.Limb});
-				BodyPart leftHand = new BodyPart("Left Hand", leftArm, Slot.Hand, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Grasping});
-				BodyPart rightHand = new BodyPart("Right Hand", rightArm, Slot.Hand, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Grasping});
-				BodyPart leftLeg = new BodyPart("Left Leg", abdomen, Slot.Legs, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Limb, Attribute.Walking});
-				BodyPart rightLeg = new BodyPart("Right Leg", abdomen, Slot.Legs, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Limb, Attribute.Walking});
-				BodyPart leftFoot = new BodyPart("Left Foot", leftLeg, Slot.Feet, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Walking});
-				BodyPart rightFoot = new BodyPart("Right Foot", leftLeg, Slot.Feet, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {Attribute.Walking});
+				BodyPart torso = new BodyPart("Torso", null, Slot.Torso, BodyPartX.Middle, BodyPartY.Middle, BodyPartZ.Center, new[] {BodyPartAttribute.Breathing, BodyPartAttribute.InternalOrgans, BodyPartAttribute.Vital});
+				BodyPart abdomen = new BodyPart("Abdomen", torso, Slot.None, BodyPartX.Middle, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.InternalOrgans, BodyPartAttribute.Vital});
+				BodyPart neck = new BodyPart("Neck", torso, Slot.Neck, BodyPartX.Middle, BodyPartY.Top, BodyPartZ.Center, new[] {BodyPartAttribute.Breathing, BodyPartAttribute.InternalOrgans, BodyPartAttribute.Vital});
+				BodyPart head = new BodyPart("Head", neck, Slot.Head, BodyPartX.Middle, BodyPartY.Top, BodyPartZ.Center, new[] {BodyPartAttribute.Breathing, BodyPartAttribute.InternalOrgans, BodyPartAttribute.Seeing, BodyPartAttribute.Thinking, BodyPartAttribute.Vital});
+				BodyPart leftArm = new BodyPart("Left Arm", torso, Slot.None, BodyPartX.Left, BodyPartY.Middle, BodyPartZ.Center, new[] {BodyPartAttribute.Limb});
+				BodyPart rightArm = new BodyPart("Left Arm", torso, Slot.None, BodyPartX.Right, BodyPartY.Middle, BodyPartZ.Center, new[] {BodyPartAttribute.Limb});
+				BodyPart leftHand = new BodyPart("Left Hand", leftArm, Slot.Hand, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Grasping});
+				BodyPart rightHand = new BodyPart("Right Hand", rightArm, Slot.Hand, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Grasping});
+				BodyPart leftLeg = new BodyPart("Left Leg", abdomen, Slot.Legs, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Limb, BodyPartAttribute.Walking});
+				BodyPart rightLeg = new BodyPart("Right Leg", abdomen, Slot.Legs, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Limb, BodyPartAttribute.Walking});
+				BodyPart leftFoot = new BodyPart("Left Foot", leftLeg, Slot.Feet, BodyPartX.Left, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Walking});
+				BodyPart rightFoot = new BodyPart("Right Foot", leftLeg, Slot.Feet, BodyPartX.Right, BodyPartY.Bottom, BodyPartZ.Center, new[] {BodyPartAttribute.Walking});
 				bodyParts = new List<BodyPart> {head, neck, torso, abdomen, leftArm, rightArm, leftHand, rightHand, leftLeg, rightLeg, leftFoot, rightFoot};
 				break;
 			case BodyType.Quadruped:

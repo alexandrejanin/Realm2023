@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
@@ -13,6 +14,14 @@ public struct Coord : IComparable<Coord> {
 
 	public Coord Normalize => new Coord(x.Sign(), y.Sign(), z.Sign());
 	public Coord Abs => new Coord(x.Abs(), y.Abs(), z.Abs());
+
+	public Coord[] GetAdjacent(bool includeSelf, bool diagonal) {
+		List<Coord> coords = new List<Coord>();
+		if (includeSelf) coords.Add(this);
+		coords.AddRange(new[] {this + Right, this + Left, this + Forward, this + Back});
+		if (diagonal) coords.AddRange(new[] {this + Right + Forward, this + Left + Forward, this + Right + Back, this + Left + Back});
+		return coords.ToArray();
+	}
 
 	public Coord(int x, int y, int z) {
 		this.x = x;

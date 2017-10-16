@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : Interactable {
@@ -103,13 +104,17 @@ public class Character : Interactable {
 		}
 	}
 
+	public override void MoveTo(Character character) => character.RequestPathToPositions(position.GetAdjacent(true, true));
+
 	private void MoveToCoord(Coord coord) {
 		lookDirection = (coord - position).Normalize;
 		position = coord;
 	}
 
-	public void RequestPathToPos(Coord goalCoord) {
-		Coord[] waypoints = Pathfinder.FindPath(position, goalCoord, !isPlayer);
+	public void RequestPathToPosition(Coord goalCoord) => RequestPathToPositions(new[] {goalCoord});
+
+	public void RequestPathToPositions(Coord[] goalCoords) {
+		Coord[] waypoints = Pathfinder.FindPath(position, goalCoords);
 		if (waypoints != null) {
 			Path = waypoints;
 		}

@@ -7,8 +7,6 @@ public class Node : IHeapItem<Node> {
 
 	public int FCost => hCost + gCost;
 
-	public int movementPenalty;
-
 	public Node parent;
 
 	public bool IsWalkable => !directionOpen[Coord.Down.ToDirectionIndex];
@@ -17,7 +15,6 @@ public class Node : IHeapItem<Node> {
 
 	public Node(Coord position, int movementPenalty, bool[] directionOpen) {
 		this.position = position;
-		this.movementPenalty = movementPenalty;
 		this.directionOpen = directionOpen;
 	}
 
@@ -55,9 +52,6 @@ public class Node : IHeapItem<Node> {
 
 	public int CompareTo(Node other) {
 		int compare = FCost.CompareTo(other.FCost);
-		if (compare == 0) {
-			compare = hCost.CompareTo(other.hCost);
-		}
-		return -compare;
+		return -(compare == 0 ? hCost.CompareTo(other.hCost) : compare);
 	}
 }

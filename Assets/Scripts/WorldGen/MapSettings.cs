@@ -15,6 +15,7 @@ public struct MapSettings {
 	}
 
 	public int Size => (int) mapSize;
+	public int TrueSize => Size - 1;
 	public int Lod => Size / 256 * lodMultiplier;
 
 	[Range(0, 99999)] public int seed;

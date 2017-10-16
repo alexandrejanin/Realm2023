@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.PostProcessing;
 
 public class PlayerCamera : MonoBehaviour {
 	[SerializeField] private Vector3 positionOffset;
@@ -18,11 +17,11 @@ public class PlayerCamera : MonoBehaviour {
 	private Vector3 startingMousePosition;
 	private Vector2 rotation;
 
-	private PostProcessingProfile profile;
-	private DepthOfFieldModel.Settings dofSettings;
+	//private PostProcessingProfile profile;
+	//private DepthOfFieldModel.Settings dofSettings;
 
 	private void Awake() {
-		profile = GetComponent<PostProcessingBehaviour>().profile;
+		//profile = GetComponent<PostProcessingBehaviour>().profile;
 	}
 
 	private void Update() {
@@ -43,9 +42,9 @@ public class PlayerCamera : MonoBehaviour {
 				rotation.y = Mathf.Clamp(rotation.y, -35, 45);
 			}
 
-			dofSettings = profile.depthOfField.settings;
-			dofSettings.focusDistance = Mathf.Lerp(minDof, maxDof, Mathf.InverseLerp(minZoom, maxZoom, zoom));
-			profile.depthOfField.settings = dofSettings;
+			//dofSettings = profile.depthOfField.settings;
+			//dofSettings.focusDistance = Mathf.Lerp(minDof, maxDof, Mathf.InverseLerp(minZoom, maxZoom, zoom));
+			//profile.depthOfField.settings = dofSettings;
 		}
 	}
 
@@ -60,8 +59,8 @@ public class PlayerCamera : MonoBehaviour {
 	}
 
 	private void OnApplicationQuit() {
-		dofSettings = profile.depthOfField.settings;
-		dofSettings.focusDistance = maxDof;
-		profile.depthOfField.settings = dofSettings;
+		//dofSettings = profile.depthOfField.settings;
+		//dofSettings.focusDistance = maxDof;
+		//profile.depthOfField.settings = dofSettings;
 	}
 }

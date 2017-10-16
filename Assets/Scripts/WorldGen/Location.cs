@@ -4,7 +4,6 @@ using System.Linq;
 public abstract class Location {
 	public int buildingsAmount = 50;
 
-	public readonly Map map;
 	public readonly Region region;
 	protected readonly Tile tile;
 
@@ -28,8 +27,7 @@ public abstract class Location {
 
 	public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < size && coord.y >= 0 && coord.y < height && coord.z >= 0 && coord.z < size;
 
-	protected Location(Map map, Tile tile, int size, int height) {
-		this.map = map;
+	protected Location(Tile tile, int size, int height) {
 		this.size = size;
 		this.height = height;
 		this.tile = tile;

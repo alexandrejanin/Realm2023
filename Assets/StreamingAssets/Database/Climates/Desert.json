@@ -1,12 +1,17 @@
 {
     "name": "Desert",
-    "minTemp": 0.6399999856948853,
-    "maxTemp": 1.0,
-    "minHeight": 0.4000000059604645,
-    "maxHeight": 0.6499999761581421,
-    "minHumidity": 0.0,
-    "maxHumidity": 0.3499999940395355,
-    "isRegion": true,
+    "height": {
+        "min": 0.33000001311302187,
+        "max": 0.6600000262260437
+    },
+    "temp": {
+        "min": 0.6600000262260437,
+        "max": 1.0
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 0.33000001311302187
+    },
     "isWater": false,
     "colorGradient": {
         "serializedVersion": "2",

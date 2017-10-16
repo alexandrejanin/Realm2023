@@ -14,7 +14,7 @@ public class WorldCamera : MonoBehaviour {
 	private Vector3 initialMousePosition;
 	private Vector3 initialPosition;
 
-	private Vector3 targetPos;
+	public Vector3 targetPos;
 
 	[SerializeField] private Toggle perspectiveToggle;
 	private new Camera camera;

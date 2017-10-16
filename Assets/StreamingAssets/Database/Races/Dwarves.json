@@ -2,6 +2,20 @@
     "collectiveName": "dwarves",
     "individualName": "dwarf",
     "adjective": "dwarven",
+    "expansionism": 0.5,
+    "hostility": 0.5,
+    "height": {
+        "min": 0.699999988079071,
+        "max": 1.0
+    },
+    "temp": {
+        "min": 0.0,
+        "max": 1.0
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 1.0
+    },
     "placeNames": [
         "bruk",
         "buk",
@@ -39,12 +53,16 @@
         "nin",
         "tyr"
     ],
-    "minPlaceNameLength": 2,
-    "maxPlaceNameLength": 4,
-    "minFirstNameLength": 1,
-    "maxFirstNameLength": 2,
-    "minLastNameLength": 2,
-    "maxLastNameLength": 3,
-    "expansionism": 0.0,
-    "hostility": 0.0
+    "placeNameLength": {
+        "min": 1,
+        "max": 4
+    },
+    "firstNameLength": {
+        "min": 1,
+        "max": 3
+    },
+    "lastNameLength": {
+        "min": 1,
+        "max": 3
+    }
 }

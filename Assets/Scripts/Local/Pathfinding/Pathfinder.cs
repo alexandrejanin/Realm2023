@@ -3,11 +3,14 @@ using System.Linq;
 using UnityEngine;
 
 public static class Pathfinder {
-	public static Coord[] FindPath(Coord startPos, Coord goalPos, bool useWeights) {
+	public static Coord[] FindPath(Coord startPos, IList<Coord> goalPositions) {
+		bool singleTarget = goalPositions.Count == 1;
 		bool success = false;
 
+		HashSet<Node> goals = new HashSet<Node>(goalPositions.Select(NodeGrid.GetNode));
+
 		Node startNode = NodeGrid.GetNode(startPos);
-		Node goalNode = NodeGrid.GetNode(goalPos);
+		Node goalNode = NodeGrid.GetNode(goalPositions[0]);
 		if (startNode != null && goalNode != null && goalNode.IsWalkable && goalNode != startNode) {
 			Heap<Node> open = new Heap<Node>(NodeGrid.GridCount);
 			HashSet<Node> closed = new HashSet<Node>();
@@ -18,9 +21,9 @@ public static class Pathfinder {
 				Node current = open.RemoveFirst();
 				closed.Add(current);
 
-				if (current == goalNode) {
+				if (singleTarget && current == goalNode || !singleTarget && goals.Contains(current) /*current == goalNode*/) {
+					goalNode = current;
 					success = true;
-
 					break;
 				}
 
@@ -29,7 +32,7 @@ public static class Pathfinder {
 						continue;
 					}
 
-					int newMovementCost = current.gCost + GetDistance(current, neighbor) + (useWeights ? neighbor.movementPenalty : 0);
+					int newMovementCost = current.gCost + GetDistance(current, neighbor);
 
 					if (newMovementCost < neighbor.gCost || !open.Contains(neighbor)) {
 						neighbor.gCost = newMovementCost;

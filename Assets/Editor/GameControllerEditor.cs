@@ -10,7 +10,7 @@ public class GameControllerEditor : Editor {
 
 		bool refreshed = DrawDefaultInspector();
 
-		if (GUILayout.Button("Refresh Database")) {
+		if (GUILayout.Button("Load Database")) {
 			gameController.LoadDatabase();
 		}
 		if (GUILayout.Button("Save Database")) {

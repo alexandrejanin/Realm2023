@@ -20,7 +20,7 @@ public abstract class Interactable : Entity {
 	protected virtual string InspectText() => Name;
 
 	public virtual void MoveTo(Character character) {
-		character.RequestPathToPos(position);
+		character.RequestPathToPosition(position);
 	}
 
 	public override string ToString() => Name;

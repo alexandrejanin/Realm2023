@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
 									}
 								} else {
 									Coord target = NodeGrid.GetCoordFromWorldPos(hit.point + hit.normal * 0.2f);
-									character.RequestPathToPos(target);
+									character.RequestPathToPosition(target);
 								}
 							}
 						}

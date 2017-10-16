@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Tile {
 	public readonly int x, y;
@@ -15,8 +17,10 @@ public class Tile {
 	public bool IsWater => Climate.isWater;
 
 	public bool regionPending;
+	
+	public readonly Tile[] adjacentTiles;
 
-	public Tile(int x, int y, float height, float temp, float humidity) {
+	public Tile(Map map, int x, int y, float height, float temp, float humidity) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -27,6 +31,17 @@ public class Tile {
 		heightColor = Color.Lerp(Color.black, Color.white, height);
 		tempColor = Color.Lerp(Color.cyan, Color.red, temp);
 		humidityColor = Color.Lerp(Color.yellow, Color.blue, humidity);
+
+		List<Tile> tiles = new List<Tile>();
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i != 0 || j != 0) {
+					Tile tile = map.GetTile(x + i, y + j);
+					if (tile != null) tiles.Add(tile);
+				}
+			}
+		}
+		adjacentTiles = tiles.ToArray();
 	}
 
 	public void SetRegion(Region newRegion) {

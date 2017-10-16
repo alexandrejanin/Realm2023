@@ -2,6 +2,20 @@
     "collectiveName": "humans",
     "individualName": "human",
     "adjective": "human",
+    "expansionism": 0.75,
+    "hostility": 0.5,
+    "height": {
+        "min": 0.33000001311302187,
+        "max": 0.800000011920929
+    },
+    "temp": {
+        "min": 0.30000001192092898,
+        "max": 0.699999988079071
+    },
+    "humidity": {
+        "min": 0.30000001192092898,
+        "max": 0.699999988079071
+    },
     "placeNames": [
         "black",
         "copper",
@@ -42,12 +56,16 @@
         "fair",
         "son"
     ],
-    "minPlaceNameLength": 2,
-    "maxPlaceNameLength": 3,
-    "minFirstNameLength": 1,
-    "maxFirstNameLength": 1,
-    "minLastNameLength": 1,
-    "maxLastNameLength": 2,
-    "expansionism": 0.0,
-    "hostility": 0.0
+    "placeNameLength": {
+        "min": 1,
+        "max": 3
+    },
+    "firstNameLength": {
+        "min": 1,
+        "max": 1
+    },
+    "lastNameLength": {
+        "min": 1,
+        "max": 3
+    }
 }

@@ -44,20 +44,18 @@ public class WorldGenUI : MonoBehaviour {
 		int totalTiles = 0;
 
 		foreach (Climate climate in GameController.Climates) {
-			if (climate.isRegion) {
-				int regionsCount = map.regions.Count(region => region.climate == climate);
-				if (regionsCount == 0) continue;
-				int tilesCount = map.regions.Where(region => region.climate == climate).Sum(region => region.Size);
+			int regionsCount = map.regions.Count(region => region.climate == climate);
+			if (regionsCount == 0) continue;
+			int tilesCount = map.regions.Where(region => region.climate == climate).Sum(region => region.Size);
 
-				regionsText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
-				totalTiles += tilesCount;
-			}
+			regionsText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
+			totalTiles += tilesCount;
 		}
 
 		mapText += regionsText;
 		mapText += "\n" + totalTiles + " tiles";
 
-		mapInfo.text = mapText;
+		if (mapInfo != null) mapInfo.text = mapText;
 	}
 
 	private void Update() {
@@ -65,7 +63,7 @@ public class WorldGenUI : MonoBehaviour {
 
 		RaycastHit hit;
 		if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
-			int tilesPerLine = (map.Size - 1) / (map.settings.Lod + 1);
+			int tilesPerLine = map.size - 1;
 			int tileHit = hit.triangleIndex / 2;
 			x = tileHit % tilesPerLine;
 			y = tileHit / tilesPerLine;
@@ -89,6 +87,10 @@ public class WorldGenUI : MonoBehaviour {
 
 			if (Input.GetMouseButtonDown(0) && tile.location != null) {
 				StartCoroutine(GameController.LoadLocation(tile.location));
+			}
+
+			if (Input.GetMouseButtonDown(1)) {
+				camera.GetComponent<WorldCamera>().targetPos = hit.point;
 			}
 		}
 	}

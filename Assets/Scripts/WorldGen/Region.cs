@@ -50,17 +50,7 @@ public sealed class Region {
 		}
 	}
 
-	public string GetSize() {
-		if (tiles.Count > 10000) return "Huge";
-
-		if (tiles.Count > 5000) return "Large";
-
-		if (tiles.Count > 2000) return "Medium";
-
-		if (tiles.Count > 500) return "Small";
-
-		return "Tiny";
-	}
+	public string GetSize() => tiles.Count > 10000 ? "Huge" : (tiles.Count > 5000 ? "Large" : (tiles.Count > 2000 ? "Medium" : (tiles.Count > 500 ? "Small" : "Tiny")));
 
 	public override string ToString() => Name;
 }

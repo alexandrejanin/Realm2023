@@ -1,12 +1,17 @@
 {
     "name": "Mountain",
-    "minTemp": 0.0,
-    "maxTemp": 1.0,
-    "minHeight": 0.6499999761581421,
-    "maxHeight": 1.0,
-    "minHumidity": 0.0,
-    "maxHumidity": 1.0,
-    "isRegion": true,
+    "height": {
+        "min": 0.6600000262260437,
+        "max": 1.0
+    },
+    "temp": {
+        "min": 0.0,
+        "max": 1.0
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 1.0
+    },
     "isWater": false,
     "colorGradient": {
         "serializedVersion": "2",

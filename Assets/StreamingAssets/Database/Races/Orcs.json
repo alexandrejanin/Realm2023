@@ -2,6 +2,20 @@
     "collectiveName": "orcs",
     "individualName": "orc",
     "adjective": "orcish",
+    "expansionism": 0.75,
+    "hostility": 1.0,
+    "height": {
+        "min": 0.4000000059604645,
+        "max": 0.699999988079071
+    },
+    "temp": {
+        "min": 0.6000000238418579,
+        "max": 1.0
+    },
+    "humidity": {
+        "min": 0.0,
+        "max": 1.0
+    },
     "placeNames": [
         "ar",
         "für",
@@ -61,12 +75,16 @@
         "vun",
         "wal"
     ],
-    "minPlaceNameLength": 1,
-    "maxPlaceNameLength": 3,
-    "minFirstNameLength": 2,
-    "maxFirstNameLength": 3,
-    "minLastNameLength": 2,
-    "maxLastNameLength": 3,
-    "expansionism": 0.0,
-    "hostility": 0.0
+    "placeNameLength": {
+        "min": 2,
+        "max": 3
+    },
+    "firstNameLength": {
+        "min": 1,
+        "max": 2
+    },
+    "lastNameLength": {
+        "min": 4,
+        "max": 5
+    }
 }

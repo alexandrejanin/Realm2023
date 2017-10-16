@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
@@ -10,6 +11,9 @@ using Random = System.Random;
 public class GameController : MonoBehaviour {
 	private static GameController Instance => instance ?? (instance = FindObjectOfType<GameController>());
 	private static GameController instance;
+
+	//public static Stopwatch Stopwatch => stopwatch ?? (stopwatch = new Stopwatch());
+	//private static Stopwatch stopwatch;
 
 	[Header("Map Settings"), SerializeField] private bool randomSeed;
 	[SerializeField] public bool autoUpdate;
@@ -63,8 +67,6 @@ public class GameController : MonoBehaviour {
 	private void Awake() {
 		DontDestroyOnLoad(this);
 
-		LoadDatabase();
-
 		GenerateMap();
 	}
 
@@ -96,16 +98,21 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void LoadDatabase() {
-		races = Directory.GetFiles(RacesPath, "*.json").Select(file => JsonUtility.FromJson<Race>(File.ReadAllText(file))).ToArray();
-		climates = Directory.GetFiles(ClimatesPath, "*.json").Select(file => JsonUtility.FromJson<Climate>(File.ReadAllText(file))).ToArray();
+		races = LoadFromDirectory<Race>(RacesPath);
+		climates = LoadFromDirectory<Climate>(ClimatesPath);
 	}
 
 	public void SaveDatabase() {
-		foreach (Race race in races) {
-			File.WriteAllText(RacesPath + race + ".json", JsonUtility.ToJson(race, true));
-		}
-		foreach (Climate climate in climates) {
-			File.WriteAllText(ClimatesPath + climate + ".json", JsonUtility.ToJson(climate, true));
+		SaveToDirectory(races, RacesPath);
+		SaveToDirectory(climates, ClimatesPath);
+	}
+
+	private static T[] LoadFromDirectory<T>(string path) => Directory.GetFiles(path, "*.json").Select(file => JsonUtility.FromJson<T>(File.ReadAllText(file))).ToArray();
+
+	private static void SaveToDirectory<T>(IEnumerable<T> database, string path) {
+		if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+		foreach (T o in database) {
+			File.WriteAllText(path + o + ".json", JsonUtility.ToJson(o, true));
 		}
 	}
 
