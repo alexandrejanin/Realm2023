@@ -61,10 +61,10 @@ MonoBehaviour:
     value: 2
   threshold:
     overrideState: 1
-    value: 0.9
+    value: 1
   softKnee:
-    overrideState: 1
-    value: 0.5
+    overrideState: 0
+    value: 0
   diffusion:
     overrideState: 0
     value: 4

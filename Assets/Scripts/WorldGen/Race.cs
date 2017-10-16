@@ -8,7 +8,7 @@
 public class Race {
 	public string collectiveName, individualName, adjective;
 
-	public float expansionism, hostility;
+	[Range(0, 1)] public float expansionism, hostility;
 
 	[SerializeField] private FloatRange height, temp, humidity;
 
