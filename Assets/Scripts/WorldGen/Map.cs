@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -46,7 +47,7 @@ public class Map {
 		return region;
 	}
 
-	public Tile RandomTile() => RandomRegion().RandomTile(random);
+	public Tile RandomTile() => GetTile(random.Next(0, size), random.Next(0, size));
 
 	private void GenerateTileMap() {
 		tileMap = new Tile[size, size];
@@ -55,16 +56,16 @@ public class Map {
 		float[,] tempMap = settings.GenerateTempMap(HeightMap);
 		float[,] humidityMap = settings.GenerateHumidityMap();
 
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
+		for (int y = 0; y < size; y ++) {
+			for (int x = 0; x < size; x ++) {
 				tileMap[x, y] = new Tile(this, x, y, HeightMap[x, y], tempMap[x, y], humidityMap[x, y]);
 			}
 		}
 	}
 
 	private void GenerateRegions() {
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
+		for (int y = 0; y < size; y ++) {
+			for (int x = 0; x < size; x ++) {
 				Tile tile = tileMap[x, y];
 				if (tile.region != null) continue;
 
@@ -85,11 +86,12 @@ public class Map {
 			Tile tile = queue.Dequeue();
 			tiles.Add(tile);
 
-			for (int j = -range; j <= range; j++) {
-				for (int i = -range; i <= range; i++) {
+			for (int j = -range; j <= range; j ++) {
+				for (int i = -range; i <= range; i ++) {
 					Tile newTile = GetTile(tile.x + i, tile.y + j);
 
-					if (newTile == null || newTile.regionPending || newTile.Climate != tile.Climate || newTile.region != null) continue;
+					if (newTile == null || newTile.regionPending || newTile.Climate != tile.Climate ||
+					    newTile.region != null) continue;
 
 					queue.Enqueue(newTile);
 					newTile.regionPending = true;
@@ -101,18 +103,19 @@ public class Map {
 	}
 
 	private void GenerateCivs() {
-		foreach (Race race in GameController.Races) {
+		while (civilizations.Count < settings.civilizations) {
+			Race race = GameController.RandomRace();
 			Civilization civ = new Civilization(this, race);
 			civilizations.Add(civ);
 			Tile tile = null;
 			int attempts = 0;
-			while ((tile == null || !race.IsValidTile(tile)) && attempts < 1000) {
+			while ((tile == null || !race.IsValidTile(tile)) && attempts < 100) {
 				tile = RandomTile();
-				attempts++;
+				attempts ++;
 			}
 
-			if (attempts >= 1000) {
-				Debug.LogError($"Could not find suitable tile for {race}");
+			if (attempts >= 100) {
+				Debug.Log($"Could not find suitable tile for {race}");
 				continue;
 			}
 
@@ -123,8 +126,8 @@ public class Map {
 	}
 
 	public Texture2D GetTexture(MapDrawMode mapDrawMode) {
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
+		for (int x = 0; x < size; x ++) {
+			for (int y = 0; y < size; y ++) {
 				colors[x + size * y] = GetTile(x, y).GetColor(mapDrawMode);
 			}
 		}
