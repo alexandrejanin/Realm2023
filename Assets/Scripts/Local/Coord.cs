@@ -60,9 +60,7 @@ public struct Coord : IComparable<Coord> {
 		return new Coord(random.Next(a.x, b.x), random.Next(a.y, b.y), random.Next(a.z, b.z));
 	}
 
-	private Coord(float x, float y, float z) : this(Mathf.RoundToInt(x), Mathf.RoundToInt(y), Mathf.RoundToInt(z)) { }
-
-	public Coord(Vector3 vector) : this(vector.x, vector.y, vector.z) { }
+	public Coord(Vector3 vector) : this(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y), Mathf.RoundToInt(vector.z)) { }
 
 	public int CompareTo(Coord other) => SquaredMagnitude - other.SquaredMagnitude;
 
@@ -83,14 +81,12 @@ public struct Coord : IComparable<Coord> {
 
 	public static Coord operator /(Coord c, int i) => new Coord(c.x / i, c.y / i, c.z / i);
 
-	public static Vector3 operator /(Coord c, float f) => new Vector3(c.x / f, c.y / f, c.z / f);
-
-	public static Coord operator *(Quaternion q, Coord c) => new Coord(q * (Vector3) c); //TODO: better rotation (int 45deg increments)
-
 	public static Coord operator -(Coord c) => new Coord(-c.x, -c.y, -c.z);
 
+	public static Coord operator *(QuaternionInt q, Coord c) => new Coord(q.ToQuaternion() * c);
+
 	public override bool Equals(object o) {
-		if (o == null) return false;
+		if (!(o is Coord)) return false;
 		Coord other = (Coord) o;
 		return x == other.x && y == other.y && z == other.z;
 	}
@@ -103,4 +99,18 @@ public struct Coord : IComparable<Coord> {
 			return hashCode;
 		}
 	}
+}
+
+[Serializable]
+public struct QuaternionInt {
+	[Range(0, 7)] public int x, y, z;
+
+	public QuaternionInt(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	public Quaternion ToQuaternion() => Quaternion.Euler(x * 45, y * 45, z * 45);
+	public override string ToString() => x + ", " + y + ", " + z;
 }

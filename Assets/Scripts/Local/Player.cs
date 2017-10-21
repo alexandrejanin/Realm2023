@@ -52,12 +52,12 @@ public class Player : MonoBehaviour {
 						if (hits != null && hits.Length > 0) {
 							RaycastHit hit = hits.FirstOrDefault(h => h.transform.GetComponent<EntityObject>().Entity.seen);
 							if (hit.transform != null) {
-								Interactable interactable = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
-								if (interactable != null) {
+								Interactable entity = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
+								if (entity != null) {
 									if (rightClick) {
-										DisplayInteractable(interactable);
-									} else if (!interactable.ValidPosition(character.position)) {
-										interactable.MoveTo(character);
+										DisplayInteractable(entity);
+									} else if (!entity.ValidPosition(character.position)) {
+										entity.MoveTo(character);
 									}
 								} else {
 									Coord target = NodeGrid.GetCoordFromWorldPos(hit.point + hit.normal * 0.2f);
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private static void MoveTowards(Coord direction) {
-		Quaternion rotation = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
+		QuaternionInt rotation = new QuaternionInt(0, Mathf.FloorToInt(Camera.transform.eulerAngles.y) / 45, 0);
 		direction = rotation * direction;
 
 		Node validNode = GetValidNode(direction);
@@ -121,8 +121,8 @@ public class Player : MonoBehaviour {
 		return null;
 	}
 
-	public static void DisplayInteractable(Interactable interactable) {
-		DisplayInteractions(interactable.Name, interactable.GetInteractions(character));
+	public static void DisplayInteractable(Interactable entity) {
+		DisplayInteractions(entity.Name, entity.GetInteractions(character));
 	}
 
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {

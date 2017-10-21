@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -39,21 +40,14 @@ public class WorldGenUI : MonoBehaviour {
 
 		string mapText = $"Seed: {map.settings.seed}\nPopulation: {map.towns.Sum(t => t.population)}";
 
-		string regionsText = "\nRegions:";
-
-		int totalTiles = 0;
-
 		foreach (Climate climate in GameController.Climates) {
-			int regionsCount = map.regions.Count(region => region.climate == climate);
+			List<Region> validRegions = map.regions.Where(region => region.climate == climate).ToList();
+			int regionsCount = validRegions.Count;
 			if (regionsCount == 0) continue;
-			int tilesCount = map.regions.Where(region => region.climate == climate).Sum(region => region.Size);
+			int tilesCount = validRegions.Sum(region => region.Size);
 
-			regionsText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
-			totalTiles += tilesCount;
+			mapText += $"\n{regionsCount} {climate.name}s ({tilesCount} tiles)";
 		}
-
-		mapText += regionsText;
-		mapText += "\n" + totalTiles + " tiles";
 
 		if (mapInfo != null) mapInfo.text = mapText;
 	}

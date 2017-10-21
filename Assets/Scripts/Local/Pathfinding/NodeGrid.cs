@@ -15,7 +15,6 @@ public static class NodeGrid {
 
 	public const int maxViewDistanceSquared = 225;
 
-
 	public static void CreateGrid(Location location) {
 		size = new Coord(location.size, location.height, location.size);
 		grid = new Node[Width, Height, Length];

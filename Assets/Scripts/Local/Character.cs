@@ -104,6 +104,8 @@ public class Character : Interactable {
 		}
 	}
 
+	private void Talk() { }
+
 	public override void MoveTo(Character character) => character.RequestPathToPositions(position.GetAdjacent(true, true));
 
 	private void MoveToCoord(Coord coord) {
@@ -120,7 +122,11 @@ public class Character : Interactable {
 		}
 	}
 
-	public override List<Interaction> GetInteractions(Character character) => GetBasicInteractions(character);
+	public override List<Interaction> GetInteractions(Character character) {
+		List<Interaction> interactions = GetBasicInteractions(character);
+		if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk));
+		return interactions;
+	}
 
 	protected override string InspectText() => Name;
 }

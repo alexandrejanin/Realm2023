@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class LocationManager : MonoBehaviour {
 	private Location location;
@@ -15,8 +13,8 @@ public class LocationManager : MonoBehaviour {
 	}
 
 	private void SpawnPlayer() {
-		int x = Random.Range(5, 95);
-		int z = Random.Range(5, 95);
+		int x = GameController.Random.Next(5, 95);
+		int z = GameController.Random.Next(5, 95);
 		location.characters.Add(new Character(new Coord(x, location.heightMap[x, z], z), true));
 	}
 
@@ -45,22 +43,23 @@ public class LocationManager : MonoBehaviour {
 	}
 
 	private void BuildBlueprint(Blueprint blueprint) {
-		Coord rotationCoord = new Coord(0, Random.Range(0, 4), 0);
-		Quaternion rotation = Quaternion.Euler(rotationCoord * 90);
+		int yRotation = GameController.Random.Next(0, 4) * 2;
+		QuaternionInt rotation = new QuaternionInt(0, yRotation, 0);
 		Coord size = blueprint.RandomSize();
 
-		Coord offset = Blueprint.RotationOffset(rotationCoord.y);
+		Coord offset = Blueprint.RotationOffset(yRotation);
 
 		bool validPosition = false;
-		Vector3 center = new Vector3();
 		int tries = 0;
 
-		while (!validPosition && tries < 100) {
-			int bottomLeftX = Random.Range(0, location.size - (rotation * size).x.Abs());
-			int bottomLeftZ = Random.Range(0, location.size - (rotation * size).z.Abs());
-			Coord bottomLeft = new Coord(bottomLeftX, location.heightMap[bottomLeftX, bottomLeftZ], bottomLeftZ);
+		Coord bottomLeft = new Coord();
 
-			center = bottomLeft + rotation * (Vector3) size / 2;
+		while (!validPosition && tries < 100) {
+			int bottomLeftX = GameController.Random.Next(0, location.size - (rotation * size).x.Abs());
+			int bottomLeftZ = GameController.Random.Next(0, location.size - (rotation * size).z.Abs());
+			int floorHeight = location.heightMap[bottomLeftX, bottomLeftZ];
+			bottomLeft = new Coord(bottomLeftX, floorHeight, bottomLeftZ);
+
 			validPosition = true;
 
 			for (int x = -1; x <= size.x; x++) {
@@ -69,7 +68,7 @@ public class LocationManager : MonoBehaviour {
 						Coord tileCoord = new Coord(x, y, z);
 						Coord tilePos = bottomLeft + rotation * tileCoord + offset;
 
-						if (!location.GetTileFree(tilePos)) validPosition = false;
+						if (!(location.GetTileFree(tilePos) && location.GetHeight(tilePos) == floorHeight)) validPosition = false;
 						if (!validPosition) break;
 					}
 					if (!validPosition) break;
@@ -81,7 +80,7 @@ public class LocationManager : MonoBehaviour {
 		}
 
 		if (validPosition) {
-			blueprint.GenerateBuilding(location, center, size, rotation);
+			blueprint.GenerateBuilding(location, bottomLeft, size, rotation);
 		} else {
 			Debug.Log($"Could not find valid position for {blueprint}");
 		}

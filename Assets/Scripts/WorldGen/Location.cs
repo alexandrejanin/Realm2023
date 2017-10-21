@@ -25,6 +25,8 @@ public abstract class Location {
 	public void SetTileFree(int x, int y, int z, bool free) => freeTiles[x, y, z] = free;
 	public bool GetTileFree(Coord coord) => IsInMap(coord) && freeTiles[coord.x, coord.y, coord.z];
 
+	public int GetHeight(Coord position) => heightMap[position.x, position.z];
+
 	public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < size && coord.y >= 0 && coord.y < height && coord.z >= 0 && coord.z < size;
 
 	protected Location(Tile tile, int size, int height) {

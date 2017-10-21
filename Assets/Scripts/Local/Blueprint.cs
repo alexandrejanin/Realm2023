@@ -27,14 +27,12 @@ public class Blueprint {
 		}
 	}
 
-	public void GenerateBuilding(Location location, Vector3 center, Coord size, Quaternion rotation) {
-		Coord bottomLeft = new Coord(center - (Vector3) (rotation * size) / 2);
-
+	public void GenerateBuilding(Location location, Coord bottomLeft, Coord size, QuaternionInt rotation) {
 		int maxX = size.x - 1;
 		int maxY = size.y - 1;
 		int maxZ = size.z - 1;
 
-		Coord rotationOffset = RotationOffset((int) rotation.eulerAngles.y / 90);
+		Coord rotationOffset = RotationOffset(rotation.y);
 
 		int roofY = Mathf.CeilToInt((float) size.z / 2);
 		float middle = (float) maxZ / 2;

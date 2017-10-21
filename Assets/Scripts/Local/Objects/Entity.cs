@@ -5,7 +5,7 @@
 
 	public bool visible, seen, inRenderRange;
 
-	private const int renderRange = 400;
+	private const int renderRange = 900;
 
 	public bool displayed;
 

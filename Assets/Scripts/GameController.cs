@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -10,10 +8,8 @@ using Random = System.Random;
 
 public class GameController : MonoBehaviour {
 	private static GameController Instance => instance ?? (instance = FindObjectOfType<GameController>());
-	private static GameController instance;
 
-	//public static Stopwatch Stopwatch => stopwatch ?? (stopwatch = new Stopwatch());
-	//private static Stopwatch stopwatch;
+	private static GameController instance;
 
 	[Header("Map Settings"), SerializeField] private bool randomSeed;
 	[SerializeField] public bool autoUpdate;
