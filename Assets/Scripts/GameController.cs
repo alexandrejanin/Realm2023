@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour {
 
 	[SerializeField] private MapSettings mapSettings;
 
+	public static Map Map { get; private set; }
+
 	public static Location Location { get; private set; }
 
 	public static Race[] Races {
@@ -43,17 +45,17 @@ public class GameController : MonoBehaviour {
 	private static string RacesPath => Application.streamingAssetsPath + "/Database/Races/";
 	private static string ClimatesPath => Application.streamingAssetsPath + "/Database/Climates/";
 
-	public static Map Map { get; private set; }
-
 	public static LocationManager LocationManager => locationManager ?? (locationManager = Instance.GetComponent<LocationManager>());
 	public static MapDisplay MapDisplay => mapDisplay ?? (mapDisplay = Instance.GetComponent<MapDisplay>());
 	public static WorldGenUI WorldGenUI => worldGenUI ?? (worldGenUI = Instance.GetComponent<WorldGenUI>());
 	public static PrefabManager PrefabManager => prefabManager ?? (prefabManager = Instance.GetComponent<PrefabManager>());
+	public static WorldCamera WorldCamera => worldCamera ?? (worldCamera = FindObjectOfType<WorldCamera>());
 
 	private static LocationManager locationManager;
 	private static MapDisplay mapDisplay;
 	private static WorldGenUI worldGenUI;
 	private static PrefabManager prefabManager;
+	private static WorldCamera worldCamera;
 
 	private static AsyncOperation loadingLevel;
 
@@ -75,6 +77,7 @@ public class GameController : MonoBehaviour {
 	public static void OnMapUpdated() {
 		MapDisplay.DrawMap();
 		WorldGenUI.OnMapChanged();
+		WorldCamera.targetPos = new Vector3(Map.size / 2, Map.size / 2, Map.size / 2);
 	}
 
 	public static IEnumerator LoadLocation(Location location) {

@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 
 public class WorldCamera : MonoBehaviour {
-	private float maxHeight;
-	[SerializeField] private float minHeight = 25;
 	[SerializeField] private float zoomSensitivity = 10;
 	private float height;
 
@@ -20,7 +18,6 @@ public class WorldCamera : MonoBehaviour {
 	private new Camera camera;
 
 	private void Awake() {
-		height = maxHeight = transform.position.y;
 		targetPos = transform.position;
 		camera = GetComponent<Camera>();
 	}
@@ -28,7 +25,7 @@ public class WorldCamera : MonoBehaviour {
 	private void Update() {
 		float mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
-		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, minHeight, maxHeight);
+		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, (float) GameController.Map.size / 10, (float) GameController.Map.size / 2);
 		camera.orthographic = !perspectiveToggle.isOn;
 		if (camera.orthographic) camera.orthographicSize = height;
 
@@ -40,7 +37,8 @@ public class WorldCamera : MonoBehaviour {
 		if (Input.GetMouseButton(mouseButtonPan)) {
 			Vector3 mousePosDiff = initialMousePosition - Input.mousePosition;
 			Vector3 cameraPosDiff = new Vector3(mousePosDiff.x, 0, mousePosDiff.y) * panSensitivity * height / 100;
-			targetPos = initialPosition + cameraPosDiff;
+			targetPos.x = Mathf.Clamp(initialPosition.x + cameraPosDiff.x, 0, GameController.Map.size);
+			targetPos.z = Mathf.Clamp(initialPosition.z + cameraPosDiff.z, 0, GameController.Map.size);
 		}
 
 		targetPos.y = height;

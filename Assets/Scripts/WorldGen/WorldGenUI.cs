@@ -15,10 +15,10 @@ public class WorldGenUI : MonoBehaviour {
 
 	private Tile tile;
 
-	private int x, y;
+	//private int x, y;
 
 	public static MapDrawMode DrawMode { get; private set; }
-	private int mapDrawModes;
+	private int mapDrawModesCount;
 
 	private new Camera camera;
 
@@ -27,11 +27,11 @@ public class WorldGenUI : MonoBehaviour {
 		camera = Camera.main;
 		mapDisplay = GetComponent<MapDisplay>();
 		worldGenUtility = GetComponent<WorldGenUtility>();
-		mapDrawModes = Enum.GetValues(typeof(MapDrawMode)).Length;
+		mapDrawModesCount = Enum.GetValues(typeof(MapDrawMode)).Length;
 	}
 
 	private void OnDrawModeChanged(int value) {
-		DrawMode = value < mapDrawModes ? (MapDrawMode) value : 0;
+		DrawMode = value < mapDrawModesCount ? (MapDrawMode) value : 0;
 		mapDisplay.DrawTexture();
 	}
 
@@ -57,10 +57,13 @@ public class WorldGenUI : MonoBehaviour {
 
 		RaycastHit hit;
 		if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
-			int tilesPerLine = map.size - 1;
-			int tileHit = hit.triangleIndex / 2;
-			x = tileHit % tilesPerLine;
-			y = tileHit / tilesPerLine;
+			//int tilesPerLine = map.size - 1;
+			//int tileHit = hit.triangleIndex / 2;
+			//int x = tileHit % tilesPerLine * (map.settings.Lod + 1);
+			//int y = tileHit / tilesPerLine * (map.settings.Lod + 1);
+
+			int x = Mathf.FloorToInt(hit.point.x);
+			int y = GameController.Map.size - Mathf.CeilToInt(hit.point.z) - 1;
 
 			Tile newTile = map.GetTile(x, y);
 
