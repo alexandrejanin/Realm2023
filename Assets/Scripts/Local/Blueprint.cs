@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class Blueprint {
@@ -79,7 +78,7 @@ public class Blueprint {
 						}
 
 						if (localCoord == doorPos) {
-							location.walls.Add(new Door(worldCoord, back));
+							location.AddWall(new Door(worldCoord, back));
 						} else {
 							if (x == 0) {
 								AddWall(location, worldCoord, left);
@@ -138,7 +137,7 @@ public class Blueprint {
 	}
 
 	private void AddWall(Location location, Coord position, Coord direction) {
-		location.walls.Add(new Wall(position, direction, wallType));
+		location.AddWall(new Wall(position, direction, wallType));
 	}
 
 	public override string ToString() => name;

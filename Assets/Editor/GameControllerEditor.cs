@@ -10,12 +10,9 @@ public class GameControllerEditor : Editor {
 
 		bool refreshed = DrawDefaultInspector();
 
-		if (GUILayout.Button("Load Database")) {
-			gameController.LoadDatabase();
-		}
-		if (GUILayout.Button("Save Database")) {
-			gameController.SaveDatabase();
-		}
+		if (GUILayout.Button("Load Database") && EditorUtility.DisplayDialog("Load Database", "Are you sure you want to revert editor values to database?", "Yes", "No")) gameController.LoadDatabase();
+
+		if (GUILayout.Button("Save Database") && EditorUtility.DisplayDialog("Save Database", "Are you sure you want to overwrite database with editor values?", "Yes", "No")) gameController.SaveDatabase();
 
 		if (refreshed && gameController.autoUpdate || GUILayout.Button("Generate World")) {
 			gameController.GenerateMap();

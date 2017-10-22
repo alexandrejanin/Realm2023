@@ -17,13 +17,25 @@ public class Wall : Interactable {
 		this.wallType = wallType;
 	}
 
-	protected override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) || NodeGrid.IsVisible(from, position + direction, direction);
+	public override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) || NodeGrid.IsVisible(from, position + direction, direction);
 
 	public override List<Interaction> GetInteractions(Character character) => null;
+
+	public WallCoordinate WallCoordinate => new WallCoordinate(position, direction.ToDirectionIndex);
 }
 
 public enum WallType {
 	Grass,
 	Wood,
 	Stone
+}
+
+public struct WallCoordinate {
+	public Coord position;
+	public int direction;
+
+	public WallCoordinate(Coord position, int direction) {
+		this.position = position;
+		this.direction = direction;
+	}
 }

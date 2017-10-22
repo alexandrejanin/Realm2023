@@ -16,6 +16,8 @@ public static class ObjectManager {
 
 	private static Location Location => GameController.Location;
 
+	private const int renderRange = 900;
+
 	public static void RefreshObjects() {
 		foreach (Character character in Location.characters) {
 			if (!character.displayed) {
@@ -34,8 +36,8 @@ public static class ObjectManager {
 			}
 		}
 
-		foreach (Wall wall in Location.walls) {
-			if (wall.displayed) continue;
+		foreach (Wall wall in Location.walls.Values) {
+			if (wall == null || wall.displayed) continue;
 
 			Door door = wall as Door;
 			if (door != null) {
@@ -66,14 +68,23 @@ public static class ObjectManager {
 	}
 
 	private static void StartTurn() {
-		foreach (Entity entity in Location.Entities) {
-			entity.StartTurn();
+		foreach (Character character in Location.characters) {
+			character.StartTurn();
 		}
 	}
 
 	private static void EndTurn() {
-		foreach (Entity entity in Location.Entities) {
-			entity.EndTurn();
+		foreach (Character character in Location.characters) {
+			character.EndTurn();
 		}
+		foreach (Entity entity in Location.Entities) {
+			UpdateVisibility(entity);
+		}
+	}
+
+	public static void UpdateVisibility(Entity entity) {
+		entity.inRenderRange = (playerCharacter.position - entity.position).SquaredMagnitude < renderRange;
+		entity.visible = entity.CanBeSeenFrom(playerCharacter.position);
+		entity.seen = entity.seen || entity.visible;
 	}
 }

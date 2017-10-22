@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
-
-// ReSharper disable UnassignedField.Global
+﻿using UnityEngine;
 
 #pragma warning disable 0649
 
@@ -9,7 +6,6 @@ using UnityEngine;
 public class Climate {
 	public string name;
 
-	//[SerializeField] private float minTemp, maxTemp, minHeight, maxHeight, minHumidity, maxHumidity;
 	[SerializeField] private FloatRange height, temp, humidity;
 
 	public bool isWater;

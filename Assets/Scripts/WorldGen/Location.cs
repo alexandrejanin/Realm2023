@@ -15,9 +15,9 @@ public abstract class Location {
 
 	public readonly List<Character> characters = new List<Character>();
 	public readonly List<Item> items = new List<Item>();
-	public readonly List<Wall> walls = new List<Wall>();
+	public readonly Dictionary<WallCoordinate, Wall> walls = new Dictionary<WallCoordinate, Wall>();
 
-	public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items.Cast<Entity>()).Union(walls.Cast<Entity>());
+	public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items.Cast<Entity>()).Union(walls.Values.Cast<Entity>());
 
 	private readonly bool[,,] freeTiles;
 
@@ -28,6 +28,14 @@ public abstract class Location {
 	public int GetHeight(Coord position) => heightMap[position.x, position.z];
 
 	public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < size && coord.y >= 0 && coord.y < height && coord.z >= 0 && coord.z < size;
+
+	public void AddWall(Wall wall) {
+		if (walls.ContainsKey(wall.WallCoordinate)) {
+			walls[wall.WallCoordinate] = wall;
+		} else {
+			walls.Add(wall.WallCoordinate, wall);
+		}
+	}
 
 	protected Location(Tile tile, int size, int height) {
 		this.size = size;

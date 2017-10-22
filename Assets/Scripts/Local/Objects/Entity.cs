@@ -5,8 +5,6 @@
 
 	public bool visible, seen, inRenderRange;
 
-	private const int renderRange = 900;
-
 	public bool displayed;
 
 	protected Entity(Coord position) {
@@ -18,20 +16,8 @@
 	private Coord lastPos;
 	private Coord[] positions;
 
-	public virtual void StartTurn() { }
-
-	public virtual void EndTurn() {
-		UpdateVisibility(ObjectManager.playerCharacter.position);
-	}
-
-	protected virtual bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position);
+	public virtual bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position);
 	protected virtual bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to);
-
-	public void UpdateVisibility(Coord playerPosition) {
-		inRenderRange = (playerPosition - position).SquaredMagnitude < renderRange;
-		visible = CanBeSeenFrom(playerPosition);
-		seen = seen || visible;
-	}
 
 	public static implicit operator Coord(Entity entity) => entity.position;
 

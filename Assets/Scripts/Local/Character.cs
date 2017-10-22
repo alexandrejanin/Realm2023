@@ -77,22 +77,20 @@ public class Character : Interactable {
 		modifiers.Remove(modifier);
 	}
 
-	public override void StartTurn() {
+	public void StartTurn() {
 		if (Path != null) {
 			ProcessPath();
 		}
 		inventory.Update();
 		equipment.Update();
-		base.StartTurn();
 	}
 
-	public override void EndTurn() {
+	public void EndTurn() {
 		if (!isPlayer) {
 			if (CanSeeTo(ObjectManager.playerCharacter.position)) {
 				lookDirection = ObjectManager.playerCharacter.position - position;
 			}
 		}
-		base.EndTurn();
 	}
 
 	private void ProcessPath() {
