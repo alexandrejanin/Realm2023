@@ -26,6 +26,8 @@ public class Wall : Interactable {
 
 public enum WallType {
 	Grass,
+	Sand,
+	Snow,
 	Wood,
 	Stone
 }

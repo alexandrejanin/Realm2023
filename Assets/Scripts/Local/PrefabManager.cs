@@ -7,8 +7,10 @@ public class PrefabManager : MonoBehaviour {
 	public GameObject doorObjectPrefab;
 
 	[Header("Blocks")] [SerializeField] private WallObject grassPrefab;
-	[SerializeField] private WallObject woodPrefab;
+	[SerializeField] private WallObject sandPrefab;
+	[SerializeField] private WallObject snowPrefab;
 	[SerializeField] private WallObject stonePrefab;
+	[SerializeField] private WallObject woodPrefab;
 
 	[Header("UI")] [SerializeField] public ButtonsFrame buttonsFramePrefab;
 	[SerializeField] public UnityEngine.UI.Button buttonPrefab;
@@ -16,6 +18,8 @@ public class PrefabManager : MonoBehaviour {
 	public WallObject GetWallObject(WallType wallType) {
 		switch (wallType) {
 			case WallType.Grass: return grassPrefab;
+			case WallType.Sand: return sandPrefab;
+			case WallType.Snow: return snowPrefab;
 			case WallType.Wood: return woodPrefab;
 			case WallType.Stone: return stonePrefab;
 			default:

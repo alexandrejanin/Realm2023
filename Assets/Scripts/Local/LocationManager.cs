@@ -20,14 +20,15 @@ public class LocationManager : MonoBehaviour {
 
 	private void CreateGround() {
 		location.heightMap = GameController.Map.settings.GenerateLocationHeightMap(location, locationNoiseSettings);
+		WallType wallType = location.Climate.wallType;
 		for (int x = 0; x < location.size; x++) {
 			for (int z = 0; z < location.size; z++) {
 				int height = location.heightMap[x, z];
-				location.AddWall(new Wall(new Coord(x, height, z), Coord.Down, WallType.Grass));
-				if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Left, WallType.Grass));
-				if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Right, WallType.Grass));
-				if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Back, WallType.Grass));
-				if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Forward, WallType.Grass));
+				location.AddWall(new Wall(new Coord(x, height, z), Coord.Down, wallType));
+				if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Left, wallType));
+				if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Right, wallType));
+				if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Back, wallType));
+				if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Forward, wallType));
 
 				for (int i = 1; i < height; i++) {
 					location.SetTileFree(x, i - 1, z, false);

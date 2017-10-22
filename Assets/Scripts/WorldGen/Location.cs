@@ -4,8 +4,9 @@ using System.Linq;
 public abstract class Location {
 	public int buildingsAmount = 50;
 
-	public readonly Region region;
 	protected readonly Tile tile;
+	public Region Region => tile.region;
+	public Climate Climate => Region.climate;
 
 	public readonly int size;
 	public readonly int height;
@@ -41,7 +42,6 @@ public abstract class Location {
 		this.size = size;
 		this.height = height;
 		this.tile = tile;
-		region = tile.region;
 		tile.location = this;
 		freeTiles = new bool[size, height, size];
 		for (int x = 0; x < size; x++) {

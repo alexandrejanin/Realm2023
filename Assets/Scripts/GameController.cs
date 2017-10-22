@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour {
 
 	private static GameController instance;
 
-	private static int Seed => Instance.seed;
+	private static int Seed => Instance.randomSeed ? Instance.seed = UnityEngine.Random.Range(0, 9999) : Instance.seed;
+	[SerializeField] private bool randomSeed;
 	[SerializeField] private int seed;
 
 	[SerializeField] private bool screenshots;

@@ -12,6 +12,8 @@ public class Climate {
 
 	public Gradient colorGradient;
 
+	public WallType wallType;
+
 	public Color GetColor(float tileHeight) {
 		Color color = colorGradient.Evaluate(Mathf.InverseLerp(height.min, height.max, tileHeight));
 		return color;
