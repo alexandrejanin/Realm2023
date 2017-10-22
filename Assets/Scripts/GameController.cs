@@ -11,7 +11,12 @@ public class GameController : MonoBehaviour {
 
 	private static GameController instance;
 
-	[Header("Map Settings"), SerializeField] private bool randomSeed;
+	private static int Seed => Instance.seed;
+	[SerializeField] private int seed;
+
+	[SerializeField] private bool screenshots;
+
+	[Header("Map Settings"), SerializeField] private bool randomMapSeed;
 	[SerializeField] public bool autoUpdate;
 
 	[SerializeField] private MapSettings mapSettings;
@@ -59,7 +64,7 @@ public class GameController : MonoBehaviour {
 
 	private static AsyncOperation loadingLevel;
 
-	public static Random Random => random ?? (random = new Random());
+	public static Random Random => random ?? (random = new Random(Seed));
 	private static Random random;
 
 	private void Awake() {
@@ -69,7 +74,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void GenerateMap() {
-		if (randomSeed) mapSettings.seed = Random.Next(0, 99999);
+		if (randomMapSeed) mapSettings.seed = Random.Next(0, 99999);
 		Map = new Map(mapSettings);
 		OnMapUpdated();
 	}
@@ -78,6 +83,9 @@ public class GameController : MonoBehaviour {
 		MapDisplay.DrawMap();
 		WorldGenUI.OnMapChanged();
 		WorldCamera.targetPos = new Vector3(Map.size / 2, Map.size / 2, Map.size / 2);
+		if (Instance.screenshots) {
+			ScreenCapture.CaptureScreenshot("Screenshots/" + Map.settings.seed + ".png");
+		}
 	}
 
 	public static IEnumerator LoadLocation(Location location) {

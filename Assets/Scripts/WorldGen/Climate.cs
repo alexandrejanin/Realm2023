@@ -23,7 +23,5 @@ public class Climate {
 
 	public bool CorrectTile(Tile tile) => height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
 
-	public static Climate GetClimate(Tile tile) => GameController.Climates.First(climate => climate.CorrectTile(tile));
-
 	public override string ToString() => name;
 }

@@ -17,7 +17,7 @@ public class Tile {
 	public bool IsWater => Climate.isWater;
 
 	public bool regionPending;
-	
+
 	public readonly Tile[] adjacentTiles;
 
 	public Tile(Map map, int x, int y, float height, float temp, float humidity) {
@@ -26,7 +26,7 @@ public class Tile {
 		this.height = height;
 		this.temp = temp;
 		this.humidity = humidity;
-		Climate = Climate.GetClimate(this);
+		Climate = GameController.Climates.First(climate => climate.CorrectTile(this));
 		color = Climate.GetColor(height);
 		heightColor = Color.Lerp(Color.black, Color.white, height);
 		tempColor = Color.Lerp(Color.cyan, Color.red, temp);

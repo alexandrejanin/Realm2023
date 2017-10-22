@@ -4,7 +4,7 @@ using System.Linq;
 
 public static class Utility {
 
-	private static readonly Random DefaultRandom = new Random();
+	private static Random DefaultRandom => GameController.Random;
 
 	public static string Capitalize(this string s) => s.First().ToString().ToUpper() + s.Substring(1);
 

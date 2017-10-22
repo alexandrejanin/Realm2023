@@ -37,10 +37,12 @@ public class WorldCamera : MonoBehaviour {
 		if (Input.GetMouseButton(mouseButtonPan)) {
 			Vector3 mousePosDiff = initialMousePosition - Input.mousePosition;
 			Vector3 cameraPosDiff = new Vector3(mousePosDiff.x, 0, mousePosDiff.y) * panSensitivity * height / 100;
-			targetPos.x = Mathf.Clamp(initialPosition.x + cameraPosDiff.x, 0, GameController.Map.size);
-			targetPos.z = Mathf.Clamp(initialPosition.z + cameraPosDiff.z, 0, GameController.Map.size);
+			targetPos.x = initialPosition.x + cameraPosDiff.x;
+			targetPos.z = initialPosition.z + cameraPosDiff.z;
 		}
 
+		targetPos.x = Mathf.Clamp(targetPos.x, 0, GameController.Map.size);
+		targetPos.z = Mathf.Clamp(targetPos.z, 0, GameController.Map.size);
 		targetPos.y = height;
 
 		transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
