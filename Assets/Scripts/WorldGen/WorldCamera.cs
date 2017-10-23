@@ -19,13 +19,14 @@ public class WorldCamera : MonoBehaviour {
 
 	private void Awake() {
 		targetPos = transform.position;
+		height = targetPos.y;
 		camera = GetComponent<Camera>();
 	}
 
 	private void Update() {
 		float mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
-		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, (float) GameController.Map.size / 10, (float) GameController.Map.size / 2);
+		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, GameController.Map.size / 10, GameController.Map.size / 2);
 		camera.orthographic = !perspectiveToggle.isOn;
 		if (camera.orthographic) camera.orthographicSize = height;
 
@@ -45,7 +46,9 @@ public class WorldCamera : MonoBehaviour {
 		targetPos.z = Mathf.Clamp(targetPos.z, 0, GameController.Map.size);
 		targetPos.y = height;
 
-		transform.position = Vector3.Lerp(transform.position, targetPos, 0.1f);
+		transform.position = (transform.position - targetPos).magnitude > 0.01f
+			? Vector3.Lerp(transform.position, targetPos, 0.1f)
+			: targetPos;
 	}
 
 }
