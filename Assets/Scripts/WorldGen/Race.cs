@@ -15,6 +15,8 @@ public class Race {
 	[SerializeField] private string[] placeNames, maleFirstNames, femaleFirstNames, lastNames;
 	[SerializeField] private IntRange placeNameLength, firstNameLength, lastNameLength;
 
+	public Color skinColor;
+
 	public bool IsValidTile(Tile tile) => !tile.IsWater && height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
 
 	public float GetTileCompatibility(Tile tile) => 1 - ((height.Average - tile.height).Abs() + (temp.Average - tile.temp).Abs() + (humidity.Average - tile.humidity).Abs()) / 3;

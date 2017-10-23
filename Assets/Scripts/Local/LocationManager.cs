@@ -55,7 +55,7 @@ public class LocationManager : MonoBehaviour {
 
 		Coord bottomLeft = new Coord();
 
-		while (!validPosition && tries < 100) {
+		while (!validPosition && tries < 1000) {
 			int bottomLeftX = GameController.Random.Next(0, location.size - (rotation * size).x.Abs());
 			int bottomLeftZ = GameController.Random.Next(0, location.size - (rotation * size).z.Abs());
 			int floorHeight = location.heightMap[bottomLeftX, bottomLeftZ];

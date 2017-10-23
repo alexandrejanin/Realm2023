@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class Interactable : Entity {
 	protected Interactable(Coord position) : base(position) { }
@@ -15,7 +14,7 @@ public abstract class Interactable : Entity {
 		return interactions;
 	}
 
-	private void Inspect() => Debug.Log(InspectText());
+	private void Inspect() => Log.Add(InspectText());
 
 	protected virtual string InspectText() => Name;
 
@@ -29,9 +28,11 @@ public abstract class Interactable : Entity {
 public class Interaction {
 	public readonly string name;
 	public readonly Action action;
+	public readonly bool skipTurn;
 
-	public Interaction(string name, Action action) {
+	public Interaction(string name, Action action, bool skipTurn = false) {
 		this.name = name;
 		this.action = action;
+		this.skipTurn = skipTurn;
 	}
 }

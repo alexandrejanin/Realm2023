@@ -122,7 +122,7 @@ public class Character : Interactable {
 
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);
-		if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk));
+		if (character != this && CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk, true));
 		return interactions;
 	}
 

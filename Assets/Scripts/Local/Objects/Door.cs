@@ -17,13 +17,13 @@ public class Door : Wall {
 
 		if (ValidPosition(character.position)) {
 			if (locked) {
-				interactions.Add(new Interaction("Unlock", Unlock));
+				interactions.Add(new Interaction("Unlock", Unlock, true));
 			} else {
 				if (open) {
-					interactions.Add(new Interaction("Close", Close));
+					interactions.Add(new Interaction("Close", Close, true));
 				} else {
-					interactions.Add(new Interaction("Open", Open));
-					interactions.Add(new Interaction("Lock", Lock));
+					interactions.Add(new Interaction("Open", Open, true));
+					interactions.Add(new Interaction("Lock", Lock, true));
 				}
 			}
 		}

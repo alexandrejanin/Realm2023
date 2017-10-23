@@ -102,7 +102,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private static void MoveTowards(Coord direction) {
-		QuaternionInt rotation = new QuaternionInt(0, Mathf.FloorToInt(Camera.transform.eulerAngles.y) / 45, 0);
+		QuaternionInt rotation = new QuaternionInt(0, Mathf.RoundToInt(Camera.transform.eulerAngles.y / 45f), 0);
 		direction = rotation * direction;
 
 		Node validNode = GetValidNode(direction);
