@@ -17,7 +17,7 @@ public static class Utility {
 
 	public static int Sign(this int i) => i > 0 ? 1 : i < 0 ? -1 : 0;
 
-	public static float Sign(this float i) => i > 0 ? 1 : i < 0 ? -1 : 0;
+	public static float Sign(this float f) => f > 0 ? 1 : f < 0 ? -1 : 0;
 
 	public static bool RandomBool => UnityEngine.Random.value > 0.5f;
 }

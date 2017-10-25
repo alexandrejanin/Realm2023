@@ -44,7 +44,7 @@ public class Equipable : Item {
 		List<Interaction> interactions = base.GetInteractions(character);
 
 		if (ValidPosition(character.position)) {
-			interactions.Add(character.equipment.Contains(this) ? new Interaction("Unequip", () => Unequip(character)) : new Interaction("Equip", () => Equip(character)));
+			interactions.Add(character.equipment.Contains(this) ? new Interaction("Unequip", () => Unequip(character), false) : new Interaction("Equip", () => Equip(character), false));
 		}
 
 		return interactions;

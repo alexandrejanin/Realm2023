@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
 			if (character.IsMoving) {
 				turnTimer -= Time.deltaTime;
 				if (turnTimer <= 0 && !paused) {
+					ObjectManager.TakeTurn();
 					turnTimer = turnDuration;
 				}
 			} else {
@@ -48,20 +49,14 @@ public class Player : MonoBehaviour {
 						ClearInteractionMenu();
 					} else if (!EventSystem.current.IsPointerOverGameObject()) {
 						RaycastHit[] hits = Physics.RaycastAll(Camera.ScreenPointToRay(Input.mousePosition));
-						if (hits != null && hits.Length > 0) {
-							RaycastHit hit = hits.FirstOrDefault(h => h.transform.GetComponent<EntityObject>().Entity.seen);
-							if (hit.transform != null) {
-								Interactable entity = hit.transform?.GetComponent<InteractableObject>()?.Interactable;
-								if (entity != null) {
-									if (rightClick) {
-										DisplayInteractable(entity);
-									} else if (!entity.ValidPosition(character.position)) {
-										entity.MoveTo(character);
-									}
-								} else {
-									Coord target = NodeGrid.GetCoordFromWorldPos(hit.point + hit.normal * 0.2f);
-									character.RequestPathToPosition(target);
-								}
+						InteractableObject[] interactableObjects = hits.Select(h => h.transform.GetComponent<InteractableObject>()).ToArray();
+						InteractableObject hitInteractableObject = interactableObjects.FirstOrDefault(entityObject => entityObject.Entity.seen);
+						if (hitInteractableObject != null) {
+							Interactable entity = hitInteractableObject.Interactable;
+							if (rightClick) {
+								DisplayInteractable(entity);
+							} else if (!entity.ValidPosition(character.position)) {
+								entity.MoveTo(character);
 							}
 						}
 					}
@@ -69,6 +64,7 @@ public class Player : MonoBehaviour {
 
 				if (Input.GetKeyDown(KeyCode.Keypad5)) {
 					character.StopPath();
+					ObjectManager.TakeTurn();
 				}
 
 				if (Input.GetKeyDown(KeyCode.Keypad1)) {
@@ -103,7 +99,10 @@ public class Player : MonoBehaviour {
 		QuaternionInt rotation = new QuaternionInt(0, Mathf.RoundToInt(Camera.transform.eulerAngles.y / 45f), 0);
 		direction = rotation * direction;
 		Node node = GetValidNode(direction);
-		character.RequestPathToPosition(node.position);
+		if (node != null) {
+			character.RequestPathToPosition(node.position);
+			ObjectManager.TakeTurn();
+		}
 	}
 
 	private static Node GetValidNode(Coord direction) {
@@ -133,6 +132,7 @@ public class Player : MonoBehaviour {
 			button.GetComponentInChildren<Text>().text = interaction.name;
 			button.onClick.AddListener(() => interaction.action.Invoke());
 			button.onClick.AddListener(() => Destroy(frame.gameObject));
+			if (interaction.skipTurn) button.onClick.AddListener(ObjectManager.TakeTurn);
 		}
 
 		frame.SetSize(prefabManager.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1);

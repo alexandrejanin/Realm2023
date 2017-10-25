@@ -58,7 +58,7 @@ public class Equipment : Container, IEnumerable<Equipable> {
 	}
 
 	private void DisplayParts() {
-		List<Interaction> interactions = waitingBodyParts.Select(validPart => new Interaction(validPart.name, () => validPart.OnChosen(this))).ToList();
+		List<Interaction> interactions = waitingBodyParts.Select(validPart => new Interaction(validPart.name, () => validPart.OnChosen(this), false)).ToList();
 
 		Player.DisplayInteractions("Equip where?", interactions);
 	}

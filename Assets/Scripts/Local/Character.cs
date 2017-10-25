@@ -32,12 +32,13 @@ public class Character : Interactable {
 	private readonly string lastName;
 	public override string Name => firstName + " " + lastName;
 
+	public readonly Body body;
 	public readonly Inventory inventory;
 	public readonly Equipment equipment;
 	public bool HasItem(Item item) => inventory.Contains(item) || equipment.Contains(item);
 	private readonly List<StatModifier> modifiers = new List<StatModifier>();
 
-	public Body body;
+	public bool skipTurn;
 
 	public Character(Coord position, bool isPlayer = false) : this(position, GameController.RandomRace(), Utility.RandomBool, isPlayer) { }
 
@@ -80,6 +81,11 @@ public class Character : Interactable {
 	}
 
 	public void TakeTurn() {
+		if (skipTurn) {
+			skipTurn = false;
+			return;
+		}
+
 		if (Path != null) {
 			ProcessPath();
 		} else if (!isPlayer && CanSeeTo(ObjectManager.playerCharacter.position)) {
@@ -101,6 +107,10 @@ public class Character : Interactable {
 
 	private void Talk() { }
 
+	public void Attack(Character character) {
+		Log.Add(Name + " attacked " + character.Name + "! It's super effective!");
+	}
+
 	public override void MoveTo(Character character) => character.RequestPathToPositions(position.GetAdjacent(true, true));
 
 	private void MoveToCoord(Coord coord) {
@@ -119,7 +129,10 @@ public class Character : Interactable {
 
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);
-		if (character != this && CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk, true));
+		if (character != this) {
+			if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk, true));
+			if ((character.position - position).MaxDimension <= 1) interactions.Add(new Interaction("Attack", () => character.Attack(this), false));
+		}
 		return interactions;
 	}
 

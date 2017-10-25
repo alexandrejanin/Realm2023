@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectManager {
+public static class ObjectManager {
 	private static PrefabManager PrefabManager => GameController.PrefabManager;
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
@@ -12,11 +12,15 @@ public class ObjectManager {
 	public static readonly int VisibleTerrainMask = 1 << VisibleTerrainLayer;
 	public static readonly int TerrainMask = HiddenTerrainMask | VisibleTerrainMask;
 
-	public static readonly List<EntityObject> Hideables = new List<EntityObject>();
+	public static readonly List<EntityObject> EntityObjects = new List<EntityObject>();
 
 	private static Location Location => GameController.Location;
 
 	private const int renderRange = 900;
+
+	private const string terrainParentName = "Terrain";
+	private static Transform TerrainParent => terrainParent ?? (terrainParent = GameObject.Find(terrainParentName).transform);
+	private static Transform terrainParent;
 
 	public static void RefreshObjects() {
 		foreach (Character character in Location.characters) {
@@ -41,18 +45,19 @@ public class ObjectManager {
 
 			Door door = wall as Door;
 			if (door != null) {
-				GameObject doorObject = Object.Instantiate(PrefabManager.doorObjectPrefab, door.WorldPosition, Quaternion.identity);
+				GameObject doorObject = Object.Instantiate(PrefabManager.doorObjectPrefab, door.WorldPosition, Quaternion.identity, TerrainParent);
 				doorObject.GetComponentInChildren<DoorObject>().door = door;
 				doorObject.transform.forward = door.direction;
 			} else {
-				WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity);
+				WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity, TerrainParent);
 				wallObject.wall = wall;
 				wallObject.transform.up = wall.direction;
 			}
 
 			wall.displayed = true;
 		}
-		foreach (EntityObject entityObject in Hideables) {
+
+		foreach (EntityObject entityObject in EntityObjects) {
 			if (entityObject != null) entityObject.UpdateDisplay();
 		}
 	}
@@ -61,8 +66,6 @@ public class ObjectManager {
 		foreach (Character character in Location.characters) {
 			character.TakeTurn();
 		}
-
-		Debug.Log("turn ended");
 
 		foreach (Entity locationEntity in Location.Entities) {
 			UpdateVisibility(locationEntity);

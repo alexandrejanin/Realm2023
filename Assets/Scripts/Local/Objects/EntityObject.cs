@@ -30,7 +30,7 @@ public abstract class EntityObject : MonoBehaviour {
 		renderers = GetComponentsInChildren<Renderer>();
 		//lights = GetComponentsInChildren<Light>();
 		colliders = GetComponentsInChildren<Collider>();
-		ObjectManager.Hideables.Add(this);
+		ObjectManager.EntityObjects.Add(this);
 	}
 
 	protected void Destroy() {

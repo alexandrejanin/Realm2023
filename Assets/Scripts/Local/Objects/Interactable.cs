@@ -9,8 +9,8 @@ public abstract class Interactable : Entity {
 	public abstract List<Interaction> GetInteractions(Character character);
 
 	protected List<Interaction> GetBasicInteractions(Character character) {
-		List<Interaction> interactions = new List<Interaction> {new Interaction("Inspect", Inspect)};
-		if (!ValidPosition(character.position)) interactions.Add(new Interaction("Move To", () => MoveTo(character)));
+		List<Interaction> interactions = new List<Interaction> {new Interaction("Inspect", Inspect, false)};
+		if (!ValidPosition(character.position)) interactions.Add(new Interaction("Move To", () => MoveTo(character), false));
 		return interactions;
 	}
 
@@ -30,7 +30,7 @@ public class Interaction {
 	public readonly Action action;
 	public readonly bool skipTurn;
 
-	public Interaction(string name, Action action, bool skipTurn = false) {
+	public Interaction(string name, Action action, bool skipTurn) {
 		this.name = name;
 		this.action = action;
 		this.skipTurn = skipTurn;

@@ -13,7 +13,7 @@ public abstract class Item : Interactable {
 		List<Interaction> interactions = GetBasicInteractions(character);
 
 		if (ValidPosition(character.position)) {
-			interactions.Add(character.HasItem(this) ? new Interaction("Drop", () => Drop(character)) : new Interaction("Pick Up", () => PickUp(character)));
+			interactions.Add(character.HasItem(this) ? new Interaction("Drop", () => Drop(character), false) : new Interaction("Pick Up", () => PickUp(character), false));
 		}
 		return interactions;
 	}
