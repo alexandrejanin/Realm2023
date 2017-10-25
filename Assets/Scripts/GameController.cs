@@ -55,13 +55,17 @@ public class GameController : MonoBehaviour {
 	public static MapDisplay MapDisplay => mapDisplay ?? (mapDisplay = Instance.GetComponent<MapDisplay>());
 	public static WorldGenUI WorldGenUI => worldGenUI ?? (worldGenUI = Instance.GetComponent<WorldGenUI>());
 	public static PrefabManager PrefabManager => prefabManager ?? (prefabManager = Instance.GetComponent<PrefabManager>());
+
 	public static WorldCamera WorldCamera => worldCamera ?? (worldCamera = FindObjectOfType<WorldCamera>());
+	//public static ObjectManager ObjectManager => objectManager ?? (objectManager = FindObjectOfType<ObjectManager>());
 
 	private static LocationManager locationManager;
 	private static MapDisplay mapDisplay;
 	private static WorldGenUI worldGenUI;
 	private static PrefabManager prefabManager;
+
 	private static WorldCamera worldCamera;
+	//private static ObjectManager objectManager;
 
 	private static AsyncOperation loadingLevel;
 
@@ -93,16 +97,13 @@ public class GameController : MonoBehaviour {
 		if (loadingLevel != null && !loadingLevel.isDone) yield break;
 		Location = location;
 		loadingLevel = SceneManager.LoadSceneAsync("Local", LoadSceneMode.Single);
+
 		while (!loadingLevel.isDone) {
 			yield return null;
 		}
-		OnSceneLoaded();
-	}
 
-	private static void OnSceneLoaded() {
 		NodeGrid.CreateGrid(Location);
 		LocationManager.LoadLocation(Location);
-		ObjectManager.TakeTurn();
 	}
 
 	public void LoadDatabase() {

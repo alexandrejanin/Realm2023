@@ -32,10 +32,9 @@ public class Player : MonoBehaviour {
 		if (character == null || !character.isPlayer) {
 			character = ObjectManager.playerCharacter;
 		} else {
-			if (character.Path != null) {
+			if (character.IsMoving) {
 				turnTimer -= Time.deltaTime;
 				if (turnTimer <= 0 && !paused) {
-					ObjectManager.TakeTurn();
 					turnTimer = turnDuration;
 				}
 			} else {
@@ -69,8 +68,7 @@ public class Player : MonoBehaviour {
 				}
 
 				if (Input.GetKeyDown(KeyCode.Keypad5)) {
-					character.Path = null;
-					ObjectManager.TakeTurn();
+					character.StopPath();
 				}
 
 				if (Input.GetKeyDown(KeyCode.Keypad1)) {
@@ -101,15 +99,11 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private static void MoveTowards(Coord direction) {
+	public void MoveTowards(Coord direction) {
 		QuaternionInt rotation = new QuaternionInt(0, Mathf.RoundToInt(Camera.transform.eulerAngles.y / 45f), 0);
 		direction = rotation * direction;
-
-		Node validNode = GetValidNode(direction);
-		if (validNode != null) {
-			character.Path = new[] {validNode.position};
-			ObjectManager.TakeTurn();
-		}
+		Node node = GetValidNode(direction);
+		character.RequestPathToPosition(node.position);
 	}
 
 	private static Node GetValidNode(Coord direction) {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : Interactable {
@@ -13,7 +12,7 @@ public class Character : Interactable {
 	private int pathIndex;
 	private Coord[] path;
 
-	public Coord[] Path {
+	private Coord[] Path {
 		get {
 			if (path?.Length == 0) path = null;
 			return path;
@@ -23,6 +22,9 @@ public class Character : Interactable {
 			pathIndex = 0;
 		}
 	}
+
+	public bool IsMoving => Path != null;
+	public void StopPath() => Path = null;
 
 	public bool isFemale;
 	public Race race;
@@ -77,20 +79,15 @@ public class Character : Interactable {
 		modifiers.Remove(modifier);
 	}
 
-	public void StartTurn() {
+	public void TakeTurn() {
 		if (Path != null) {
 			ProcessPath();
+		} else if (!isPlayer && CanSeeTo(ObjectManager.playerCharacter.position)) {
+			lookDirection = ObjectManager.playerCharacter.position - position;
 		}
+
 		inventory.Update();
 		equipment.Update();
-	}
-
-	public void EndTurn() {
-		if (!isPlayer) {
-			if (CanSeeTo(ObjectManager.playerCharacter.position)) {
-				lookDirection = ObjectManager.playerCharacter.position - position;
-			}
-		}
 	}
 
 	private void ProcessPath() {

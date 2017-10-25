@@ -18,7 +18,7 @@ public class CharacterObject : InteractableObject {
 	}
 
 	protected void Update() {
-		animator.SetBool("Moving", !correctPosition || Character.Path != null);
+		animator.SetBool("Moving", !correctPosition || Character.IsMoving);
 
 		Coord horizontalDirection = Character.lookDirection;
 		horizontalDirection.y = 0;

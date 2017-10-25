@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class ObjectManager {
+public class ObjectManager {
 	private static PrefabManager PrefabManager => GameController.PrefabManager;
 	public static Character playerCharacter;
 	public static CharacterObject playerCharacterObject;
@@ -52,34 +52,23 @@ public static class ObjectManager {
 
 			wall.displayed = true;
 		}
-	}
-
-	public static void UpdateVisibility() {
 		foreach (EntityObject entityObject in Hideables) {
 			if (entityObject != null) entityObject.UpdateDisplay();
 		}
 	}
 
 	public static void TakeTurn() {
+		foreach (Character character in Location.characters) {
+			character.TakeTurn();
+		}
+
+		Debug.Log("turn ended");
+
+		foreach (Entity locationEntity in Location.Entities) {
+			UpdateVisibility(locationEntity);
+		}
+
 		RefreshObjects();
-		StartTurn();
-		EndTurn();
-		UpdateVisibility();
-	}
-
-	private static void StartTurn() {
-		foreach (Character character in Location.characters) {
-			character.StartTurn();
-		}
-	}
-
-	private static void EndTurn() {
-		foreach (Character character in Location.characters) {
-			character.EndTurn();
-		}
-		foreach (Entity entity in Location.Entities) {
-			UpdateVisibility(entity);
-		}
 	}
 
 	public static void UpdateVisibility(Entity entity) {
