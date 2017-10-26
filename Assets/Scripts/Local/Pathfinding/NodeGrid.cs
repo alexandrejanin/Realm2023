@@ -111,7 +111,7 @@ public static class NodeGrid {
 
 	public static bool IsVisible(Coord start, Coord end, Vector3 normal = new Vector3(), int viewDist = maxViewDistanceSquared) {
 		if ((start.x - end.x) * (start.x - end.x) + (start.z - end.z) * (start.z - end.z) > viewDist) return false;
-		List<Coord> line = GetLine(end, start);
+		List<Coord> line = GetLine(start, end);
 
 		if (Vector3.Angle((end - start).Normalize, normal) < 90f) return false;
 

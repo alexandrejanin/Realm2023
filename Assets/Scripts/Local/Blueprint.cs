@@ -78,7 +78,7 @@ public class Blueprint {
 						}
 
 						if (localCoord == doorPos) {
-							location.AddWall(new Door(worldCoord, back));
+							location.AddWall(new Doorway(worldCoord, back, wallType));
 						} else {
 							if (x == 0) {
 								AddWall(location, worldCoord, left);

@@ -48,15 +48,23 @@ public class Player : MonoBehaviour {
 					if (interactionsMenu != null && !RectTransformUtility.RectangleContainsScreenPoint(interactionsMenu.GetComponent<RectTransform>(), Input.mousePosition)) {
 						ClearInteractionMenu();
 					} else if (!EventSystem.current.IsPointerOverGameObject()) {
-						RaycastHit[] hits = Physics.RaycastAll(Camera.ScreenPointToRay(Input.mousePosition));
-						InteractableObject[] interactableObjects = hits.Select(h => h.transform.GetComponent<InteractableObject>()).ToArray();
-						InteractableObject hitInteractableObject = interactableObjects.FirstOrDefault(entityObject => entityObject.Entity.seen);
-						if (hitInteractableObject != null) {
-							Interactable entity = hitInteractableObject.Interactable;
-							if (rightClick) {
-								DisplayInteractable(entity);
-							} else if (!entity.ValidPosition(character.position)) {
-								entity.MoveTo(character);
+						RaycastHit[] hits = Physics.RaycastAll(Camera.ScreenPointToRay(Input.mousePosition))
+							.Where(h => {
+								EntityObject entityObject = h.transform.GetComponent<EntityObject>();
+								return entityObject != null && entityObject.Entity.seen;
+							}).ToArray();
+						if (hits.Length > 0) {
+							RaycastHit hit = hits[0];
+							Entity entity = hit.transform.GetComponent<EntityObject>().Entity;
+							Interactable interactable = entity as Interactable;
+							if (interactable == null) {
+								if (leftClick) character.RequestPathToPosition(NodeGrid.GetCoordFromWorldPos(hit.point + 0.05f * hit.normal));
+							} else {
+								if (rightClick) {
+									DisplayInteractable(interactable);
+								} else {
+									interactable.MoveTo(character);
+								}
 							}
 						}
 					}
@@ -119,7 +127,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
-		if (interactions.Count == 0) return;
+		if (interactions == null || interactions.Count == 0) return;
 
 		PrefabManager prefabManager = GameController.PrefabManager;
 

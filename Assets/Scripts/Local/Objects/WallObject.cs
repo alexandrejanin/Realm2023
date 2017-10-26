@@ -1,5 +1,5 @@
-﻿public class WallObject : InteractableObject {
-	public Wall wall;
+﻿public class WallObject : EntityObject {
+	public virtual Wall Wall { get; set; }
 
-	public override Interactable Interactable => wall;
+	public override Entity Entity => Wall;
 }

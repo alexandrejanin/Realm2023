@@ -4,7 +4,7 @@ using UnityEngine;
 public class PrefabManager : MonoBehaviour {
 	[Header("Objects")] public ItemObject itemObjectPrefab;
 	public CharacterObject characterObjectPrefab;
-	public GameObject doorObjectPrefab;
+	public DoorwayObject doorObjectPrefab;
 
 	[Header("Blocks")] [SerializeField] private WallObject grassPrefab;
 	[SerializeField] private WallObject sandPrefab;

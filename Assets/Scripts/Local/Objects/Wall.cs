@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Wall : Interactable {
+public class Wall : Entity {
 	public override string Name => "Wall";
 
 	public readonly Coord direction;
@@ -18,8 +16,6 @@ public class Wall : Interactable {
 	}
 
 	public override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) || NodeGrid.IsVisible(from, position + direction, direction);
-
-	public override List<Interaction> GetInteractions(Character character) => null;
 
 	public WallCoordinate WallCoordinate => new WallCoordinate(position, direction.ToDirectionIndex);
 }

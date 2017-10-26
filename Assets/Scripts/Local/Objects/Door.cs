@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
 
-public class Door : Wall {
+public class Door : Interactable {
 	public bool open;
 	public bool locked;
 
 	public override string Name => "Door";
 
-	public Door(Coord position, Coord direction) : base(position, direction, WallType.Wood) {
-		NodeGrid.BlockPassage(position, direction);
+	public readonly Doorway doorway;
+
+	public Coord Direction => doorway.direction;
+
+	public Door(Doorway doorway) : base(doorway.position) {
+		this.doorway = doorway;
+		NodeGrid.BlockPassage(position, Direction);
 	}
 
-	public override bool ValidPosition(Coord pos) => pos == position || pos == position + direction;
+	public override bool ValidPosition(Coord pos) => pos == position || pos == position + Direction;
 
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);
@@ -30,27 +35,20 @@ public class Door : Wall {
 		return interactions;
 	}
 
-	public override void MoveTo(Character character) {
-		character.RequestPathToPositions(new[] {position, position + direction});
-		/*Coord[] path1 = Pathfinder.FindPath(character.position, position);
-		Coord[] path2 = Pathfinder.FindPath(character.position, position + direction);
-		if (path1 != null && path2 != null) {
-			character.Path = path1.Length > path2.Length ? path2 : path1;
-		} else if (path1 != null) {
-			character.Path = path1;
-		} else if (path2 != null) {
-			character.Path = path2;
-		}*/
-	}
+	public override bool CanBeSeenFrom(Coord from) => doorway.CanBeSeenFrom(from);
+
+	public override bool CanSeeTo(Coord to) => doorway.CanSeeTo(to);
+
+	public override void MoveTo(Character character) => character.RequestPathToPositions(new[] {position, position + Direction});
 
 	public void Open() {
 		open = true;
-		NodeGrid.OpenPassage(position, direction);
+		NodeGrid.OpenPassage(position, Direction);
 	}
 
 	public void Close() {
 		open = false;
-		NodeGrid.BlockPassage(position, direction);
+		NodeGrid.BlockPassage(position, Direction);
 	}
 
 	public void Lock() {

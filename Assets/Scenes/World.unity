@@ -3001,7 +3001,7 @@ MonoBehaviour:
     type: 2}
   characterObjectPrefab: {fileID: 114972664303195142, guid: 50e32a4ccf2c03142b317b5dec69f81e,
     type: 2}
-  doorObjectPrefab: {fileID: 1410921296481596, guid: f741b01a768e6d5479627293b9cfc968,
+  doorObjectPrefab: {fileID: 114514187613832684, guid: f741b01a768e6d5479627293b9cfc968,
     type: 2}
   grassPrefab: {fileID: 114067388532376056, guid: 2a16e6e81d034ed43be2fa89c6d1c581,
     type: 2}

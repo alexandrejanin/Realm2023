@@ -17,7 +17,7 @@
 	private Coord[] positions;
 
 	public virtual bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position);
-	protected virtual bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to);
+	public virtual bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to);
 
 	public static implicit operator Coord(Entity entity) => entity.position;
 

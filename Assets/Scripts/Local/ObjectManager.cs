@@ -43,14 +43,15 @@ public static class ObjectManager {
 		foreach (Wall wall in Location.walls.Values) {
 			if (wall == null || wall.displayed) continue;
 
-			Door door = wall as Door;
-			if (door != null) {
-				GameObject doorObject = Object.Instantiate(PrefabManager.doorObjectPrefab, door.WorldPosition, Quaternion.identity, TerrainParent);
-				doorObject.GetComponentInChildren<DoorObject>().door = door;
-				doorObject.transform.forward = door.direction;
+			Doorway doorway = wall as Doorway;
+			if (doorway != null) {
+				DoorwayObject doorwayObject = Object.Instantiate(PrefabManager.doorObjectPrefab, doorway.WorldPosition, Quaternion.identity, TerrainParent);
+				doorwayObject.doorway = doorway;
+				doorwayObject.GetComponentInChildren<DoorObject>().door = doorway.door;
+				doorwayObject.transform.forward = doorway.direction;
 			} else {
 				WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity, TerrainParent);
-				wallObject.wall = wall;
+				wallObject.Wall = wall;
 				wallObject.transform.up = wall.direction;
 			}
 
