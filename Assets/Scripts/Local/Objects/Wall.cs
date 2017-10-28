@@ -9,13 +9,14 @@ public class Wall : Entity {
 
 	public override Vector3 WorldPosition => base.WorldPosition + (Vector3) direction / 2;
 
-	public Wall(Coord position, Coord direction, WallType wallType) : base(position) {
+	public Wall(Location location, Coord position, Coord direction, WallType wallType) : base(location, position) {
 		this.direction = direction;
 		NodeGrid.BlockPassage(position, direction);
 		this.wallType = wallType;
 	}
 
 	public override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) || NodeGrid.IsVisible(from, position + direction, direction);
+	public override bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to, -direction) || NodeGrid.IsVisible(position + direction, to, direction);
 
 	public WallCoordinate WallCoordinate => new WallCoordinate(position, direction.ToDirectionIndex);
 }

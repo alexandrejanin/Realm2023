@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public abstract class Interactable : Entity {
-	protected Interactable(Coord position) : base(position) { }
+	protected Interactable(Location location, Coord position) : base(location, position) { }
 
 	public virtual bool ValidPosition(Coord pos) => pos == position;
 

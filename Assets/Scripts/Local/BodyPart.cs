@@ -32,6 +32,10 @@ public class BodyPart {
 		bodyPart.parent = this;
 	}
 
+	public void Attack(Character attacker) {
+		body.RemovePart(this);
+	}
+
 	public void OnChosen(Equipment equipment) => equipment.ChooseBodyPart(this);
 
 	public override string ToString() => name;

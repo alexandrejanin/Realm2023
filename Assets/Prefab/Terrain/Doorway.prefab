@@ -38,12 +38,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4534499859422978}
+  - component: {fileID: 114514187613832684}
   - component: {fileID: 33701492771902614}
   - component: {fileID: 23738048483913458}
   - component: {fileID: 65547911452038478}
   - component: {fileID: 65467037995756518}
   - component: {fileID: 65846852128047166}
-  - component: {fileID: 114514187613832684}
   m_Layer: 8
   m_Name: Doorway
   m_TagString: Untagged
@@ -57,27 +57,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1369847664012892}
-  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 0.29999924, y: 0, z: -0.039999966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4534499859422978}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4534499859422978
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410921296481596}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4311268132219830}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!23 &23151327779382204
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -222,15 +222,15 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
+  shadows: 1
   materialActive: {fileID: 2100000, guid: cdfefc97e560839489d34345b50efb98, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
   hiddenLayer: 8
   visibleLayer: 9
-  target: {fileID: 4311268132219830}
-  closedPosition: {x: 0.3, y: -0.04, z: 0}
-  closedRotation: {x: 90, y: 0, z: 0}
-  openPosition: {x: 0.3, y: -0.04, z: 0}
-  openRotation: {x: 90, y: 0, z: -100}
+  closedPosition: {x: 0.3, y: 0, z: -0.04}
+  closedRotation: {x: 0, y: 0, z: 0}
+  openPosition: {x: 0.3, y: 0, z: -0.04}
+  openRotation: {x: 0, y: 0, z: 100}
 --- !u!114 &114514187613832684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,6 +245,7 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
+  shadows: 1
   materialActive: {fileID: 2100000, guid: cdfefc97e560839489d34345b50efb98, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
   hiddenLayer: 8

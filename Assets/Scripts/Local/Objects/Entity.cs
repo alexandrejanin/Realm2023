@@ -5,9 +5,8 @@
 
 	public bool visible, seen, inRenderRange;
 
-	public bool displayed;
-
-	protected Entity(Coord position) {
+	protected Entity(Location location, Coord position) {
+		this.location = location;
 		this.position = position;
 	}
 

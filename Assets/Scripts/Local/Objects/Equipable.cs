@@ -28,10 +28,10 @@ public class Equipable : Item {
 		}
 	}
 
-	public Equipable(Coord position, Container container = null) : this(position, Utility.RandomValue<Slot>(1), Random.Range(1, 21),
+	public Equipable(Location location, Coord position, Container container = null) : this(location, position, Utility.RandomValue<Slot>(1), Random.Range(1, 21),
 		new[] {new StatModifier("", "", Utility.RandomValue<Stat>(), Random.Range(1, 10))}, container) { }
 
-	public Equipable(Coord position, Slot slot, int size, StatModifier[] modifiers = null, Container container = null) : base(position, size, container) {
+	public Equipable(Location location, Coord position, Slot slot, int size, StatModifier[] modifiers = null, Container container = null) : base(location, position, size, container) {
 		this.slot = slot;
 		this.modifiers = modifiers;
 		slotSize = slot == Slot.Feet || slot == Slot.Legs || slot == Slot.Hand && Utility.RandomBool ? 2 : 1;

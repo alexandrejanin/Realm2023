@@ -19,12 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4653342645787796}
+  - component: {fileID: 114067388532376056}
   - component: {fileID: 33119324357321372}
   - component: {fileID: 23166201055977514}
   - component: {fileID: 65666077977425114}
-  - component: {fileID: 114067388532376056}
   m_Layer: 8
-  m_Name: Sand
+  m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 99a0c19cd9fec1f4bb46394d48278427, type: 2}
+  - {fileID: 2100000, guid: 94ba3daa1b7a6a64ea333ab5d5e5057c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,8 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
-  materialActive: {fileID: 2100000, guid: 99a0c19cd9fec1f4bb46394d48278427, type: 2}
+  shadows: 0
+  materialActive: {fileID: 2100000, guid: 94ba3daa1b7a6a64ea333ab5d5e5057c, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
   hiddenLayer: 8
   visibleLayer: 9

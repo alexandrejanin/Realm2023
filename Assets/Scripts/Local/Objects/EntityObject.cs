@@ -1,24 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
-// ReSharper disable LocalVariableHidesMember
-
 public abstract class EntityObject : MonoBehaviour {
 	public abstract Entity Entity { get; }
 
-	[HideInInspector] public bool manualMode;
-	[HideInInspector] public bool manualVisible;
-	[HideInInspector] public bool manualSeen;
+	public bool manualMode;
+	public bool manualVisible;
+	public bool manualSeen;
 
-	private bool seen = true, visible;
+	private bool seen, visible;
 
 	private Renderer[] renderers;
-
-	//private Light[] lights;
 	private Collider[] colliders;
 
-	private const ShadowCastingMode shadowCastingModeActive = ShadowCastingMode.On;
-	private const ShadowCastingMode shadowCastingModeInactive = ShadowCastingMode.ShadowsOnly;
 	[SerializeField] private Material materialActive;
 	[SerializeField] private Material materialInactive;
 
@@ -27,13 +21,12 @@ public abstract class EntityObject : MonoBehaviour {
 
 	protected virtual void Awake() {
 		renderers = GetComponentsInChildren<Renderer>();
-		//lights = GetComponentsInChildren<Light>();
 		colliders = GetComponentsInChildren<Collider>();
 		ObjectManager.EntityObjects.Add(this);
 	}
 
 	protected void Destroy() {
-		Entity.displayed = false;
+		ObjectManager.DisplayedEntities.Remove(Entity);
 		Destroy(gameObject);
 	}
 
@@ -47,17 +40,12 @@ public abstract class EntityObject : MonoBehaviour {
 			foreach (Renderer renderer in renderers) {
 				renderer.enabled = seen || Entity.inRenderRange;
 				if (renderer.enabled) {
-					renderer.shadowCastingMode = seen ? shadowCastingModeActive : shadowCastingModeInactive;
+					renderer.shadowCastingMode = seen ? ShadowCastingMode.On : ShadowCastingMode.ShadowsOnly;
 					renderer.receiveShadows = visible;
 					renderer.material = visible ? materialActive : materialInactive;
 				}
 			}
 		}
-
-		/*if (lights != null)
-			foreach (Light light in lights) {
-				light.enabled = visible;
-			}*/
 
 		if (colliders != null) {
 			foreach (Collider collider in colliders) {

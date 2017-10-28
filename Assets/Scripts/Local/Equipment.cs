@@ -15,7 +15,7 @@ public class Equipment : Container, IEnumerable<Equipable> {
 
 	public bool Contains(Equipable equipable) => Equipables.Contains(equipable);
 
-	public Equipment(Character character) : base(character.Name + "'s equipment", character.position, 1000) {
+	public Equipment(Character character) : base(character.Name + "'s equipment", character.location, character.position, 1000) {
 		this.character = character;
 	}
 

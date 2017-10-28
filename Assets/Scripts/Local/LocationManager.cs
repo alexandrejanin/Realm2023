@@ -15,7 +15,7 @@ public class LocationManager : MonoBehaviour {
 	private void SpawnPlayer() {
 		int x = GameController.Random.Next(5, 95);
 		int z = GameController.Random.Next(5, 95);
-		location.characters.Add(new Character(new Coord(x, location.heightMap[x, z], z), true));
+		location.characters.Add(new Character(location, new Coord(x, location.heightMap[x, z], z), true));
 	}
 
 	private void CreateGround() {
@@ -24,11 +24,11 @@ public class LocationManager : MonoBehaviour {
 		for (int x = 0; x < location.size; x++) {
 			for (int z = 0; z < location.size; z++) {
 				int height = location.heightMap[x, z];
-				location.AddWall(new Wall(new Coord(x, height, z), Coord.Down, wallType));
-				if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Left, wallType));
-				if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Right, wallType));
-				if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Back, wallType));
-				if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.AddWall(new Wall(new Coord(x, height - 1, z), Coord.Forward, wallType));
+				location.AddWall(new Wall(location, new Coord(x, height, z), Coord.Down, wallType));
+				if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Left, wallType));
+				if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Right, wallType));
+				if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Back, wallType));
+				if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Forward, wallType));
 
 				for (int i = 1; i < height; i++) {
 					location.SetTileFree(x, i - 1, z, false);

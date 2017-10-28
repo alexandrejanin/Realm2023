@@ -57,8 +57,8 @@ public class Blueprint {
 
 					location.SetTileFree(worldCoord, false);
 
-					if (localCoord == itemPos) location.items.Add(new Equipable(worldCoord));
-					if (localCoord == charPos) location.characters.Add(new Character(worldCoord, GameController.RandomRace(), Utility.RandomBool));
+					if (localCoord == itemPos) location.items.Add(new Equipable(location, worldCoord));
+					if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameController.RandomRace(), Utility.RandomBool));
 
 					if (y <= size.y) {
 						//Floor
@@ -78,7 +78,7 @@ public class Blueprint {
 						}
 
 						if (localCoord == doorPos) {
-							location.AddWall(new Doorway(worldCoord, back, wallType));
+							location.AddWall(new Doorway(location, worldCoord, back, wallType));
 						} else {
 							if (x == 0) {
 								AddWall(location, worldCoord, left);
@@ -137,7 +137,7 @@ public class Blueprint {
 	}
 
 	private void AddWall(Location location, Coord position, Coord direction) {
-		location.AddWall(new Wall(position, direction, wallType));
+		location.AddWall(new Wall(location, position, direction, wallType));
 	}
 
 	public override string ToString() => name;

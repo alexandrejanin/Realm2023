@@ -16,7 +16,7 @@ public abstract class Container : Interactable, IEnumerable<Item> {
 
 	public override string Name { get; }
 
-	protected Container(string name, Coord position, int maxSize) : base(position) {
+	protected Container(string name, Location location, Coord position, int maxSize) : base(location, position) {
 		Name = name;
 		Items = new List<Item>();
 		this.maxSize = maxSize;

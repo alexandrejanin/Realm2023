@@ -2,7 +2,8 @@
 
 	public readonly Door door;
 
-	public Doorway(Coord position, Coord direction, WallType wallType) : base(position, direction, wallType) {
+	public Doorway(Location location, Coord position, Coord direction, WallType wallType) : base(location, position, direction, wallType) {
 		door = new Door(this);
+		location.interactables.Add(door);
 	}
 }

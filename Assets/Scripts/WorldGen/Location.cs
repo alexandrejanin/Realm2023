@@ -16,9 +16,10 @@ public abstract class Location {
 
 	public readonly List<Character> characters = new List<Character>();
 	public readonly List<Item> items = new List<Item>();
+	public readonly List<Interactable> interactables = new List<Interactable>();
 	public readonly Dictionary<WallCoordinate, Wall> walls = new Dictionary<WallCoordinate, Wall>();
 
-	public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items.Cast<Entity>()).Union(walls.Values.Cast<Entity>());
+	public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items.Cast<Entity>()).Union(interactables.Cast<Entity>()).Union(walls.Values.Cast<Entity>());
 
 	private readonly bool[,,] freeTiles;
 

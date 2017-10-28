@@ -4,7 +4,7 @@ public abstract class Item : Interactable {
 	public int size;
 	public Container container;
 
-	protected Item(Coord position, int size = 0, Container container = null) : base(position) {
+	protected Item(Location location, Coord position, int size = 0, Container container = null) : base(location, position) {
 		this.size = size;
 		this.container = container;
 	}

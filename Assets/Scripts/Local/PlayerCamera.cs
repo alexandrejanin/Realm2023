@@ -9,20 +9,11 @@ public class PlayerCamera : MonoBehaviour {
 	[SerializeField] private float minZoom = 5f;
 	[SerializeField] private float maxZoom = 15f;
 	[SerializeField] private float zoom = 10f;
-	[SerializeField] private float minDof = 1f;
-	[SerializeField] private float maxDof = 3f;
 	private Transform target;
 
 	[SerializeField] public float rotateSpeed = 5f;
 	private Vector3 startingMousePosition;
 	private Vector2 rotation;
-
-	//private PostProcessingProfile profile;
-	//private DepthOfFieldModel.Settings dofSettings;
-
-	private void Awake() {
-		//profile = GetComponent<PostProcessingBehaviour>().profile;
-	}
 
 	private void Update() {
 		if (!EventSystem.current.IsPointerOverGameObject()) {
@@ -41,10 +32,6 @@ public class PlayerCamera : MonoBehaviour {
 				rotation += mouseOffset * rotateSpeed * Time.deltaTime;
 				rotation.y = Mathf.Clamp(rotation.y, -35, 45);
 			}
-
-			//dofSettings = profile.depthOfField.settings;
-			//dofSettings.focusDistance = Mathf.Lerp(minDof, maxDof, Mathf.InverseLerp(minZoom, maxZoom, zoom));
-			//profile.depthOfField.settings = dofSettings;
 		}
 	}
 
@@ -56,11 +43,5 @@ public class PlayerCamera : MonoBehaviour {
 
 		transform.RotateAround(target.position, Vector3.up, rotation.x);
 		transform.RotateAround(target.position, transform.right, -rotation.y);
-	}
-
-	private void OnApplicationQuit() {
-		//dofSettings = profile.depthOfField.settings;
-		//dofSettings.focusDistance = maxDof;
-		//profile.depthOfField.settings = dofSettings;
 	}
 }

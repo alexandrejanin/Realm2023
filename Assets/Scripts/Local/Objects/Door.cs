@@ -10,7 +10,7 @@ public class Door : Interactable {
 
 	public Coord Direction => doorway.direction;
 
-	public Door(Doorway doorway) : base(doorway.position) {
+	public Door(Doorway doorway) : base(doorway.location, doorway.position) {
 		this.doorway = doorway;
 		NodeGrid.BlockPassage(position, Direction);
 	}

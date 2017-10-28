@@ -19,10 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4653342645787796}
+  - component: {fileID: 114642853364882470}
   - component: {fileID: 33119324357321372}
   - component: {fileID: 23166201055977514}
   - component: {fileID: 65666077977425114}
-  - component: {fileID: 114642853364882470}
   m_Layer: 8
   m_Name: Roof
   m_TagString: Untagged
@@ -52,6 +52,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -67,6 +68,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -108,6 +110,7 @@ MonoBehaviour:
   manualMode: 0
   manualVisible: 0
   manualSeen: 0
+  shadows: 0
   materialActive: {fileID: 2100000, guid: d73631d8545987a479e931d8292be509, type: 2}
   materialInactive: {fileID: 2100000, guid: b47bed1379e43cb42af6788a3db5d1bc, type: 2}
   hiddenLayer: 8

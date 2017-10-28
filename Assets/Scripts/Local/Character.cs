@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Character : Interactable {
@@ -40,9 +41,9 @@ public class Character : Interactable {
 
 	public bool skipTurn;
 
-	public Character(Coord position, bool isPlayer = false) : this(position, GameController.RandomRace(), Utility.RandomBool, isPlayer) { }
+	public Character(Location location, Coord position, bool isPlayer = false) : this(location, position, GameController.RandomRace(), Utility.RandomBool, isPlayer) { }
 
-	public Character(Coord position, Race race, bool isFemale, bool isPlayer = false) : base(position) {
+	public Character(Location location, Coord position, Race race, bool isFemale, bool isPlayer = false) : base(location, position) {
 		this.race = race;
 		this.isFemale = isFemale;
 		firstName = race.GetFirstName(isFemale);
@@ -107,8 +108,10 @@ public class Character : Interactable {
 
 	private void Talk() { }
 
-	public void Attack(Character character) {
-		Log.Add(Name + " attacked " + character.Name + "! It's super effective!");
+	public void Attack(Character target) {
+		if (isPlayer) {
+			Player.DisplayInteractions("Attack " + Name, target.body.Select(bodyPart => new Interaction(bodyPart.name, () => bodyPart.Attack(this), true)).ToList());
+		}
 	}
 
 	public override void MoveTo(Character character) => character.RequestPathToPositions(position.GetAdjacent(true, true));
