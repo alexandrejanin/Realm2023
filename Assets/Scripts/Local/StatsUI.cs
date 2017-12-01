@@ -11,6 +11,6 @@ public class StatsUI : MonoBehaviour {
 	}
 
 	private static string GetStatText(Character character) {
-		return Enum.GetValues(typeof(Stat)).Cast<Stat>().Aggregate("", (current, stat) => current + (Enum.GetName(typeof(Stat), stat) + ": " + character.GetStat(stat) + "\n"));
+		return Enum.GetValues(typeof(Stat)).Cast<Stat>().Aggregate("", (current, stat) => current + (stat + ": " + character.GetStat(stat)) + "\n");
 	}
 }

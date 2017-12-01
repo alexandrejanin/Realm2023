@@ -13,7 +13,7 @@ public class StatModifier {
 		this.value = value;
 	}
 
-	public override string ToString() => Enum.GetName(typeof(Stat), stat) + ": " + value;
+	public override string ToString() => stat + ": " + value;
 }
 
 public enum Stat {

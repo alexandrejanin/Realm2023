@@ -37,7 +37,7 @@ public class Equipable : Item {
 		slotSize = slot == Slot.Feet || slot == Slot.Legs || slot == Slot.Hand && Utility.RandomBool ? 2 : 1;
 	}
 
-	protected override string InspectText() => base.InspectText() + "\nSlot: " + Enum.GetName(typeof(Slot), slot) + " (x" + slotSize + ")" +
+	protected override string InspectText() => base.InspectText() + "\nSlot: " + slot + (slotSize > 1 ? " (x" + slotSize + ")" : "") +
 	                                           modifiers.Aggregate("", (current, equipableModifier) => "\n" + current + equipableModifier);
 
 	public override List<Interaction> GetInteractions(Character character) {
