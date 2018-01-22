@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
 public class Tile {
 	public readonly int x, y;
-	public float height, temp, humidity;
+	public readonly float height, temp, humidity;
 
 	public Region region;
 	public Location location;
@@ -12,15 +12,14 @@ public class Tile {
 	public Climate Climate { get; private set; }
 
 	public Color customColor = Color.clear;
-	private Color color, heightColor, tempColor, humidityColor;
+	private Color color;
+	private readonly Color heightColor, tempColor, humidityColor;
 
 	public bool IsWater => Climate.isWater;
 
 	public bool regionPending;
 
-	public readonly Tile[] adjacentTiles;
-
-	public Tile(Map map, int x, int y, float height, float temp, float humidity) {
+	public Tile(int x, int y, float height, float temp, float humidity) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -31,17 +30,6 @@ public class Tile {
 		heightColor = Color.Lerp(Color.black, Color.white, height);
 		tempColor = Color.Lerp(Color.cyan, Color.red, temp);
 		humidityColor = Color.Lerp(Color.yellow, Color.blue, humidity);
-
-		List<Tile> tiles = new List<Tile>();
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (i != 0 || j != 0) {
-					Tile tile = map.GetTile(x + i, y + j);
-					if (tile != null) tiles.Add(tile);
-				}
-			}
-		}
-		adjacentTiles = tiles.ToArray();
 	}
 
 	public void SetRegion(Region newRegion) {
@@ -60,11 +48,12 @@ public class Tile {
 				return tempColor;
 			case MapDrawMode.Humidity:
 				return humidityColor;
+			case MapDrawMode.Region:
+				return IsWater ? color : region.color;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(mapDrawMode), mapDrawMode, null);
 		}
-		return color;
 	}
 
 	public override string ToString() => Climate + " tile (" + x + ", " + y + ")";
-
-	public int DistanceTo(Tile other) => (x - other.x) * (x - other.x) + (y - other.y * (y - other.y));
 }

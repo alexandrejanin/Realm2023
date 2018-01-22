@@ -10,7 +10,7 @@ public class Climate {
 
 	public bool isWater;
 
-	public Gradient colorGradient;
+	[SerializeField] private Gradient colorGradient;
 
 	public WallType wallType;
 

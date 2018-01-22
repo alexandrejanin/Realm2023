@@ -41,6 +41,7 @@ public class Map {
 		while (region == null || region.IsWater) {
 			region = regions.RandomItem(random);
 		}
+
 		return region;
 	}
 
@@ -53,21 +54,21 @@ public class Map {
 		float[,] tempMap = settings.GenerateTempMap(HeightMap);
 		float[,] humidityMap = settings.GenerateHumidityMap();
 
-		for (int y = 0; y < size; y ++) {
-			for (int x = 0; x < size; x ++) {
-				tileMap[x, y] = new Tile(this, x, y, HeightMap[x, y], tempMap[x, y], humidityMap[x, y]);
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				tileMap[x, y] = new Tile(x, y, HeightMap[x, y], tempMap[x, y], humidityMap[x, y]);
 			}
 		}
 	}
 
 	private void GenerateRegions() {
-		for (int y = 0; y < size; y ++) {
-			for (int x = 0; x < size; x ++) {
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
 				Tile tile = tileMap[x, y];
 				if (tile.region != null) continue;
 
 				List<Tile> tiles = FindRegion(tile, 1);
-				Region region = new Region(this, tile.Climate, tiles);
+				Region region = new Region(tile.Climate, tiles);
 				regions.Add(region);
 			}
 		}
@@ -83,8 +84,8 @@ public class Map {
 			Tile tile = queue.Dequeue();
 			tiles.Add(tile);
 
-			for (int j = -range; j <= range; j ++) {
-				for (int i = -range; i <= range; i ++) {
+			for (int j = -range; j <= range; j++) {
+				for (int i = -range; i <= range; i++) {
 					Tile newTile = GetTile(tile.x + i, tile.y + j);
 
 					if (newTile == null || newTile.regionPending || newTile.Climate != tile.Climate ||
@@ -108,7 +109,7 @@ public class Map {
 			int attempts = 0;
 			while ((tile == null || !race.IsValidTile(tile)) && attempts < 100) {
 				tile = RandomTile();
-				attempts ++;
+				attempts++;
 			}
 
 			if (attempts >= 100) {
@@ -123,11 +124,12 @@ public class Map {
 	}
 
 	public Texture2D GetTexture(MapDrawMode mapDrawMode) {
-		for (int x = 0; x < size; x ++) {
-			for (int y = 0; y < size; y ++) {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
 				colors[x + size * y] = GetTile(x, y).GetColor(mapDrawMode);
 			}
 		}
+
 		texture.SetPixels(colors);
 		texture.Apply();
 		return texture;
@@ -138,5 +140,6 @@ public enum MapDrawMode {
 	Normal,
 	Height,
 	Temperature,
-	Humidity
+	Humidity,
+	Region
 }
