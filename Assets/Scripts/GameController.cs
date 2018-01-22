@@ -17,7 +17,9 @@ public class GameController : MonoBehaviour {
 
 	[SerializeField] private bool screenshots;
 
-	[Header("Map Settings"), SerializeField] private bool randomMapSeed;
+	[Header("Map Settings"), SerializeField]
+	private bool randomMapSeed;
+
 	[SerializeField] public bool autoUpdate;
 
 	[SerializeField] private MapSettings mapSettings;
@@ -73,6 +75,11 @@ public class GameController : MonoBehaviour {
 	private void Awake() {
 		DontDestroyOnLoad(this);
 
+		GenerateMap();
+	}
+
+	public void OnMapSizeChanged(int i) {
+		mapSettings.mapSize = (MapSize) i;
 		GenerateMap();
 	}
 

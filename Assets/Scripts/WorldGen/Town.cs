@@ -1,4 +1,6 @@
-﻿public class Town : Location {
+﻿using UnityEngine;
+
+public class Town : Location {
 	public string Name { get; }
 	public Civilization civilization;
 	public Race Race => civilization.race;
@@ -10,7 +12,7 @@
 
 		Name = Race.GetPlaceName();
 
-		tile.customColor = UnityEngine.Color.black;
+		tile.customColor = Color.black;
 	}
 
 	private string GetSize() => population > 5000 ? "city" : (population > 1000 ? "town" : (population > 500 ? "village" : "settlement"));

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 #pragma warning disable 0649
 
-[System.Serializable]
+[Serializable]
 public class Climate {
 	public string name;
 

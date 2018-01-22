@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public class WorldGenUI : MonoBehaviour {
-	[SerializeField] public Dropdown drawModeDropdown;
-	[SerializeField] private Text tileInfo;
-	[SerializeField] private Text mapInfo;
+	[SerializeField] private Text tileInfo, mapInfo;
 
 	private Map map;
 	private MapDisplay mapDisplay;
@@ -21,14 +19,13 @@ public class WorldGenUI : MonoBehaviour {
 	private new Camera camera;
 
 	private void Awake() {
-		drawModeDropdown.onValueChanged.AddListener(OnDrawModeChanged);
 		camera = Camera.main;
 		mapDisplay = GetComponent<MapDisplay>();
 		worldGenUtility = GetComponent<WorldGenUtility>();
 		mapDrawModesCount = Enum.GetValues(typeof(MapDrawMode)).Length;
 	}
 
-	private void OnDrawModeChanged(int value) {
+	public void OnDrawModeChanged(int value) {
 		DrawMode = value < mapDrawModesCount ? (MapDrawMode) value : 0;
 		mapDisplay.DrawTexture();
 	}
@@ -52,7 +49,7 @@ public class WorldGenUI : MonoBehaviour {
 
 	private void Update() {
 		if (GameController.Location != null || map == null || GameController.WorldCamera.dragged) return;
-		
+
 		RaycastHit hit;
 		if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
 			int x = Mathf.FloorToInt(hit.point.x);
@@ -80,7 +77,9 @@ public class WorldGenUI : MonoBehaviour {
 			}
 
 			if (Input.GetMouseButtonDown(1)) {
-				camera.GetComponent<WorldCamera>().targetPos = hit.point;
+				Vector3 point = hit.point;
+				point.y = GameController.WorldCamera.targetPos.y;
+				GameController.WorldCamera.targetPos = point;
 			}
 		}
 	}
