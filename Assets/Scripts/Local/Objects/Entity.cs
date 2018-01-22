@@ -1,4 +1,6 @@
-﻿public abstract class Entity {
+﻿using UnityEngine;
+
+public abstract class Entity {
 	public Location location;
 	public Coord position;
 	public abstract string Name { get; }
@@ -10,7 +12,7 @@
 		this.position = position;
 	}
 
-	public virtual UnityEngine.Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
+	public virtual Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
 
 	private Coord lastPos;
 	private Coord[] positions;

@@ -7,7 +7,7 @@ public class DoorObject : InteractableObject {
 	[SerializeField] private Vector3 openRotation;
 
 	public Door door;
-	public override Interactable Interactable => door;
+	protected override Interactable Interactable => door;
 
 	protected void Update() {
 		if (door.visible) {

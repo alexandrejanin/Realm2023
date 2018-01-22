@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
 public class Character : Interactable {
 	public readonly bool isPlayer;
 
 	public Coord lookDirection = Coord.Forward;
 
-	public Vector3 WorldPositionCenter => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.Center);
 	public override Vector3 WorldPosition => NodeGrid.GetWorldPosFromCoord(position, NodeGrid.NodeOffsetType.CenterNoY);
 
 	private int pathIndex;
@@ -39,8 +40,6 @@ public class Character : Interactable {
 	public bool HasItem(Item item) => inventory.Contains(item) || equipment.Contains(item);
 	private readonly List<StatModifier> modifiers = new List<StatModifier>();
 
-	public bool skipTurn;
-
 	public Character(Location location, Coord position, bool isPlayer = false) : this(location, position, GameController.RandomRace(), Utility.RandomBool, isPlayer) { }
 
 	public Character(Location location, Coord position, Race race, bool isFemale, bool isPlayer = false) : base(location, position) {
@@ -66,27 +65,12 @@ public class Character : Interactable {
 			if (statModifier.stat == stat) statBase += statModifier.value;
 		}
 		foreach (Equipable equipable in equipment) {
-			foreach (StatModifier statModifier in equipable.modifiers) {
-				if (statModifier.stat == stat) statBase += statModifier.value;
-			}
+			statBase += equipable.modifiers.Where(statModifier => statModifier.stat == stat).Sum(statModifier => statModifier.value);
 		}
 		return statBase;
 	}
 
-	public void AddModifier(StatModifier modifier) {
-		modifiers.Add(modifier);
-	}
-
-	public void RemoveModifier(StatModifier modifier) {
-		modifiers.Remove(modifier);
-	}
-
 	public void TakeTurn() {
-		if (skipTurn) {
-			skipTurn = false;
-			return;
-		}
-
 		if (Path != null) {
 			ProcessPath();
 		} else if (!isPlayer && CanSeeTo(ObjectManager.playerCharacter.position)) {

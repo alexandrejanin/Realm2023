@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 public abstract class Item : Interactable {
-	public int size;
+	public readonly int size;
 	public Container container;
 
 	protected Item(Location location, Coord position, int size = 0, Container container = null) : base(location, position) {
@@ -20,11 +20,11 @@ public abstract class Item : Interactable {
 
 	protected override string InspectText() => Name + "\nSize: " + size;
 
-	public void PickUp(Character character) {
+	private void PickUp(Character character) {
 		if (character.inventory.AddItem(this)) {
 			position = character.position;
 		}
 	}
 
-	public virtual void Drop(Character character) => container.RemoveItem(this);
+	protected virtual void Drop(Character character) => container.RemoveItem(this);
 }

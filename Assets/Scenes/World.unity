@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSensitivity: 50
-  panSensitivity: 1
+  panSensitivity: 0.2
   targetPos: {x: 128, y: 128, z: 128}
   dragged: 0
 --- !u!114 &103803230

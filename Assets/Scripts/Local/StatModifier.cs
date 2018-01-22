@@ -1,6 +1,4 @@
-﻿using System;
-
-public class StatModifier {
+﻿public class StatModifier {
 	public string name;
 	public string description;
 	public Stat stat;

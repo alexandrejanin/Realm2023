@@ -2,11 +2,9 @@
 
 [System.Serializable]
 public class Blueprint {
-	public string name;
-	public int weight;
+	[SerializeField] private string name;
 
-	[SerializeField] private Coord minSize;
-	[SerializeField] private Coord maxSize;
+	[SerializeField] private Coord minSize, maxSize;
 
 	[SerializeField] private WallType wallType;
 
@@ -83,12 +81,15 @@ public class Blueprint {
 							if (x == 0) {
 								AddWall(location, worldCoord, left);
 							}
+
 							if (x == maxX) {
 								AddWall(location, worldCoord, right);
 							}
+
 							if (z == 0) {
 								AddWall(location, worldCoord, back);
 							}
+
 							if (z == maxZ) {
 								AddWall(location, worldCoord, forward);
 							}
