@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour {
 		OnMapUpdated();
 	}
 
-	public static void OnMapUpdated() {
+	private static void OnMapUpdated() {
 		MapDisplay.DrawMap();
 		WorldGenUI.OnMapChanged();
 		WorldCamera.targetPos = new Vector3(Map.size / 2, Map.size / 2, Map.size / 2);

@@ -15,8 +15,6 @@ public class WorldGenUI : MonoBehaviour {
 
 	private Tile tile;
 
-	//private int x, y;
-
 	public static MapDrawMode DrawMode { get; private set; }
 	private int mapDrawModesCount;
 
@@ -53,15 +51,10 @@ public class WorldGenUI : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (GameController.Location != null || map == null) return;
-
+		if (GameController.Location != null || map == null || GameController.WorldCamera.dragged) return;
+		
 		RaycastHit hit;
 		if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
-			//int tilesPerLine = map.size - 1;
-			//int tileHit = hit.triangleIndex / 2;
-			//int x = tileHit % tilesPerLine * (map.settings.Lod + 1);
-			//int y = tileHit / tilesPerLine * (map.settings.Lod + 1);
-
 			int x = Mathf.FloorToInt(hit.point.x);
 			int y = GameController.Map.size - Mathf.CeilToInt(hit.point.z) - 1;
 

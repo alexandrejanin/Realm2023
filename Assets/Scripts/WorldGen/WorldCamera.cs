@@ -5,39 +5,35 @@ public class WorldCamera : MonoBehaviour {
 	[SerializeField] private float zoomSensitivity = 10;
 	private float height;
 
-	private const int mouseButtonPan = 2;
+	private const int MouseButtonPan = 2;
 
-	[SerializeField] private float panSensitivity = 0.1f;
+	[SerializeField] private float panSensitivity = 1f;
 
 	private Vector3 initialMousePosition;
 	private Vector3 initialPosition;
 
-	public Vector3 targetPos;
+	[HideInInspector] public Vector3 targetPos;
 
-	[SerializeField] private Toggle perspectiveToggle;
-	private new Camera camera;
+	[HideInInspector] public bool dragged;
 
 	private void Awake() {
 		targetPos = transform.position;
 		height = targetPos.y;
-		camera = GetComponent<Camera>();
 	}
 
 	private void Update() {
 		float mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
-		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, GameController.Map.size / 10, GameController.Map.size / 2);
-		camera.orthographic = !perspectiveToggle.isOn;
-		if (camera.orthographic) camera.orthographicSize = height;
+		height = Mathf.Clamp(height + mouseWheel * zoomSensitivity, (float) GameController.Map.size / 10, (float) GameController.Map.size / 2);
 
-		if (Input.GetMouseButtonDown(mouseButtonPan)) {
+		if (Input.GetMouseButtonDown(MouseButtonPan)) {
 			initialMousePosition = Input.mousePosition;
 			initialPosition = transform.position;
 		}
 
-		if (Input.GetMouseButton(mouseButtonPan)) {
+		if (dragged = Input.GetMouseButton(MouseButtonPan)) {
 			Vector3 mousePosDiff = initialMousePosition - Input.mousePosition;
-			Vector3 cameraPosDiff = new Vector3(mousePosDiff.x, 0, mousePosDiff.y) * panSensitivity * height / 100;
+			Vector3 cameraPosDiff = panSensitivity * (height / 100) * new Vector3(mousePosDiff.x, 0, mousePosDiff.y);
 			targetPos.x = initialPosition.x + cameraPosDiff.x;
 			targetPos.z = initialPosition.z + cameraPosDiff.z;
 		}
@@ -50,5 +46,4 @@ public class WorldCamera : MonoBehaviour {
 			? Vector3.Lerp(transform.position, targetPos, 0.1f)
 			: targetPos;
 	}
-
 }
