@@ -14,10 +14,6 @@ public class WorldCamera : MonoBehaviour {
 
 	[HideInInspector] public bool dragged;
 
-	private void Awake() {
-		targetPos = transform.position;
-	}
-
 	private void Update() {
 		float mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
