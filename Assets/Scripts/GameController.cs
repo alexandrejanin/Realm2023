@@ -59,6 +59,7 @@ public class GameController : MonoBehaviour {
 	public static PrefabManager PrefabManager => prefabManager ?? (prefabManager = Instance.GetComponent<PrefabManager>());
 
 	public static WorldCamera WorldCamera => worldCamera ?? (worldCamera = FindObjectOfType<WorldCamera>());
+	public static DialogueManager DialogueManager => dialogueManager ?? (dialogueManager = FindObjectOfType<DialogueManager>());
 
 	private static LocationManager locationManager;
 	private static MapDisplay mapDisplay;
@@ -66,6 +67,7 @@ public class GameController : MonoBehaviour {
 	private static PrefabManager prefabManager;
 
 	private static WorldCamera worldCamera;
+	private static DialogueManager dialogueManager;
 
 	private static AsyncOperation loadingLevel;
 

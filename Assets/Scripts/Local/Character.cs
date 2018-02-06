@@ -64,9 +64,11 @@ public class Character : Interactable {
 		foreach (StatModifier statModifier in modifiers) {
 			if (statModifier.stat == stat) statBase += statModifier.value;
 		}
+
 		foreach (Equipable equipable in equipment) {
 			statBase += equipable.modifiers.Where(statModifier => statModifier.stat == stat).Sum(statModifier => statModifier.value);
 		}
+
 		return statBase;
 	}
 
@@ -90,7 +92,9 @@ public class Character : Interactable {
 		}
 	}
 
-	private void Talk() { }
+	private void Talk(Character character) {
+		GameController.DialogueManager.EnqueueSentence(new Sentence(Name, Utility.RandomBool ? "Hi!" : $"Hello, {character.Name}!"));
+	}
 
 	public void Attack(Character target) {
 		if (isPlayer) {
@@ -117,9 +121,10 @@ public class Character : Interactable {
 	public override List<Interaction> GetInteractions(Character character) {
 		List<Interaction> interactions = GetBasicInteractions(character);
 		if (character != this) {
-			if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", Talk, true));
+			if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", () => Talk(character), true));
 			if ((character.position - position).MaxDimension <= 1) interactions.Add(new Interaction("Attack", () => character.Attack(this), false));
 		}
+
 		return interactions;
 	}
 

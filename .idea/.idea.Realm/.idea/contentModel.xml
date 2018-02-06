@@ -208,6 +208,7 @@
             <e p="Character.cs" t="Include" />
             <e p="CharacterObject.cs" t="Include" />
             <e p="Coord.cs" t="Include" />
+            <e p="DialogueManager.cs" t="Include" />
             <e p="Equipment.cs" t="Include" />
             <e p="Inventory.cs" t="Include" />
             <e p="InventoryUI.cs" t="Include" />
