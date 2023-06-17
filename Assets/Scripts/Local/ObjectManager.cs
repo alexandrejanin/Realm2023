@@ -24,37 +24,37 @@ public static class ObjectManager {
     private static Transform terrainParent;
 
     public static void RefreshObjects() {
-        foreach (Character character in Location.characters) {
+        foreach (var character in Location.characters) {
             if (DisplayedEntities.Contains(character)) continue;
 
-            CharacterObject characterObject = Object.Instantiate(PrefabManager.characterObjectPrefab, character.WorldPosition, Quaternion.identity);
+            var characterObject = Object.Instantiate(PrefabManager.characterObjectPrefab, character.WorldPosition, Quaternion.identity);
             characterObject.SetCharacter(character);
             if (character.isPlayer) playerCharacterObject = characterObject;
             DisplayedEntities.Add(character);
         }
 
-        foreach (Item item in Location.items) {
+        foreach (var item in Location.items) {
             if (DisplayedEntities.Contains(item)) continue;
 
             if (item.container == null) {
-                ItemObject itemObject = Object.Instantiate(PrefabManager.itemObjectPrefab, item.WorldPosition, Quaternion.identity);
+                var itemObject = Object.Instantiate(PrefabManager.itemObjectPrefab, item.WorldPosition, Quaternion.identity);
                 itemObject.item = item;
                 DisplayedEntities.Add(item);
             }
         }
 
-        foreach (Wall wall in Location.walls.Values) {
+        foreach (var wall in Location.walls.Values) {
             if (DisplayedEntities.Contains(wall)) continue;
 
-            Doorway doorway = wall as Doorway;
+            var doorway = wall as Doorway;
             if (doorway != null) {
-                DoorwayObject doorwayObject = Object.Instantiate(PrefabManager.doorObjectPrefab, doorway.WorldPosition, Quaternion.identity, TerrainParent);
+                var doorwayObject = Object.Instantiate(PrefabManager.doorObjectPrefab, doorway.WorldPosition, Quaternion.identity, TerrainParent);
                 doorwayObject.doorway = doorway;
                 doorwayObject.GetComponentInChildren<DoorObject>().door = doorway.door;
                 doorwayObject.transform.up = doorway.direction;
             }
             else {
-                WallObject wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity, TerrainParent);
+                var wallObject = Object.Instantiate(PrefabManager.GetWallObject(wall.wallType), wall.WorldPosition, Quaternion.identity, TerrainParent);
                 wallObject.Wall = wall;
                 wallObject.transform.up = wall.direction;
             }
@@ -62,18 +62,18 @@ public static class ObjectManager {
             DisplayedEntities.Add(wall);
         }
 
-        foreach (EntityObject entityObject in EntityObjects) {
+        foreach (var entityObject in EntityObjects) {
             playerCharacter.visible = true;
             if (entityObject) entityObject.UpdateDisplay();
         }
     }
 
     public static void TakeTurn() {
-        foreach (Character character in Location.characters) {
+        foreach (var character in Location.characters) {
             character.TakeTurn();
         }
 
-        foreach (Entity entity in Location.Entities) {
+        foreach (var entity in Location.Entities) {
             UpdateVisibility(entity);
         }
 

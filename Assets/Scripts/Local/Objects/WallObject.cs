@@ -1,5 +1,5 @@
 ﻿public class WallObject : EntityObject {
-	public virtual Wall Wall { get; set; }
+    public virtual Wall Wall { get; set; }
 
-	public override Entity Entity => Wall;
+    public override Entity Entity => Wall;
 }

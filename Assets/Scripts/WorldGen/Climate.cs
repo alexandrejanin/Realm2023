@@ -5,22 +5,22 @@ using UnityEngine;
 
 [Serializable]
 public class Climate {
-	public string name;
+    public string name;
 
-	[SerializeField] private FloatRange height, temp, humidity;
+    [SerializeField] private FloatRange height, temp, humidity;
 
-	public bool isWater;
+    public bool isWater;
 
-	[SerializeField] private Gradient colorGradient;
+    [SerializeField] private Gradient colorGradient;
 
-	public WallType wallType;
+    public WallType wallType;
 
-	public Color GetColor(float tileHeight) {
-		Color color = colorGradient.Evaluate(Mathf.InverseLerp(height.min, height.max, tileHeight));
-		return color;
-	}
+    public Color GetColor(float tileHeight) {
+        var color = colorGradient.Evaluate(Mathf.InverseLerp(height.min, height.max, tileHeight));
+        return color;
+    }
 
-	public bool CorrectTile(Tile tile) => height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
+    public bool CorrectTile(Tile tile) => height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
 
-	public override string ToString() => name;
+    public override string ToString() => name;
 }

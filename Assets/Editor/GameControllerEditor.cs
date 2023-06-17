@@ -8,7 +8,7 @@ public class GameControllerEditor : Editor {
 	public override void OnInspectorGUI() {
 		gameController = (GameController) target;
 
-		bool refreshed = DrawDefaultInspector();
+		var refreshed = DrawDefaultInspector();
 
 		if (GUILayout.Button("Load Database") && EditorUtility.DisplayDialog("Load Database", "Are you sure you want to revert editor values to database?", "Yes", "No")) gameController.LoadDatabase();
 

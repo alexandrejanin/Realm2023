@@ -1,72 +1,75 @@
 ﻿using UnityEngine;
 
 public class Building : MonoBehaviour {
-	public Floor[] floors;
+    public Floor[] floors;
 
-	public Light[] lights;
-	//public Interactable[] interactables;
+    public Light[] lights;
+    //public Interactable[] interactables;
 
-	public Bounds bounds;
+    public Bounds bounds;
 
-	public bool playerLeft = true;
+    public bool playerLeft = true;
 
-	private int maxY;
-	private bool autoHeight = true;
+    private int maxY;
+    private bool autoHeight = true;
 
-	private void Update() {
-		if (bounds.size.x < 0) {
-			bounds.size = new Vector3(-bounds.size.x, bounds.size.y, bounds.size.z);
-		}
-		if (bounds.size.z < 0) {
-			bounds.size = new Vector3(bounds.size.x, bounds.size.y, -bounds.size.z);
-		}
+    private void Update() {
+        if (bounds.size.x < 0) {
+            bounds.size = new Vector3(-bounds.size.x, bounds.size.y, bounds.size.z);
+        }
 
-		if (bounds.Contains(ObjectManager.playerCharacter.WorldPosition)) {
-			if (playerLeft) {
-				playerLeft = false;
-				foreach (EntityObject hideableObject in GetComponentsInChildren<EntityObject>()) {
-					hideableObject.manualMode = true;
-				}
-			}
-			if (Input.GetKeyDown(KeyCode.KeypadMinus)) {
-				autoHeight = false;
-				maxY--;
-			}
+        if (bounds.size.z < 0) {
+            bounds.size = new Vector3(bounds.size.x, bounds.size.y, -bounds.size.z);
+        }
 
-			if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
-				autoHeight = false;
-				maxY++;
-			}
+        if (bounds.Contains(ObjectManager.playerCharacter.WorldPosition)) {
+            if (playerLeft) {
+                playerLeft = false;
+                foreach (var hideableObject in GetComponentsInChildren<EntityObject>()) {
+                    hideableObject.manualMode = true;
+                }
+            }
 
-			maxY = Mathf.Clamp(maxY, 0, floors.Length - 1);
+            if (Input.GetKeyDown(KeyCode.KeypadMinus)) {
+                autoHeight = false;
+                maxY--;
+            }
 
-			if (maxY == ObjectManager.playerCharacter.position.y) autoHeight = true;
-			if (autoHeight) {
-				maxY = ObjectManager.playerCharacter.position.y;
-			}
+            if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
+                autoHeight = false;
+                maxY++;
+            }
 
-			for (int i = 0; i < floors.Length; i++) {
-				floors[i].SetActive(i <= maxY);
-			}
+            maxY = Mathf.Clamp(maxY, 0, floors.Length - 1);
 
-			foreach (Light light in lights) {
-				light.enabled = Mathf.FloorToInt(light.transform.position.y) == maxY;
-			}
-		} else if (!playerLeft) {
-			foreach (Floor floor in floors) {
-				floor.SetActive(true);
-			}
+            if (maxY == ObjectManager.playerCharacter.position.y) autoHeight = true;
+            if (autoHeight) {
+                maxY = ObjectManager.playerCharacter.position.y;
+            }
 
-			foreach (EntityObject hideableObject in GetComponentsInChildren<EntityObject>()) {
-				hideableObject.manualMode = false;
-			}
+            for (var i = 0; i < floors.Length; i++) {
+                floors[i].SetActive(i <= maxY);
+            }
 
-			foreach (Light light in lights) {
-				light.enabled = false;
-			}
+            foreach (var light in lights) {
+                light.enabled = Mathf.FloorToInt(light.transform.position.y) == maxY;
+            }
+        }
+        else if (!playerLeft) {
+            foreach (var floor in floors) {
+                floor.SetActive(true);
+            }
 
-			autoHeight = true;
-			playerLeft = true;
-		}
-	}
+            foreach (var hideableObject in GetComponentsInChildren<EntityObject>()) {
+                hideableObject.manualMode = false;
+            }
+
+            foreach (var light in lights) {
+                light.enabled = false;
+            }
+
+            autoHeight = true;
+            playerLeft = true;
+        }
+    }
 }

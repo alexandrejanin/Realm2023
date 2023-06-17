@@ -7,51 +7,51 @@ using UnityEngine;
 
 [Serializable]
 public class Race {
-	public string collectiveName, individualName, adjective;
+    public string collectiveName, individualName, adjective;
 
-	[Range(0, 1)] public float expansionism, hostility;
+    [Range(0, 1)] public float expansionism, hostility;
 
-	[SerializeField] private FloatRange height, temp, humidity;
+    [SerializeField] private FloatRange height, temp, humidity;
 
-	[SerializeField] private string[] placeNames, maleFirstNames, femaleFirstNames, lastNames;
-	[SerializeField] private IntRange placeNameLength, firstNameLength, lastNameLength;
+    [SerializeField] private string[] placeNames, maleFirstNames, femaleFirstNames, lastNames;
+    [SerializeField] private IntRange placeNameLength, firstNameLength, lastNameLength;
 
-	public Color skinColor;
+    public Color skinColor;
 
-	public bool IsValidTile(Tile tile) => !tile.IsWater && height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
+    public bool IsValidTile(Tile tile) => !tile.IsWater && height.Contains(tile.height) && temp.Contains(tile.temp) && humidity.Contains(tile.humidity);
 
-	public float GetTileCompatibility(Tile tile) => 1 - ((height.Average - tile.height).Abs() + (temp.Average - tile.temp).Abs() + (humidity.Average - tile.humidity).Abs()) / 3;
+    public float GetTileCompatibility(Tile tile) => 1 - ((height.Average - tile.height).Abs() + (temp.Average - tile.temp).Abs() + (humidity.Average - tile.humidity).Abs()) / 3;
 
-	public string GetPlaceName() {
-		string placeName = "";
-		int length = placeNameLength.Random;
-		for (int i = 0; i < length; i++) {
-			placeName += placeNames[GameController.Random.Next(0, placeNames.Length)];
-		}
+    public string GetPlaceName() {
+        var placeName = "";
+        var length = placeNameLength.Random;
+        for (var i = 0; i < length; i++) {
+            placeName += placeNames[GameController.Random.Next(0, placeNames.Length)];
+        }
 
-		return placeName.Capitalize();
-	}
+        return placeName.Capitalize();
+    }
 
-	public string GetFirstName(bool isFemale) {
-		string firstName = "";
-		int length = firstNameLength.Random;
-		string[] names = isFemale ? femaleFirstNames : maleFirstNames;
-		for (int i = 0; i < length; i++) {
-			firstName += names[GameController.Random.Next(0, names.Length)];
-		}
+    public string GetFirstName(bool isFemale) {
+        var firstName = "";
+        var length = firstNameLength.Random;
+        var names = isFemale ? femaleFirstNames : maleFirstNames;
+        for (var i = 0; i < length; i++) {
+            firstName += names[GameController.Random.Next(0, names.Length)];
+        }
 
-		return firstName.Capitalize();
-	}
+        return firstName.Capitalize();
+    }
 
-	public string GetLastName() {
-		string lastName = "";
-		int length = lastNameLength.Random;
-		for (int i = 0; i < length; i++) {
-			lastName += lastNames[GameController.Random.Next(0, lastNames.Length)];
-		}
+    public string GetLastName() {
+        var lastName = "";
+        var length = lastNameLength.Random;
+        for (var i = 0; i < length; i++) {
+            lastName += lastNames[GameController.Random.Next(0, lastNames.Length)];
+        }
 
-		return lastName.Capitalize();
-	}
+        return lastName.Capitalize();
+    }
 
-	public override string ToString() => collectiveName.Capitalize();
+    public override string ToString() => collectiveName.Capitalize();
 }

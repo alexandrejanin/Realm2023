@@ -2,28 +2,29 @@
 using UnityEngine.Rendering;
 
 public class Floor : MonoBehaviour {
-	private GameObject[] gameObjects;
+    private GameObject[] gameObjects;
 
-	private bool active;
-	private bool playerInside;
+    private bool active;
+    private bool playerInside;
 
-	public void SetGameObjects(GameObject[] gameObjects) {
-		foreach (GameObject go in gameObjects) {
-			go.transform.parent = transform;
-		}
-		this.gameObjects = gameObjects;
-	}
+    public void SetGameObjects(GameObject[] gameObjects) {
+        foreach (var go in gameObjects) {
+            go.transform.parent = transform;
+        }
 
-	public void SetActive(bool newState) {
-		if (active == newState) return;
+        this.gameObjects = gameObjects;
+    }
 
-		foreach (GameObject o in gameObjects) {
-			EntityObject entityObject = o.GetComponent<EntityObject>();
-			entityObject.manualSeen = newState;
-			entityObject.manualVisible = newState;
-			entityObject.UpdateDisplay();
-		}
+    public void SetActive(bool newState) {
+        if (active == newState) return;
 
-		active = newState;
-	}
+        foreach (var o in gameObjects) {
+            var entityObject = o.GetComponent<EntityObject>();
+            entityObject.manualSeen = newState;
+            entityObject.manualVisible = newState;
+            entityObject.UpdateDisplay();
+        }
+
+        active = newState;
+    }
 }
