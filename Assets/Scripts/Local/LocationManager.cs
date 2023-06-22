@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 
-public class LocationManager : MonoBehaviour {
+public class LocationManager {
     private Location location;
 
-    [SerializeField] private NoiseSettings locationNoiseSettings;
+    private readonly NoiseSettings locationNoiseSettings = new() {
+        octaves = 2,
+        persistance = 0.5f,
+        lacunarity = 2,
+        scale = 50
+    };
 
     public void LoadLocation(Location newLocation) {
         location = newLocation;
         CreateGround();
         CreateBuildings();
-        if (ObjectManager.playerCharacter == null) SpawnPlayer();
+        if (ObjectManager.playerCharacter == null)
+            SpawnPlayer();
     }
 
     private void SpawnPlayer() {
@@ -84,8 +90,7 @@ public class LocationManager : MonoBehaviour {
 
         if (validPosition) {
             blueprint.GenerateBuilding(location, bottomLeft, size, rotation);
-        }
-        else {
+        } else {
             Debug.Log($"Could not find valid position for {blueprint}");
         }
     }

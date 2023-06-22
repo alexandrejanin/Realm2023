@@ -8,7 +8,11 @@ public class Blueprint {
 
     [SerializeField] private WallType wallType;
 
-    public Coord RandomSize() => new Coord(Random.Range(minSize.x, maxSize.x + 1), Random.Range(minSize.y, maxSize.y + 1), Random.Range(minSize.z, maxSize.z + 1));
+    public Coord RandomSize() => new(
+        Random.Range(minSize.x, maxSize.x + 1),
+        Random.Range(minSize.y, maxSize.y + 1),
+        Random.Range(minSize.z, maxSize.z + 1)
+    );
 
     public static Coord RotationOffset(int yRotation) {
         yRotation %= 4;
@@ -31,8 +35,8 @@ public class Blueprint {
 
         var rotationOffset = RotationOffset(rotation.y);
 
-        var roofY = Mathf.CeilToInt((float) size.z / 2);
-        var middle = (float) maxZ / 2;
+        var roofY = Mathf.CeilToInt((float)size.z / 2);
+        var middle = (float)maxZ / 2;
 
         var doorPos = new Coord(Random.Range(1, maxX - 1), 0, 0);
         var itemPos = Coord.RandomRange(Coord.Zero, new Coord(maxX, maxY, maxZ));
@@ -56,7 +60,7 @@ public class Blueprint {
                     location.SetTileFree(worldCoord, false);
 
                     if (localCoord == itemPos) location.items.Add(new Equipable(location, worldCoord));
-                    if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameController.RandomRace(), Utility.RandomBool));
+                    if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameController.Database.RandomRace(), Utility.RandomBool));
 
                     if (y <= size.y) {
                         //Floor
@@ -64,8 +68,7 @@ public class Blueprint {
 
                         if (isStair) {
                             AddWall(location, worldCoord + new Coord(0, -1, 0), y == size.y ? left : right);
-                        }
-                        else {
+                        } else {
                             AddWall(location, worldCoord, down);
                         }
                     }
@@ -78,8 +81,7 @@ public class Blueprint {
 
                         if (localCoord == doorPos) {
                             location.AddWall(new Doorway(location, worldCoord, back, wallType));
-                        }
-                        else {
+                        } else {
                             if (x == 0) {
                                 AddWall(location, worldCoord, left);
                             }
@@ -96,8 +98,7 @@ public class Blueprint {
                                 AddWall(location, worldCoord, forward);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         //Roof
                         var isRoof = z == y - size.y || maxZ - z == y - size.y;
                         var isEdge = x == 0 || x == maxX;
@@ -105,8 +106,7 @@ public class Blueprint {
                         if (isEdge) {
                             if (isRoof && z != middle) {
                                 AddWall(location, worldCoord, x == 0 ? left : right);
-                            }
-                            else if (y - size.y < z && y - size.y < maxZ - z) {
+                            } else if (y - size.y < z && y - size.y < maxZ - z) {
                                 AddWall(location, worldCoord, x == 0 ? left : right);
                             }
                         }

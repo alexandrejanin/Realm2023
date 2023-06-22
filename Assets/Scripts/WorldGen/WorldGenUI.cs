@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +34,7 @@ public class WorldGenUI : MonoBehaviour {
 
         var mapText = $"Seed: {map.settings.seed}\nPopulation: {map.towns.Sum(t => t.population)}";
 
-        foreach (var climate in GameController.Climates) {
+        foreach (var climate in GameController.Database.Climates) {
             var validRegions = map.regions.Where(region => region.climate == climate).ToList();
             var regionsCount = validRegions.Count;
             if (regionsCount == 0) continue;

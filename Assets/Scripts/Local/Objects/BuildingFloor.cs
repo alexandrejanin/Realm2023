@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
 
-public class Floor : MonoBehaviour {
+public class BuildingFloor : MonoBehaviour {
     private GameObject[] gameObjects;
 
     private bool active;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Building : MonoBehaviour {
-    public Floor[] floors;
+    public BuildingFloor[] floors;
 
     public Light[] lights;
     //public Interactable[] interactables;
@@ -42,7 +42,9 @@ public class Building : MonoBehaviour {
 
             maxY = Mathf.Clamp(maxY, 0, floors.Length - 1);
 
-            if (maxY == ObjectManager.playerCharacter.position.y) autoHeight = true;
+            if (maxY == ObjectManager.playerCharacter.position.y)
+                autoHeight = true;
+            
             if (autoHeight) {
                 maxY = ObjectManager.playerCharacter.position.y;
             }

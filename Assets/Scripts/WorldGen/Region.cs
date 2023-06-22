@@ -15,7 +15,7 @@ public sealed class Region {
 
     public Region(Climate climate, List<Tile> tiles) {
         this.climate = climate;
-        name = GameController.RandomRace().GetPlaceName();
+        name = GameController.Database.RandomRace().GetPlaceName();
         color = Random.ColorHSV(0, 1);
         foreach (var tile in tiles) {
             Add(tile);

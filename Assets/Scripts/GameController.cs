@@ -1,15 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 public class GameController : MonoBehaviour {
-    private static GameController Instance => instance ?? (instance = FindObjectOfType<GameController>());
-
+    private static GameController Instance => instance ??= FindAnyObjectByType<GameController>();
     private static GameController instance;
+
+    private DatabaseManager database;
+    public static DatabaseManager Database => Instance.database;
 
     private static int Seed => Instance.randomSeed ? Instance.seed = UnityEngine.Random.Range(0, 9999) : Instance.seed;
     [SerializeField] private bool randomSeed;
@@ -28,38 +27,16 @@ public class GameController : MonoBehaviour {
 
     public static Location Location { get; private set; }
 
-    public static Race[] Races {
-        get {
-            if (Instance.races == null || Instance.races.Length == 0) Instance.LoadDatabase();
-
-            return Instance.races;
-        }
-    }
-
-    public static Climate[] Climates {
-        get {
-            if (Instance.climates == null || Instance.climates.Length == 0) Instance.LoadDatabase();
-
-            return Instance.climates;
-        }
-    }
-
-    [Header("Database"), SerializeField] private Race[] races;
-    [SerializeField] private Climate[] climates;
-
     public static Blueprint[] Blueprints => Instance.blueprints;
     [SerializeField] private Blueprint[] blueprints;
 
-    private static string RacesPath => Application.streamingAssetsPath + "/Database/Races/";
-    private static string ClimatesPath => Application.streamingAssetsPath + "/Database/Climates/";
+    public static LocationManager LocationManager => locationManager ??= new LocationManager();
+    public static MapDisplay MapDisplay => mapDisplay ??= Instance.GetComponent<MapDisplay>();
+    public static WorldGenUI WorldGenUI => worldGenUI ??= Instance.GetComponent<WorldGenUI>();
+    public static PrefabManager PrefabManager => prefabManager ??= Instance.GetComponent<PrefabManager>();
 
-    public static LocationManager LocationManager => locationManager ?? (locationManager = Instance.GetComponent<LocationManager>());
-    public static MapDisplay MapDisplay => mapDisplay ?? (mapDisplay = Instance.GetComponent<MapDisplay>());
-    public static WorldGenUI WorldGenUI => worldGenUI ?? (worldGenUI = Instance.GetComponent<WorldGenUI>());
-    public static PrefabManager PrefabManager => prefabManager ?? (prefabManager = Instance.GetComponent<PrefabManager>());
-
-    public static WorldCamera WorldCamera => worldCamera ?? (worldCamera = FindObjectOfType<WorldCamera>());
-    public static DialogueManager DialogueManager => dialogueManager ?? (dialogueManager = FindObjectOfType<DialogueManager>());
+    public static WorldCamera WorldCamera => worldCamera ??= FindAnyObjectByType<WorldCamera>();
+    public static DialogueManager DialogueManager => dialogueManager ??= FindAnyObjectByType<DialogueManager>();
 
     private static LocationManager locationManager;
     private static MapDisplay mapDisplay;
@@ -71,17 +48,19 @@ public class GameController : MonoBehaviour {
 
     private static AsyncOperation loadingLevel;
 
-    public static Random Random => random ?? (random = new Random(Seed));
+    public static Random Random => random ??= new Random(Seed);
     private static Random random;
 
     private void Awake() {
         DontDestroyOnLoad(this);
 
+        database = new DatabaseManager();
+
         GenerateMap();
     }
 
     public void OnMapSizeChanged(int i) {
-        mapSettings.mapSize = (MapSize) i;
+        mapSettings.mapSize = (MapSize)i;
         GenerateMap();
     }
 
@@ -113,25 +92,4 @@ public class GameController : MonoBehaviour {
         LocationManager.LoadLocation(Location);
         ObjectManager.TakeTurn();
     }
-
-    public void LoadDatabase() {
-        races = LoadFromDirectory<Race>(RacesPath);
-        climates = LoadFromDirectory<Climate>(ClimatesPath);
-    }
-
-    public void SaveDatabase() {
-        SaveToDirectory(races, RacesPath);
-        SaveToDirectory(climates, ClimatesPath);
-    }
-
-    private static T[] LoadFromDirectory<T>(string path) => Directory.GetFiles(path, "*.json").Select(file => JsonUtility.FromJson<T>(File.ReadAllText(file))).ToArray();
-
-    private static void SaveToDirectory<T>(IEnumerable<T> database, string path) {
-        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-        foreach (var o in database) {
-            File.WriteAllText(path + o + ".json", JsonUtility.ToJson(o, true));
-        }
-    }
-
-    public static Race RandomRace() => Races.RandomItem();
 }

@@ -25,7 +25,7 @@ public class Tile {
         this.height = height;
         this.temp = temp;
         this.humidity = humidity;
-        Climate = GameController.Climates.First(climate => climate.CorrectTile(this));
+        Climate = GameController.Database.Climates.First(climate => climate.CorrectTile(this));
         color = Climate.GetColor(height);
         heightColor = Color.Lerp(Color.black, Color.white, height);
         tempColor = Color.Lerp(Color.cyan, Color.red, temp);

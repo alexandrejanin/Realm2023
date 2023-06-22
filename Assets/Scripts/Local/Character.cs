@@ -40,7 +40,7 @@ public class Character : Interactable {
     public bool HasItem(Item item) => inventory.Contains(item) || equipment.Contains(item);
     private readonly List<StatModifier> modifiers = new List<StatModifier>();
 
-    public Character(Location location, Coord position, bool isPlayer = false) : this(location, position, GameController.RandomRace(), Utility.RandomBool, isPlayer) { }
+    public Character(Location location, Coord position, bool isPlayer = false) : this(location, position, GameController.Database.RandomRace(), Utility.RandomBool, isPlayer) { }
 
     public Character(Location location, Coord position, Race race, bool isFemale, bool isPlayer = false) : base(location, position) {
         this.race = race;
@@ -75,8 +75,7 @@ public class Character : Interactable {
     public void TakeTurn() {
         if (Path != null) {
             ProcessPath();
-        }
-        else if (!isPlayer && CanSeeTo(ObjectManager.playerCharacter.position)) {
+        } else if (!isPlayer && CanSeeTo(ObjectManager.playerCharacter.position)) {
             lookDirection = ObjectManager.playerCharacter.position - position;
         }
 
@@ -110,7 +109,7 @@ public class Character : Interactable {
         position = coord;
     }
 
-    public void RequestPathToPosition(Coord goalCoord) => RequestPathToPositions(new[] {goalCoord});
+    public void RequestPathToPosition(Coord goalCoord) => RequestPathToPositions(new[] { goalCoord });
 
     public void RequestPathToPositions(Coord[] goalCoords) {
         var waypoints = Pathfinder.FindPath(position, goalCoords);

@@ -102,7 +102,7 @@ public class Map {
 
     private void GenerateCivs() {
         while (civilizations.Count < settings.civilizations) {
-            var race = GameController.RandomRace();
+            var race = GameController.Database.RandomRace();
             var civ = new Civilization(this, race);
             civilizations.Add(civ);
             Tile tile = null;
