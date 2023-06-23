@@ -60,7 +60,7 @@ public class Blueprint {
                     location.SetTileFree(worldCoord, false);
 
                     if (localCoord == itemPos) location.items.Add(new Equipable(location, worldCoord));
-                    if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameController.Database.RandomRace(), Utility.RandomBool));
+                    if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameManager.Database.RandomRace(), Utility.RandomBool));
 
                     if (y <= size.y) {
                         //Floor

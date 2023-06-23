@@ -3,10 +3,9 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
 public class DatabaseManager {
-    [SerializeField] private Race[] races;
-    [SerializeField] private Climate[] climates;
+    private Race[] races;
+    private Climate[] climates;
 
     public Race[] Races {
         get {
@@ -36,6 +35,8 @@ public class DatabaseManager {
     public void LoadDatabase() {
         races = LoadFromDirectory<Race>(RacesPath);
         climates = LoadFromDirectory<Climate>(ClimatesPath);
+
+        Debug.Log($"Loaded {races.Length} races and {climates.Length} climates into database");
     }
 
     public void SaveDatabase() {

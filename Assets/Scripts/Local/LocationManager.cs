@@ -3,7 +3,7 @@
 public class LocationManager {
     private Location location;
 
-    private readonly NoiseSettings locationNoiseSettings = new() {
+    private readonly NoiseParameters2 locationNoiseSettings = new() {
         octaves = 2,
         persistance = 0.5f,
         lacunarity = 2,
@@ -19,13 +19,13 @@ public class LocationManager {
     }
 
     private void SpawnPlayer() {
-        var x = GameController.Random.Next(5, 95);
-        var z = GameController.Random.Next(5, 95);
+        var x = GameManager.Random.Next(5, 95);
+        var z = GameManager.Random.Next(5, 95);
         location.characters.Add(new Character(location, new Coord(x, location.heightMap[x, z], z), true));
     }
 
     private void CreateGround() {
-        location.heightMap = GameController.Map.settings.GenerateLocationHeightMap(location, locationNoiseSettings);
+        location.heightMap = GenerateLocationHeightMap(locationNoiseSettings);
         var wallType = location.Climate.wallType;
         for (var x = 0; x < location.size; x++) {
             for (var z = 0; z < location.size; z++) {
@@ -43,14 +43,29 @@ public class LocationManager {
         }
     }
 
+    public int[,] GenerateLocationHeightMap(NoiseParameters2 settings) {
+        var floatMap = settings.Generate(location.size, location.size);
+
+        var heightMap = new int[location.size, location.size];
+        for (var x = 0;
+             x < location.size;
+             x++) {
+            for (var z = 0; z < location.size; z++) {
+                heightMap[x, z] = (int)(floatMap[x, z] * location.steepness);
+            }
+        }
+
+        return heightMap;
+    }
+
     private void CreateBuildings() {
         for (var i = 0; i < location.buildingsAmount; i++) {
-            BuildBlueprint(GameController.Blueprints.RandomItem());
+            BuildBlueprint(GameManager.LocalManager.Blueprints[GameManager.Random.Next(GameManager.LocalManager.Blueprints.Length)]);
         }
     }
 
     private void BuildBlueprint(Blueprint blueprint) {
-        var yRotation = GameController.Random.Next(0, 4) * 2;
+        var yRotation = GameManager.Random.Next(0, 4) * 2;
         var rotation = new QuaternionInt(0, yRotation, 0);
         var size = blueprint.RandomSize();
 
@@ -62,8 +77,8 @@ public class LocationManager {
         var bottomLeft = new Coord();
 
         while (!validPosition && tries < 1000) {
-            var bottomLeftX = GameController.Random.Next(0, location.size - (rotation * size).x.Abs());
-            var bottomLeftZ = GameController.Random.Next(0, location.size - (rotation * size).z.Abs());
+            var bottomLeftX = GameManager.Random.Next(0, location.size - (rotation * size).x.Abs());
+            var bottomLeftZ = GameManager.Random.Next(0, location.size - (rotation * size).z.Abs());
             var floorHeight = location.heightMap[bottomLeftX, bottomLeftZ];
             bottomLeft = new Coord(bottomLeftX, floorHeight, bottomLeftZ);
 
@@ -90,7 +105,8 @@ public class LocationManager {
 
         if (validPosition) {
             blueprint.GenerateBuilding(location, bottomLeft, size, rotation);
-        } else {
+        }
+        else {
             Debug.Log($"Could not find valid position for {blueprint}");
         }
     }

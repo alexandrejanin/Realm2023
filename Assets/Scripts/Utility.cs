@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public static class Utility {
-    private static Random DefaultRandom => GameController.Random;
+    private static Random DefaultRandom => GameManager.Random;
 
     public static string Capitalize(this string s) => s.First().ToString().ToUpper() + s.Substring(1);
 

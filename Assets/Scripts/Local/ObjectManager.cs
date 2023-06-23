@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public static class ObjectManager {
-    private static PrefabManager PrefabManager => GameController.PrefabManager;
+    private static PrefabManager PrefabManager => GameManager.PrefabManager;
     public static Character playerCharacter;
     public static CharacterObject playerCharacterObject;
 
@@ -15,7 +15,7 @@ public static class ObjectManager {
     public static readonly List<EntityObject> EntityObjects = new List<EntityObject>();
     public static readonly HashSet<Entity> DisplayedEntities = new HashSet<Entity>();
 
-    private static Location Location => GameController.Location;
+    private static Location Location => GameManager.LocalManager.Location;
 
     private const int renderRange = 900;
 

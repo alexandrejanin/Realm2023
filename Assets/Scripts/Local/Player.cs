@@ -141,20 +141,20 @@ public class Player : MonoBehaviour {
     public static void DisplayInteractions(string title, ICollection<Interaction> interactions) {
         if (interactions == null || interactions.Count == 0) return;
 
-        var frame = Instantiate(GameController.PrefabManager.buttonsFramePrefab, canvasTransform);
+        var frame = Instantiate(GameManager.PrefabManager.buttonsFramePrefab, canvasTransform);
         frame.transform.position = Input.mousePosition;
         frame.GetComponentInChildren<Text>().text = title;
         var parent = frame.buttonsParent.transform;
 
         foreach (var interaction in interactions) {
-            var button = Instantiate(GameController.PrefabManager.buttonPrefab, parent);
+            var button = Instantiate(GameManager.PrefabManager.buttonPrefab, parent);
             button.GetComponentInChildren<Text>().text = interaction.name;
             button.onClick.AddListener(() => interaction.action.Invoke());
             button.onClick.AddListener(() => Destroy(frame.gameObject));
             if (interaction.skipTurn) button.onClick.AddListener(ObjectManager.TakeTurn);
         }
 
-        frame.SetSize(GameController.PrefabManager.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1);
+        frame.SetSize(GameManager.PrefabManager.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1);
         interactionsMenu = frame.gameObject;
     }
 
