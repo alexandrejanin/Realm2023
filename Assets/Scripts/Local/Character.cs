@@ -40,9 +40,11 @@ public class Character : Interactable {
     public bool HasItem(Item item) => inventory.Contains(item) || equipment.Contains(item);
     private readonly List<StatModifier> modifiers = new List<StatModifier>();
 
-    public Character(Location location, Coord position, bool isPlayer = false) : this(location, position, GameManager.Database.RandomRace(), Utility.RandomBool, isPlayer) { }
+    public Character(Location location, Coord position, bool isPlayer = false) : this(location, position,
+        GameManager.Database.RandomRace(), Utility.RandomBool, isPlayer) { }
 
-    public Character(Location location, Coord position, Race race, bool isFemale, bool isPlayer = false) : base(location, position) {
+    public Character(Location location, Coord position, Race race, bool isFemale, bool isPlayer = false) : base(
+        location, position) {
         this.race = race;
         this.isFemale = isFemale;
         firstName = race.GetFirstName(isFemale);
@@ -66,7 +68,8 @@ public class Character : Interactable {
         }
 
         foreach (var equipable in equipment) {
-            statBase += equipable.modifiers.Where(statModifier => statModifier.stat == stat).Sum(statModifier => statModifier.value);
+            statBase += equipable.modifiers.Where(statModifier => statModifier.stat == stat)
+                .Sum(statModifier => statModifier.value);
         }
 
         return statBase;
@@ -94,23 +97,27 @@ public class Character : Interactable {
     }
 
     private void Talk(Character character) {
-        GameManager.LocalManager.DialogueManager.EnqueueSentence(new Sentence(Name, Utility.RandomBool ? "Hi!" : $"Hello, {character.Name}!"));
+        GameManager.LocalManager.DialogueManager.EnqueueSentence(new Sentence(Name,
+            Utility.RandomBool ? "Hi!" : $"Hello, {character.Name}!"));
     }
 
     public void Attack(Character target) {
         if (isPlayer) {
-            Player.DisplayInteractions("Attack " + Name, target.body.Select(bodyPart => new Interaction(bodyPart.name, () => bodyPart.Attack(this), true)).ToList());
+            Player.DisplayInteractions("Attack " + Name,
+                target.body.Select(bodyPart => new Interaction(bodyPart.name, () => bodyPart.Attack(this), true))
+                    .ToList());
         }
     }
 
-    public override void MoveTo(Character character) => character.RequestPathToPositions(position.GetAdjacent(true, true));
+    public override void MoveTo(Character character) =>
+        character.RequestPathToPositions(position.GetAdjacent(true, true));
 
     private void MoveToCoord(Coord coord) {
         lookDirection = (coord - position).Normalize;
         position = coord;
     }
 
-    public void RequestPathToPosition(Coord goalCoord) => RequestPathToPositions(new[] {goalCoord});
+    public void RequestPathToPosition(Coord goalCoord) => RequestPathToPositions(new[] { goalCoord });
 
     public void RequestPathToPositions(Coord[] goalCoords) {
         var waypoints = Pathfinder.FindPath(position, goalCoords);
@@ -122,8 +129,10 @@ public class Character : Interactable {
     public override List<Interaction> GetInteractions(Character character) {
         var interactions = GetBasicInteractions(character);
         if (character != this) {
-            if (CanBeSeenFrom(character.position)) interactions.Add(new Interaction("Talk", () => Talk(character), true));
-            if ((character.position - position).MaxDimension <= 1) interactions.Add(new Interaction("Attack", () => character.Attack(this), false));
+            if (CanBeSeenFrom(character.position))
+                interactions.Add(new Interaction("Talk", () => Talk(character), true));
+            if ((character.position - position).MaxDimension <= 1)
+                interactions.Add(new Interaction("Attack", () => character.Attack(this), false));
         }
 
         return interactions;

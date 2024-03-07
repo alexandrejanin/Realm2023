@@ -44,7 +44,7 @@ public class Building : MonoBehaviour {
 
             if (maxY == ObjectManager.playerCharacter.position.y)
                 autoHeight = true;
-            
+
             if (autoHeight) {
                 maxY = ObjectManager.playerCharacter.position.y;
             }

@@ -2,7 +2,7 @@
 
 [System.Serializable]
 public struct ElevationParameters {
-    public NoiseParameters2 noiseParameters;
+    public NoiseParameters noiseParameters;
 
     [Range(0, 10)] public float falloffA;
     [Range(1, 10)] public float falloffB;

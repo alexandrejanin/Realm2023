@@ -44,7 +44,8 @@ public class DatabaseManager {
         SaveToDirectory(climates, ClimatesPath);
     }
 
-    private static T[] LoadFromDirectory<T>(string path) => Directory.GetFiles(path, "*.json").Select(file => JsonUtility.FromJson<T>(File.ReadAllText(file))).ToArray();
+    private static T[] LoadFromDirectory<T>(string path) => Directory.GetFiles(path, "*.json")
+        .Select(file => JsonUtility.FromJson<T>(File.ReadAllText(file))).ToArray();
 
     private static void SaveToDirectory<T>(IEnumerable<T> database, string path) {
         if (!Directory.Exists(path)) Directory.CreateDirectory(path);

@@ -13,19 +13,21 @@ public class Node : IHeapItem<Node> {
 
     private readonly bool[] directionOpen;
 
-    public Node(Coord position, int movementPenalty, bool[] directionOpen) {
+    public Node(Coord position, bool[] directionOpen) {
         this.position = position;
         this.directionOpen = directionOpen;
     }
 
     public bool DirectionIsOpen(Coord direction, bool cutCorners = false) {
-        if (direction.x == 0 && direction.y == 0 && direction.z == 0) return true;
+        if (direction == Coord.Zero)
+            return true;
 
-        if (direction.IsDirection) return directionOpen[direction.ToDirectionIndex];
+        if (direction.IsDirection)
+            return directionOpen[direction.ToDirectionIndex];
 
-        if (DirectionIsOpen(new Coord(direction.x, 0, 0)) &&
-            DirectionIsOpen(new Coord(0, direction.y, 0)) &&
-            DirectionIsOpen(new Coord(0, 0, direction.z))) {
+        if (DirectionIsOpen(new Coord(direction.x, 0, 0))
+            && DirectionIsOpen(new Coord(0, direction.y, 0))
+            && DirectionIsOpen(new Coord(0, 0, direction.z))) {
             return true;
         }
 
@@ -33,16 +35,17 @@ public class Node : IHeapItem<Node> {
             var x = new Coord(direction.x, 0, 0);
             var y = new Coord(0, direction.y, 0);
             var z = new Coord(0, 0, direction.z);
-            return DirectionIsOpen(x) && NodeGrid.GetNode(position + x).DirectionIsOpen(y + z) ||
-                   DirectionIsOpen(y) && NodeGrid.GetNode(position + y).DirectionIsOpen(x + z) ||
-                   DirectionIsOpen(z) && NodeGrid.GetNode(position + z).DirectionIsOpen(x + y);
+            return (DirectionIsOpen(x) && NodeGrid.GetNode(position + x).DirectionIsOpen(y + z))
+                   || (DirectionIsOpen(y) && NodeGrid.GetNode(position + y).DirectionIsOpen(x + z))
+                   || (DirectionIsOpen(z) && NodeGrid.GetNode(position + z).DirectionIsOpen(x + y));
         }
 
         return false;
     }
 
     public void SetDirection(Coord direction, bool open) {
-        if (!direction.IsDirection) throw new ArgumentException(direction.ToString());
+        if (!direction.IsDirection)
+            throw new ArgumentException(direction.ToString());
         directionOpen[direction.ToDirectionIndex] = open;
     }
 

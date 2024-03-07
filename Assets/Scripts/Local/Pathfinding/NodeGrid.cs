@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class NodeGrid {
     public static int Width => size.x;
     public static int Height => size.y;
     public static int Length => size.z;
-    public static Coord size;
+    private static Coord size;
 
     public static int GridCount => Width * Height * Length;
 
     public static Coord RandomPoint => Coord.RandomRange(Coord.Zero, size);
 
-    public static Node[,,] grid;
+    private static Node[,,] grid;
 
-    public const int maxViewDistanceSquared = 225;
+    private const int maxViewDistanceSquared = 225;
 
     public static void CreateGrid(Location location) {
         size = new Coord(location.size, location.height, location.size);
@@ -31,7 +32,7 @@ public static class NodeGrid {
                         z > 0
                     };
 
-                    grid[x, y, z] = new Node(new Coord(x, y, z), 0, directionOpen);
+                    grid[x, y, z] = new Node(new Coord(x, y, z), directionOpen);
                 }
             }
         }
@@ -48,8 +49,19 @@ public static class NodeGrid {
     private static void SetPassage(Coord position, Coord direction, bool open) {
         direction = direction.Normalize;
 
+
+        if (GetNode(position) == null) {
+            Debug.Log($"SetPassage on null node : {position}");
+        }
+
+        // if (GetNode(position + direction) == null) {
+        //     Debug.Log("SetPassage on null neighbor");
+        // }
+
         GetNode(position)?.SetDirection(direction, open);
         GetNode(position + direction)?.SetDirection(-direction, open);
+
+        // Debug.Log($"Set {position}, {direction} to {open}");
     }
 
     public static List<Coord> GetLine(Coord start, Coord end) {
@@ -111,7 +123,7 @@ public static class NodeGrid {
         return line;
     }
 
-    public static bool IsVisible(Coord start, Coord end, Vector3 normal = new Vector3(), int viewDist = maxViewDistanceSquared) {
+    public static bool IsVisible(Coord start, Coord end, Vector3 normal = new(), int viewDist = maxViewDistanceSquared) {
         if (start == end)
             return true;
 
@@ -133,7 +145,9 @@ public static class NodeGrid {
         return true;
     }
 
-    private static bool CanWalkBetweenNodes(Node a, Node b, bool permissive) => a.DirectionIsOpen(b.position - a.position, permissive) && b.DirectionIsOpen(a.position - b.position, permissive);
+    private static bool CanWalkBetweenNodes(Node a, Node b, bool permissive)
+        => a.DirectionIsOpen(b.position - a.position, permissive)
+           && b.DirectionIsOpen(a.position - b.position, permissive);
 
     public enum NodeOffsetType {
         Center,
@@ -151,17 +165,29 @@ public static class NodeGrid {
         }
     }
 
-    public static Vector3 GetWorldPosFromCoord(Coord coord, NodeOffsetType nodeOffsetType) => coord + NodeOffset(nodeOffsetType);
+    public static Vector3 GetWorldPosFromCoord(Coord coord, NodeOffsetType nodeOffsetType = NodeOffsetType.Center)
+        => coord + NodeOffset(nodeOffsetType);
 
-    public static Coord GetCoordFromWorldPos(Vector3 worldPos) => new Coord(
-        Mathf.FloorToInt(worldPos.x),
-        Mathf.FloorToInt(worldPos.y + 0.05f),
-        Mathf.FloorToInt(worldPos.z)
-    );
+    public static Coord GetCoordFromWorldPos(Vector3 worldPos)
+        => new(
+            Mathf.FloorToInt(worldPos.x),
+            Mathf.FloorToInt(worldPos.y + 0.05f),
+            Mathf.FloorToInt(worldPos.z)
+        );
 
 
-    public static bool IsInGrid(Coord coord) => coord.x >= 0 && coord.x < Width && coord.y >= 0 && coord.y < Height && coord.z >= 0 && coord.z < Length;
-    public static Node GetNode(Coord coord) => IsInGrid(coord) ? grid[coord.x, coord.y, coord.z] : null;
+    public static bool IsInGrid(Coord coord)
+        => coord.x >= 0
+           && coord.x < Width
+           && coord.y >= 0
+           && coord.y < Height
+           && coord.z >= 0
+           && coord.z < Length;
+
+    public static Node GetNode(Coord coord)
+        => IsInGrid(coord)
+            ? grid[coord.x, coord.y, coord.z]
+            : null;
 
     public static IEnumerable<Node> GetNeighbors(Node node) {
         var neighbors = new List<Node>();
@@ -185,24 +211,55 @@ public static class NodeGrid {
 
     private static Node GetNeighbor(Node startNode, Coord direction, bool aerial = false) {
         var neighbor = GetNode(startNode.position + direction);
-        if (neighbor == null || !aerial && !neighbor.IsWalkable || direction.MaxDimension > 1 || direction == Coord.Zero) return null;
 
-        if (direction.y == 0) {
-            if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(-direction)) return neighbor;
+        if (neighbor == null) {
+            return null;
         }
 
-        if (direction.y > 0) {
-            direction.y = 0;
-            if (!startNode.DirectionIsOpen(direction) && startNode.DirectionIsOpen(Coord.Up) && neighbor.DirectionIsOpen(-direction)) return neighbor;
+        if (!aerial && !neighbor.IsWalkable) {
+            return null;
         }
 
-        if (direction.y < 0) {
-            direction.y = 0;
-            if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(Coord.Up)) return neighbor;
+        if (direction.MaxDimension > 1) {
+            return null;
+        }
+
+        if (direction == Coord.Zero) {
+            return null;
+        }
+
+        switch (direction.y) {
+            case 0: {
+                if (startNode.DirectionIsOpen(direction)
+                    && neighbor.DirectionIsOpen(-direction))
+                    return neighbor;
+                break;
+            }
+
+            case > 0: {
+                direction.y = 0;
+                if (!startNode.DirectionIsOpen(direction)
+                    && startNode.DirectionIsOpen(Coord.Up)
+                    && neighbor.DirectionIsOpen(-direction))
+                    return neighbor;
+                break;
+            }
+
+            case < 0: {
+                direction.y = 0;
+                if (startNode.DirectionIsOpen(direction) && neighbor.DirectionIsOpen(Coord.Up))
+                    return neighbor;
+                break;
+            }
         }
 
         return null;
     }
 
-    public static Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) => GetNeighbor(GetNode(startCoord), direction, aerial);
+    public static Node GetNeighbor(Coord startCoord, Coord direction, bool aerial = false) {
+        var node = GetNode(startCoord);
+        return node == null
+            ? null
+            : GetNeighbor(node, direction, aerial);
+    }
 }

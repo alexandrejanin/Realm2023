@@ -15,7 +15,8 @@ public class Equipment : Container, IEnumerable<Equipable> {
 
     public bool Contains(Equipable equipable) => Equipables.Contains(equipable);
 
-    public Equipment(Character character) : base(character.Name + "'s equipment", character.location, character.position, 1000) {
+    public Equipment(Character character) : base(character.Name + "'s equipment", character.location,
+        character.position, 1000) {
         this.character = character;
     }
 
@@ -25,7 +26,7 @@ public class Equipment : Container, IEnumerable<Equipable> {
             return false;
         }
 
-        var equipable = (Equipable) item;
+        var equipable = (Equipable)item;
 
         if (Contains(equipable)) {
             Debug.LogError("Trying to equip already equipped item (" + item + ")");
@@ -33,7 +34,8 @@ public class Equipment : Container, IEnumerable<Equipable> {
         }
 
         equipable.container?.RemoveItem(equipable);
-        var validParts = (from bodyPart in character.body where bodyPart.slot == equipable.slot select bodyPart).ToList();
+        var validParts =
+            (from bodyPart in character.body where bodyPart.slot == equipable.slot select bodyPart).ToList();
 
         if (validParts.Count < equipable.slotSize) return false;
 
@@ -58,7 +60,8 @@ public class Equipment : Container, IEnumerable<Equipable> {
     }
 
     private void DisplayParts() {
-        var interactions = waitingBodyParts.Select(validPart => new Interaction(validPart.name, () => validPart.OnChosen(this), false)).ToList();
+        var interactions = waitingBodyParts
+            .Select(validPart => new Interaction(validPart.name, () => validPart.OnChosen(this), false)).ToList();
 
         Player.DisplayInteractions("Equip where?", interactions);
     }
@@ -88,7 +91,7 @@ public class Equipment : Container, IEnumerable<Equipable> {
             return;
         }
 
-        var equipable = (Equipable) item;
+        var equipable = (Equipable)item;
 
         if (!Contains(equipable)) {
             Debug.LogError("Trying to remove non-equipped item (" + item + ")");

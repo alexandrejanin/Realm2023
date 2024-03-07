@@ -42,7 +42,8 @@ public class InventoryUI : MonoBehaviour {
 
         foreach (var bodyPart in character.body) {
             if (bodyPart.slot != Slot.None && !displayedBodyParts.Contains(bodyPart)) {
-                var bodyPartSlot = Instantiate(bodyPartSlotPrefab, Vector3.zero, Quaternion.identity, equipmentGrid.transform);
+                var bodyPartSlot = Instantiate(bodyPartSlotPrefab, Vector3.zero, Quaternion.identity,
+                    equipmentGrid.transform);
                 bodyPartSlot.bodyPart = bodyPart;
                 displayedBodyParts.Add(bodyPart);
             }

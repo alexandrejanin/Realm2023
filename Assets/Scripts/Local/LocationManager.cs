@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LocationManager {
     private Location location;
+    public Location CurrentLocation => location;
 
-    private readonly NoiseParameters2 locationNoiseSettings = new() {
+    private readonly NoiseParameters locationNoiseSettings = new() {
         octaves = 2,
         persistance = 0.5f,
         lacunarity = 2,
@@ -12,10 +14,14 @@ public class LocationManager {
 
     public void LoadLocation(Location newLocation) {
         location = newLocation;
+        NodeGrid.CreateGrid(location);
         CreateGround();
         CreateBuildings();
+
         if (ObjectManager.playerCharacter == null)
             SpawnPlayer();
+
+        ObjectManager.RefreshObjects();
     }
 
     private void SpawnPlayer() {
@@ -26,15 +32,23 @@ public class LocationManager {
 
     private void CreateGround() {
         location.heightMap = GenerateLocationHeightMap(locationNoiseSettings);
+
         var wallType = location.Climate.wallType;
+
         for (var x = 0; x < location.size; x++) {
             for (var z = 0; z < location.size; z++) {
                 var height = location.heightMap[x, z];
+
                 location.AddWall(new Wall(location, new Coord(x, height, z), Coord.Down, wallType));
-                if (x - 1 > 0 && location.heightMap[x - 1, z] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Left, wallType));
-                if (x + 1 < location.size && location.heightMap[x + 1, z] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Right, wallType));
-                if (z - 1 > 0 && location.heightMap[x, z - 1] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Back, wallType));
-                if (z + 1 < location.size && location.heightMap[x, z + 1] < height) location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Forward, wallType));
+
+                if (x - 1 > 0 && location.heightMap[x - 1, z] < height)
+                    location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Left, wallType));
+                if (x + 1 < location.size && location.heightMap[x + 1, z] < height)
+                    location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Right, wallType));
+                if (z - 1 > 0 && location.heightMap[x, z - 1] < height)
+                    location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Back, wallType));
+                if (z + 1 < location.size && location.heightMap[x, z + 1] < height)
+                    location.AddWall(new Wall(location, new Coord(x, height - 1, z), Coord.Forward, wallType));
 
                 for (var i = 1; i < height; i++) {
                     location.SetTileFree(x, i - 1, z, false);
@@ -43,7 +57,7 @@ public class LocationManager {
         }
     }
 
-    public int[,] GenerateLocationHeightMap(NoiseParameters2 settings) {
+    public int[,] GenerateLocationHeightMap(NoiseParameters settings) {
         var floatMap = settings.Generate(location.size, location.size);
 
         var heightMap = new int[location.size, location.size];
@@ -60,7 +74,9 @@ public class LocationManager {
 
     private void CreateBuildings() {
         for (var i = 0; i < location.buildingsAmount; i++) {
-            BuildBlueprint(GameManager.LocalManager.Blueprints[GameManager.Random.Next(GameManager.LocalManager.Blueprints.Length)]);
+            BuildBlueprint(
+                GameManager.LocalManager.Blueprints
+                    [GameManager.Random.Next(GameManager.LocalManager.Blueprints.Length)]);
         }
     }
 
@@ -90,7 +106,8 @@ public class LocationManager {
                         var tileCoord = new Coord(x, y, z);
                         var tilePos = bottomLeft + rotation * tileCoord + offset;
 
-                        if (!(location.GetTileFree(tilePos) && location.GetHeight(tilePos) == floorHeight)) validPosition = false;
+                        if (!(location.GetTileFree(tilePos) && location.GetHeight(tilePos) == floorHeight))
+                            validPosition = false;
                         if (!validPosition) break;
                     }
 

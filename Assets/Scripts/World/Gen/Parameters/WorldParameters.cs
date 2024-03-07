@@ -10,7 +10,7 @@ public struct WorldParameters {
 
     public ElevationParameters elevationParameters;
     public TemperatureParameters temperatureParameters;
-    public NoiseParameters2 humidityParameters;
+    public NoiseParameters humidityParameters;
 
 
     public int civilizations;

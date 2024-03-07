@@ -20,7 +20,8 @@ public class Climate {
         return color;
     }
 
-    public bool CorrectTile(Tile tile) => height.Contains(tile.elevation) && temp.Contains(tile.temperature) && humidity.Contains(tile.humidity);
+    public bool CorrectTile(Tile tile) => height.Contains(tile.elevation) && temp.Contains(tile.temperature) &&
+                                          humidity.Contains(tile.humidity);
 
     public override string ToString() => name;
 }

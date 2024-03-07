@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     private static GameManager instance;
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour {
 
     public static System.Random Random { get; private set; }
 
+    public static World World => WorldManager.World;
+
     private void Awake() {
         instance = this;
         prefabManager = GetComponent<PrefabManager>();
@@ -25,8 +28,12 @@ public class GameManager : MonoBehaviour {
         databaseManager.LoadDatabase();
     }
 
-    public void GenerateWorld(string seed) {
+    public static void GenerateWorld(string seed) {
         Random = new System.Random(seed.GetHashCode());
-        WorldManager.GenerateWorld(seed);
+        WorldManager.GenerateWorld();
+    }
+
+    public static void LoadLocation(Location location) {
+        SceneManager.LoadSceneAsync("Scenes/Local").completed += _ => LocalManager.LoadLocation(location);
     }
 }

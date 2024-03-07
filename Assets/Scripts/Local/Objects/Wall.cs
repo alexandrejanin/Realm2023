@@ -7,7 +7,7 @@ public class Wall : Entity {
 
     public readonly WallType wallType;
 
-    public override Vector3 WorldPosition => base.WorldPosition + (Vector3) direction / 2;
+    public override Vector3 WorldPosition => base.WorldPosition + (Vector3)direction / 2;
 
     public Wall(Location location, Coord position, Coord direction, WallType wallType) : base(location, position) {
         this.direction = direction;
@@ -15,10 +15,13 @@ public class Wall : Entity {
         this.wallType = wallType;
     }
 
-    public override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) || NodeGrid.IsVisible(from, position + direction, direction);
-    public override bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to, -direction) || NodeGrid.IsVisible(position + direction, to, direction);
+    public override bool CanBeSeenFrom(Coord from) => NodeGrid.IsVisible(from, position, -direction) ||
+                                                      NodeGrid.IsVisible(from, position + direction, direction);
 
-    public WallCoordinate WallCoordinate => new WallCoordinate(position, direction.ToDirectionIndex);
+    public override bool CanSeeTo(Coord to) => NodeGrid.IsVisible(position, to, -direction) ||
+                                               NodeGrid.IsVisible(position + direction, to, direction);
+
+    public WallCoordinate WallCoordinate => new(position, direction.ToDirectionIndex);
 }
 
 public enum WallType {

@@ -15,7 +15,9 @@ public class Town : Location {
         tile.customColor = Color.black;
     }
 
-    private string GetSize() => population > 5000 ? "city" : (population > 1000 ? "town" : (population > 500 ? "village" : "settlement"));
+    private string GetSize() => population > 5000
+        ? "city"
+        : (population > 1000 ? "town" : (population > 500 ? "village" : "settlement"));
 
     public override string ToString() => $"{Name}, {Race.adjective} {GetSize()}";
 }

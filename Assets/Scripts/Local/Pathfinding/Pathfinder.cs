@@ -11,6 +11,7 @@ public static class Pathfinder {
 
         var startNode = NodeGrid.GetNode(startPos);
         var goalNode = NodeGrid.GetNode(goalPositions[0]);
+        
         if (startNode != null && goalNode != null && goalNode.IsWalkable && goalNode != startNode) {
             var open = new Heap<Node>(NodeGrid.GridCount);
             var closed = new HashSet<Node>();
@@ -21,7 +22,8 @@ public static class Pathfinder {
                 var current = open.RemoveFirst();
                 closed.Add(current);
 
-                if (singleTarget && current == goalNode || !singleTarget && goals.Contains(current) /*current == goalNode*/) {
+                if (singleTarget && current == goalNode ||
+                    !singleTarget && goals.Contains(current) /*current == goalNode*/) {
                     goalNode = current;
                     success = true;
                     break;
@@ -79,7 +81,9 @@ public static class Pathfinder {
         var y = Mathf.Abs(a.y - b.y);
         var z = Mathf.Abs(a.z - b.z);
 
-        var distance = x > z ? 14 * z + 10 * (x - z) + 14 * y : 14 * x + 10 * (z - x) + 14 * y;
+        var distance = x > z 
+            ? 14 * z + 10 * (x - z) + 14 * y
+            : 14 * x + 10 * (z - x) + 14 * y;
 
         return distance;
     }

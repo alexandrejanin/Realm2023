@@ -13,7 +13,9 @@ public class DoorObject : InteractableObject {
         if (door.visible) {
             var targetPosition = door.open ? openPosition : closedPosition;
 
-            transform.localPosition = (transform.localPosition - targetPosition).sqrMagnitude > 0.01f ? Vector3.Lerp(transform.localPosition, targetPosition, 0.1f) : targetPosition;
+            transform.localPosition = (transform.localPosition - targetPosition).sqrMagnitude > 0.01f
+                ? Vector3.Lerp(transform.localPosition, targetPosition, 0.1f)
+                : targetPosition;
 
             var targetRotation = door.open ? openRotation : closedRotation;
 

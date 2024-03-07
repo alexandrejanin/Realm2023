@@ -42,7 +42,8 @@ public class Door : Interactable {
 
     public override bool CanSeeTo(Coord to) => doorway.CanSeeTo(to);
 
-    public override void MoveTo(Character character) => character.RequestPathToPositions(new[] {position, position + Direction});
+    public override void MoveTo(Character character) =>
+        character.RequestPathToPositions(new[] { position, position + Direction });
 
     public void Open() {
         open = true;

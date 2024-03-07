@@ -39,7 +39,9 @@ public sealed class Region {
         tiles.Remove(tile);
     }
 
-    public string GetSize() => tiles.Count > 10000 ? "Huge" : (tiles.Count > 5000 ? "Large" : (tiles.Count > 2000 ? "Medium" : (tiles.Count > 500 ? "Small" : "Tiny")));
+    public string GetSize() => tiles.Count > 10000
+        ? "Huge"
+        : (tiles.Count > 5000 ? "Large" : (tiles.Count > 2000 ? "Medium" : (tiles.Count > 500 ? "Small" : "Tiny")));
 
     public override string ToString() => Name;
 }

@@ -14,12 +14,12 @@ public abstract class Location {
     public int[,] heightMap;
     public int steepness = 5;
 
-    public readonly List<Character> characters = new List<Character>();
-    public readonly List<Item> items = new List<Item>();
-    public readonly List<Interactable> interactables = new List<Interactable>();
-    public readonly Dictionary<WallCoordinate, Wall> walls = new Dictionary<WallCoordinate, Wall>();
+    public readonly List<Character> characters = new();
+    public readonly List<Item> items = new();
+    public readonly List<Interactable> interactables = new();
+    public readonly Dictionary<WallCoordinate, Wall> walls = new();
 
-    public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items.Cast<Entity>()).Union(interactables.Cast<Entity>()).Union(walls.Values.Cast<Entity>());
+    public IEnumerable<Entity> Entities => characters.Cast<Entity>().Union(items).Union(interactables).Union(walls.Values);
 
     private readonly bool[,,] freeTiles;
 
@@ -29,16 +29,14 @@ public abstract class Location {
 
     public int GetHeight(Coord position) => heightMap[position.x, position.z];
 
-    public bool IsInMap(Coord coord) => coord.x >= 0 && coord.x < size && coord.y >= 0 && coord.y < height && coord.z >= 0 && coord.z < size;
+    public bool IsInMap(Coord coord) => coord.x >= 0
+                                        && coord.x < size
+                                        && coord.y >= 0
+                                        && coord.y < height
+                                        && coord.z >= 0
+                                        && coord.z < size;
 
-    public void AddWall(Wall wall) {
-        if (walls.ContainsKey(wall.WallCoordinate)) {
-            walls[wall.WallCoordinate] = wall;
-        }
-        else {
-            walls.Add(wall.WallCoordinate, wall);
-        }
-    }
+    public void AddWall(Wall wall) => walls[wall.WallCoordinate] = wall;
 
     protected Location(Tile tile, int size, int height) {
         this.size = size;

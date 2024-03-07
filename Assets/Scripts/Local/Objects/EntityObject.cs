@@ -8,8 +8,6 @@ public abstract class EntityObject : MonoBehaviour {
     public bool manualVisible;
     public bool manualSeen;
 
-    private bool seen, visible;
-
     private Renderer[] renderers;
     private Collider[] colliders;
 
@@ -33,23 +31,23 @@ public abstract class EntityObject : MonoBehaviour {
     public void UpdateDisplay() {
         if (Entity == null) return;
 
-        seen = manualMode ? manualSeen : Entity.seen;
-        visible = manualMode ? manualVisible : Entity.visible;
+        var seen = manualMode ? manualSeen : Entity.seen;
+        var visible = manualMode ? manualVisible : Entity.visible;
 
         if (renderers != null) {
-            foreach (var renderer in renderers) {
-                renderer.enabled = seen || Entity.inRenderRange;
-                if (renderer.enabled) {
-                    renderer.shadowCastingMode = seen ? ShadowCastingMode.On : ShadowCastingMode.ShadowsOnly;
-                    renderer.receiveShadows = visible;
-                    renderer.material = visible ? materialActive : materialInactive;
+            foreach (var r in renderers) {
+                r.enabled = seen || Entity.inRenderRange;
+                if (r.enabled) {
+                    r.shadowCastingMode = seen ? ShadowCastingMode.On : ShadowCastingMode.ShadowsOnly;
+                    r.receiveShadows = visible;
+                    r.material = visible ? materialActive : materialInactive;
                 }
             }
         }
 
         if (colliders != null) {
-            foreach (var collider in colliders) {
-                collider.gameObject.layer = seen ? visibleLayer : hiddenLayer;
+            foreach (var c in colliders) {
+                c.gameObject.layer = seen ? visibleLayer : hiddenLayer;
             }
         }
     }

@@ -60,7 +60,9 @@ public class Blueprint {
                     location.SetTileFree(worldCoord, false);
 
                     if (localCoord == itemPos) location.items.Add(new Equipable(location, worldCoord));
-                    if (localCoord == charPos) location.characters.Add(new Character(location, worldCoord, GameManager.Database.RandomRace(), Utility.RandomBool));
+                    if (localCoord == charPos)
+                        location.characters.Add(new Character(location, worldCoord, GameManager.Database.RandomRace(),
+                            Utility.RandomBool));
 
                     if (y <= size.y) {
                         //Floor
@@ -68,7 +70,8 @@ public class Blueprint {
 
                         if (isStair) {
                             AddWall(location, worldCoord + new Coord(0, -1, 0), y == size.y ? left : right);
-                        } else {
+                        }
+                        else {
                             AddWall(location, worldCoord, down);
                         }
                     }
@@ -81,7 +84,8 @@ public class Blueprint {
 
                         if (localCoord == doorPos) {
                             location.AddWall(new Doorway(location, worldCoord, back, wallType));
-                        } else {
+                        }
+                        else {
                             if (x == 0) {
                                 AddWall(location, worldCoord, left);
                             }
@@ -98,7 +102,8 @@ public class Blueprint {
                                 AddWall(location, worldCoord, forward);
                             }
                         }
-                    } else {
+                    }
+                    else {
                         //Roof
                         var isRoof = z == y - size.y || maxZ - z == y - size.y;
                         var isEdge = x == 0 || x == maxX;
@@ -106,7 +111,8 @@ public class Blueprint {
                         if (isEdge) {
                             if (isRoof && z != middle) {
                                 AddWall(location, worldCoord, x == 0 ? left : right);
-                            } else if (y - size.y < z && y - size.y < maxZ - z) {
+                            }
+                            else if (y - size.y < z && y - size.y < maxZ - z) {
                                 AddWall(location, worldCoord, x == 0 ? left : right);
                             }
                         }

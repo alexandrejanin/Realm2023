@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
+    public bool globalVision;
+
     private static Character character;
 
     private const float TurnDuration = 1f / 4f; //Duration of a turn in seconds
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour {
 
     private void Awake() {
         canvasTransform = canvas.transform;
+        ObjectManager.player = this;
     }
 
     private void Update() {
@@ -118,18 +121,26 @@ public class Player : MonoBehaviour {
         var rotation = new QuaternionInt(0, Mathf.RoundToInt(Camera.transform.eulerAngles.y / 45f), 0);
         direction = rotation * direction;
         var node = GetValidNode(direction);
-        if (node != null) {
+
+        if (node != null)
             character.RequestPathToPosition(node.position);
-            ObjectManager.TakeTurn();
-        }
+
+        ObjectManager.TakeTurn();
     }
 
     private static Node GetValidNode(Coord direction) {
         for (var i = 0; i < 3; i++) {
-            direction.y = i == 0 ? 0 : (i == 1 ? 1 : -1);
+            direction.y = i switch {
+                0 => 0,
+                1 => 1,
+                _ => -1
+            };
             var targetNode = NodeGrid.GetNeighbor(character.position, direction);
-            if (targetNode != null) return targetNode;
+            if (targetNode != null)
+                return targetNode;
         }
+
+        Debug.Log("Couldn't get valid node");
 
         return null;
     }
@@ -151,7 +162,8 @@ public class Player : MonoBehaviour {
             button.GetComponentInChildren<Text>().text = interaction.name;
             button.onClick.AddListener(() => interaction.action.Invoke());
             button.onClick.AddListener(() => Destroy(frame.gameObject));
-            if (interaction.skipTurn) button.onClick.AddListener(ObjectManager.TakeTurn);
+            if (interaction.skipTurn)
+                button.onClick.AddListener(ObjectManager.TakeTurn);
         }
 
         frame.SetSize(GameManager.PrefabManager.buttonPrefab.GetComponent<RectTransform>().sizeDelta.y + 1);

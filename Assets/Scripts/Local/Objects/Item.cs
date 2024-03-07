@@ -4,7 +4,8 @@ public abstract class Item : Interactable {
     public readonly int size;
     public Container container;
 
-    protected Item(Location location, Coord position, int size = 0, Container container = null) : base(location, position) {
+    protected Item(Location location, Coord position, int size = 0, Container container = null) : base(location,
+        position) {
         this.size = size;
         this.container = container;
     }
@@ -13,7 +14,9 @@ public abstract class Item : Interactable {
         var interactions = GetBasicInteractions(character);
 
         if (ValidPosition(character.position)) {
-            interactions.Add(character.HasItem(this) ? new Interaction("Drop", () => Drop(character), false) : new Interaction("Pick Up", () => PickUp(character), false));
+            interactions.Add(character.HasItem(this)
+                ? new Interaction("Drop", () => Drop(character), false)
+                : new Interaction("Pick Up", () => PickUp(character), false));
         }
 
         return interactions;

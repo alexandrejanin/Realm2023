@@ -9,8 +9,9 @@ public abstract class Interactable : Entity {
     public abstract List<Interaction> GetInteractions(Character character);
 
     protected List<Interaction> GetBasicInteractions(Character character) {
-        var interactions = new List<Interaction> {new Interaction("Inspect", Inspect, false)};
-        if (!ValidPosition(character.position)) interactions.Add(new Interaction("Move To", () => MoveTo(character), false));
+        var interactions = new List<Interaction> { new Interaction("Inspect", Inspect, false) };
+        if (!ValidPosition(character.position))
+            interactions.Add(new Interaction("Move To", () => MoveTo(character), false));
         return interactions;
     }
 

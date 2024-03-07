@@ -16,7 +16,8 @@ public class BodyPart {
 
     public BodyPartAttribute[] bodyPartAttributes;
 
-    public BodyPart(string name, BodyPart parent, Slot slot, BodyPartX x, BodyPartY y, BodyPartZ z, BodyPartAttribute[] bodyPartAttributes) {
+    public BodyPart(string name, BodyPart parent, Slot slot, BodyPartX x, BodyPartY y, BodyPartZ z,
+        BodyPartAttribute[] bodyPartAttributes) {
         this.name = name;
         this.slot = slot;
         this.parent = parent;
