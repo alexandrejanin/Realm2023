@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 public static class MeshGenerator {
@@ -10,12 +11,20 @@ public static class MeshGenerator {
             for (var x = 0; x < world.width; x++) {
                 var elevation = world.GetTile(x, y).elevation * multiplier;
 
-                meshData.vertices[vertexIndex] = new Vector3(x, elevation, world.height - y - 1);
+                meshData.vertices[vertexIndex] = new Vector3(x, elevation, y);
                 meshData.uvs[vertexIndex] = new Vector2(x / (float)world.width, y / (float)world.height);
 
                 if (x < world.width - 1 && y < world.height - 1) {
-                    meshData.AddTriangle(vertexIndex, vertexIndex + world.width + 1, vertexIndex + world.width);
-                    meshData.AddTriangle(vertexIndex + world.width + 1, vertexIndex, vertexIndex + 1);
+                    meshData.AddTriangle(
+                        vertexIndex,
+                        vertexIndex + world.width + 1,
+                        vertexIndex + world.width
+                    );
+                    meshData.AddTriangle(
+                        vertexIndex + world.width + 1,
+                        vertexIndex,
+                        vertexIndex + 1
+                    );
                 }
 
                 vertexIndex++;
@@ -50,7 +59,7 @@ public static class MeshGenerator {
             var mesh = new Mesh {
                 indexFormat = IndexFormat.UInt32,
                 vertices = vertices,
-                triangles = triangles,
+                triangles = triangles.Reverse().ToArray(),
                 uv = uvs,
             };
             mesh.RecalculateNormals();

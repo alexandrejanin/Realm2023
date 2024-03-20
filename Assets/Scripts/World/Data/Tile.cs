@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tile {
     public readonly int x, y;
@@ -54,6 +56,22 @@ public class Tile {
                 throw new ArgumentOutOfRangeException(nameof(mapDrawMode), mapDrawMode, null);
         }
     }
+
+    public IEnumerable<Tile> GetNeighbors(float range = 1.5f) {
+        var neighbors = new List<Tile>();
+        for (var i = -1; i <= 1; i++) {
+            for (var j = -1; j <= 1; j++) {
+                var tile = GameManager.World.GetTile(x + i, y + j);
+                if (tile != null && tile != this && DistanceTo(tile) <= range)
+                    neighbors.Add(tile);
+            }
+        }
+
+        return neighbors;
+    }
+
+    public float DistanceTo(Tile tile)
+        => Mathf.Sqrt(Mathf.Pow(tile.x - x, 2) + Mathf.Pow(tile.y - y, 2));
 
     public override string ToString() => Climate + " tile (" + x + ", " + y + ")";
 }

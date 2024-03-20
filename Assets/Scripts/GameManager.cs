@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour {
         databaseManager.LoadDatabase();
     }
 
+    private void Update() {
+        if (LocalManager.CurrentLocation == null) {
+            worldManager.UpdateVis();
+        }
+    }
+
     public static void GenerateWorld(string seed) {
         Random = new System.Random(seed.GetHashCode());
         WorldManager.GenerateWorld();

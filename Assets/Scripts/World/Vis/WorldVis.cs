@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class WorldVis {
@@ -7,7 +8,32 @@ public class WorldVis {
     [SerializeField] private MeshCollider meshCollider;
     [SerializeField] private float heightMultiplier;
 
+    [SerializeField] private UnitObject unitPrefab;
+
+    private readonly Dictionary<Unit, UnitObject> unitObjects = new();
+
     private MapDrawMode mapDrawMode = MapDrawMode.Normal;
+
+    public void Vis(World world) {
+        foreach (var unit in world.Units) {
+            if (!unitObjects.ContainsKey(unit)) {
+                var unitObject = Object.Instantiate(unitPrefab, meshFilter.transform);
+
+                unitObject.SetUnit(unit);
+                unitObjects.Add(unit, unitObject);
+            }
+
+            unitObjects[unit].Vis();
+        }
+    }
+
+    public Vector3 TileToVector3(Tile tile) {
+        return new Vector3(
+            tile.x + 0.5f,
+            tile.elevation * heightMultiplier,
+            tile.y + 0.5f
+        );
+    }
 
     public void SetMapDrawMode(MapDrawMode mode) => mapDrawMode = mode;
 

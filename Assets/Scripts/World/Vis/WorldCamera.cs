@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WorldCamera : MonoBehaviour {
     [SerializeField] private int mouseButtonPan = 0;
     [SerializeField] private float panSensitivity = 1f;
 
-    [SerializeField] private float zoomSensitivity = 10;
+    [SerializeField] private float minZoom = 2f, maxZoom = 10f, zoomSensitivity = 10;
 
     private Vector3 targetPosition;
 
@@ -17,7 +19,7 @@ public class WorldCamera : MonoBehaviour {
         Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out var hit)
             ? GameManager.World.GetTile(
                 Mathf.FloorToInt(hit.point.x),
-                GameManager.World.height - Mathf.CeilToInt(hit.point.z) - 1
+                Mathf.FloorToInt(hit.point.z)
             )
             : null;
 
@@ -33,8 +35,12 @@ public class WorldCamera : MonoBehaviour {
 
         var mouseWheel = -Input.GetAxis("Mouse ScrollWheel");
 
-        targetPosition.y = Mathf.Clamp(targetPosition.y + mouseWheel * zoomSensitivity, (float)world.MaxDimension / 10,
-            (float)world.MaxDimension / 2);
+        targetPosition.y = Mathf.Clamp(
+            targetPosition.y + mouseWheel * zoomSensitivity,
+            world.MaxDimension / maxZoom,
+            world.MaxDimension / minZoom
+        );
+
 
         if (Input.GetMouseButtonDown(mouseButtonPan)) {
             panInitialMousePosition = Input.mousePosition;
@@ -52,12 +58,21 @@ public class WorldCamera : MonoBehaviour {
         targetPosition.x = Mathf.Clamp(targetPosition.x, 0, world.width);
         targetPosition.z = Mathf.Clamp(targetPosition.z, 0, world.height);
 
-        transform.position = (transform.position - targetPosition).magnitude > 0.01f
-            ? Vector3.Lerp(transform.position, targetPosition, 0.1f)
-            : targetPosition;
+        if (!RaycastUI())
+            transform.position = (transform.position - targetPosition).magnitude > 0.01f
+                ? Vector3.Lerp(transform.position, targetPosition, 0.1f)
+                : targetPosition;
     }
 
     public void MoveTo(Vector3 position) {
         targetPosition = position;
+    }
+
+    private static bool RaycastUI() {
+        var pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, results);
+        return results.Count > 0;
     }
 }

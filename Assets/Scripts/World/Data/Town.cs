@@ -6,6 +6,8 @@ public class Town : Location {
     public Race Race => civilization.race;
     public int population;
 
+    private float settlerSpawn;
+
     public Town(Tile tile, Civilization civilization, int size, int population) : base(tile, size, 20) {
         this.civilization = civilization;
         this.population = population;
@@ -15,9 +17,28 @@ public class Town : Location {
         tile.customColor = Color.black;
     }
 
-    private string GetSize() => population > 5000
-        ? "city"
-        : (population > 1000 ? "town" : (population > 500 ? "village" : "settlement"));
+    public override void Sim() {
+        settlerSpawn += Mathf.Log(population) / 100f;
+
+        if (settlerSpawn >= 1f) {
+            SpawnSettler();
+            settlerSpawn = 0;
+        }
+    }
+
+    private void SpawnSettler() {
+        var settler = new Settler(tile, this);
+        GameManager.World.SpawnUnit(settler);
+    }
+
+    private string GetSize() =>
+        population > 5000
+            ? "city"
+            : population > 1000
+                ? "town"
+                : population > 100
+                    ? "village"
+                    : "settlement";
 
     public override string ToString() => $"{Name}, {Race.adjective} {GetSize()}";
 }
