@@ -35,7 +35,9 @@ public class World {
 
     public bool IsInMap(int x, int y) => x >= 0 && x < width && y >= 0 && y < height;
 
-    public void SpawnUnit(Unit unit) {
-        units.Add(unit);
-    }
+    public void SpawnUnit(Unit unit) => units.Add(unit);
+
+    public void DestroyUnit(Unit unit) => units.Remove(unit);
+
+    public void AddTown(Town town) => towns.Add(town);
 }

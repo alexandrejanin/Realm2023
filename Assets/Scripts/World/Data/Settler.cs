@@ -7,7 +7,7 @@ public class Settler : Unit {
         this.startingTown = startingTown;
     }
 
-    public override void Sim() {
+    public override bool Sim() {
         var compatibility = GetCompatibility(Tile);
         Tile bestNeighbor = null;
 
@@ -20,9 +20,23 @@ public class Settler : Unit {
             }
         }
 
-        if (bestNeighbor != null) {
-            Tile = bestNeighbor;
+        // No better neighbor found, create town
+        if (bestNeighbor == null) {
+            CreateTown();
+            return true;
         }
+
+        Tile = bestNeighbor;
+        return false;
+    }
+
+    private void CreateTown() {
+        GameManager.World.AddTown(new Town(
+            Tile,
+            startingTown.civilization,
+            50,
+            100
+        ));
     }
 
     private float GetCompatibility(Tile tile) {

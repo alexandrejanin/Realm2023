@@ -15,10 +15,12 @@ public class Town : Location {
         Name = Race.GetPlaceName();
 
         tile.customColor = Color.black;
+
+        settlerSpawn = (float)GameManager.Random.NextDouble();
     }
 
     public override void Sim() {
-        settlerSpawn += Mathf.Log(population) / 100f;
+        settlerSpawn += Mathf.Log(population) / 1000f;
 
         if (settlerSpawn >= 1f) {
             SpawnSettler();

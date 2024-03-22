@@ -5,5 +5,5 @@
         Tile = tile;
     }
 
-    public abstract void Sim();
+    public abstract bool Sim();
 }
